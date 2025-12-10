@@ -10,8 +10,10 @@ import { PdfTools } from './components/tools/PdfTools';
 import { VatCalculator } from './components/tools/VatCalculator';
 import { PantoneMatch } from './components/tools/PantoneMatch';
 import { BmrCalculator } from './components/tools/BmrCalculator';
+import { MockupGenerator } from './components/tools/MockupGenerator';
+import { SvgLibrary } from './components/tools/SvgLibrary';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, MockupIcon, ShapesIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -40,6 +42,10 @@ const MainApp: React.FC = () => {
         return <PantoneMatch onClose={handleClose} />;
       case ToolType.BMR_CALCULATOR:
         return <BmrCalculator onClose={handleClose} />;
+      case ToolType.MOCKUP_GENERATOR:
+        return <MockupGenerator onClose={handleClose} />;
+      case ToolType.SVG_LIBRARY:
+        return <SvgLibrary onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -47,6 +53,24 @@ const MainApp: React.FC = () => {
              {/* Grid of Services */}
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
               {[
+                { 
+                  t: ToolType.SVG_LIBRARY, 
+                  title: t[ToolType.SVG_LIBRARY], 
+                  desc: t.svgDesc, 
+                  Icon: ShapesIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#06B6D4] to-[#0891B2]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-cyan-100'
+                },
+                { 
+                  t: ToolType.MOCKUP_GENERATOR, 
+                  title: t[ToolType.MOCKUP_GENERATOR], 
+                  desc: t.mockupDesc, 
+                  Icon: MockupIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#8B5CF6] to-[#6366F1]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-violet-100'
+                },
                 { 
                   t: ToolType.BMR_CALCULATOR, 
                   title: t[ToolType.BMR_CALCULATOR], 
@@ -61,9 +85,9 @@ const MainApp: React.FC = () => {
                   title: t[ToolType.QR_GENERATOR], 
                   desc: t.qrDesc, 
                   Icon: QrIcon, 
-                  bgClass: 'bg-gradient-to-br from-[#8B5CF6] to-[#DB2777]',
+                  bgClass: 'bg-gradient-to-br from-[#EC4899] to-[#DB2777]',
                   iconContainer: 'bg-white/20 text-white backdrop-blur-md',
-                  descColor: 'text-purple-100'
+                  descColor: 'text-pink-100'
                 },
                 { 
                   t: ToolType.PANTONE_MATCH, 

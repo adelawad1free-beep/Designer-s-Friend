@@ -18,6 +18,8 @@ export const translations = {
     [ToolType.VAT_CALCULATOR]: "حاسبة ضريبة القيمة المضافة",
     [ToolType.PANTONE_MATCH]: "مطابقة ألوان بانتون",
     [ToolType.BMR_CALCULATOR]: "حاسبة السعرات (BMR)",
+    [ToolType.MOCKUP_GENERATOR]: "مولد النماذج (Mockups)",
+    [ToolType.SVG_LIBRARY]: "مكتبة الأيقونات (SVG)",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -30,6 +32,19 @@ export const translations = {
     vatDesc: "حساب ضريبة القيمة المضافة بسهولة (شامل أو غير شامل)",
     pantoneDesc: "إيجاد أقرب رقم بانتون (PMS) لأي لون تختاره",
     bmrDesc: "حساب معدل الأيض الأساسي والسعرات الحرارية اليومية بدقة",
+    mockupDesc: "وضع صورك وتصميماتك داخل إطارات هواتف وأجهزة لابتوب احترافية",
+    svgDesc: "مكتبة شاملة من أيقونات SVG الجاهزة للنسخ والاستخدام",
+
+    // SVG Library
+    svgTitle: "مكتبة أيقونات SVG",
+    svgSearch: "ابحث عن أيقونة...",
+    svgCopySVG: "نسخ SVG",
+    svgCopyJSX: "نسخ JSX",
+    svgDownload: "تحميل",
+    svgCopied: "تم النسخ!",
+    svgDownloaded: "تم التحميل!",
+    svgNoResults: "لم يتم العثور على أيقونات",
+    svgIconsCount: "أيقونة",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
@@ -78,6 +93,29 @@ export const translations = {
     bmrGoalMaintain: "للحفاظ على الوزن",
     bmrGoalGain: "لزيادة الوزن",
     bmrCalories: "سعر حراري",
+
+    // Mockup Generator
+    mockTitle: "مولد النماذج الاحترافي",
+    mockUpload: "رفع صورة التصميم",
+    mockUploadDesc: "اسحب الصورة هنا أو انقر للرفع",
+    mockDevice: "نوع الجهاز",
+    mockPhone: "آيفون 15 برو",
+    mockLaptop: "ماك بوك برو",
+    mockBrowser: "متصفح سفاري",
+    mockDownload: "تحميل النموذج (PNG)",
+    mockGenerating: "جاري المعالجة...",
+    mockSettingsDevice: "خصائص الجهاز",
+    mockSettingsScreen: "الشاشة والمحتوى",
+    mockSettingsBg: "الخلفية",
+    mockColor: "لون الهيكل",
+    mockFit: "ملاءمة الصورة",
+    mockFitCover: "تعبئة (Cover)",
+    mockFitContain: "احتواء (Contain)",
+    mockBgTransparent: "شفاف",
+    mockBgColor: "لون",
+    mockBgGradient: "تدرج",
+    mockReset: "إعادة تعيين",
+    mockQuality: "عالية الجودة",
     
     // Code Generator
     codeGenTitle: "مولد أكواد الواجهات",
@@ -317,6 +355,8 @@ export const translations = {
     [ToolType.VAT_CALCULATOR]: "VAT Calculator",
     [ToolType.PANTONE_MATCH]: "Pantone Matcher",
     [ToolType.BMR_CALCULATOR]: "BMR Calculator",
+    [ToolType.MOCKUP_GENERATOR]: "Mockup Generator",
+    [ToolType.SVG_LIBRARY]: "SVG Library",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -329,6 +369,19 @@ export const translations = {
     vatDesc: "Easily calculate VAT (Inclusive or Exclusive)",
     pantoneDesc: "Find the closest Pantone (PMS) number for any color",
     bmrDesc: "Accurately calculate your Basal Metabolic Rate and daily calorie needs",
+    mockupDesc: "Place your designs into professional device frames",
+    svgDesc: "A library of common SVG icons ready to copy and use",
+
+    // SVG Library
+    svgTitle: "SVG Icon Library",
+    svgSearch: "Search icons...",
+    svgCopySVG: "Copy SVG",
+    svgCopyJSX: "Copy JSX",
+    svgDownload: "Download",
+    svgCopied: "Copied!",
+    svgDownloaded: "Downloaded!",
+    svgNoResults: "No icons found",
+    svgIconsCount: "Icons",
 
     // Home Page
     welcomeTitle: "Welcome to",
@@ -377,6 +430,29 @@ export const translations = {
     bmrGoalMaintain: "Maintenance",
     bmrGoalGain: "Weight Gain",
     bmrCalories: "Calories",
+
+    // Mockup Generator
+    mockTitle: "Pro Mockup Generator",
+    mockUpload: "Upload Design",
+    mockUploadDesc: "Drag & drop image here or click to upload",
+    mockDevice: "Device Model",
+    mockPhone: "iPhone 15 Pro",
+    mockLaptop: "MacBook Pro",
+    mockBrowser: "Safari Browser",
+    mockDownload: "Download Mockup (PNG)",
+    mockGenerating: "Processing...",
+    mockSettingsDevice: "Device Settings",
+    mockSettingsScreen: "Screen & Content",
+    mockSettingsBg: "Background",
+    mockColor: "Chassis Color",
+    mockFit: "Image Fit",
+    mockFitCover: "Cover (Fill)",
+    mockFitContain: "Contain (Fit)",
+    mockBgTransparent: "Transparent",
+    mockBgColor: "Solid Color",
+    mockBgGradient: "Gradient",
+    mockReset: "Reset",
+    mockQuality: "High Quality",
 
     // Code Generator
     codeGenTitle: "UI Code Generator",
@@ -552,7 +628,8 @@ export const translations = {
     nutCalcium: "Calcium",
     nutIron: "Iron",
     nutPotassium: "Potassium",
-
+    
+    // Helper units translations
     unit_m: "Meter",
     unit_km: "Kilometer",
     unit_cm: "Centimeter",
