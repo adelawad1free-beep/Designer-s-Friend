@@ -76,6 +76,7 @@ export const translations = {
     bcScale: "الحجم",
     bcRotate: "تدوير",
     bcDownload: "تحميل الصورة",
+    bcFormat: "صيغة الملف",
     bcError: "قيمة غير صالحة لهذا النوع",
 
     // Unit Converter
@@ -171,6 +172,50 @@ export const translations = {
     unit_week: "أسبوع",
     unit_month: "شهر",
     unit_year: "سنة",
+
+    // Code Generator
+    codeGenTitle: "مساعد الكود الذكي",
+    codeGenSubtitle: "توليد أكواد واجهات (HTML/Tailwind) بسرعة باستخدام الذكاء الاصطناعي.",
+    codeGenPlaceholder: "صف المكون الذي تريده بالتفصيل (مثال: بطاقة منتج مع صورة وزر شراء)...",
+    codeGenLoading: "جاري التوليد...",
+    codeGenBtn: "توليد الكود",
+    codeGenError: "حدث خطأ أثناء التوليد. الرجاء المحاولة مرة أخرى.",
+    codeGenCopied: "تم نسخ الكود للحافظة!",
+    codeGenPreview: "معاينة حية",
+    codeGenHtmlTitle: "HTML كود",
+    codeGenCopy: "نسخ الكود",
+
+    // Image Resizer
+    resizeTitle: "تغيير حجم الصور",
+    resizeUpload: "اضغط للرفع أو اسحب الصورة هنا",
+    resizeUploadSub: "ندعم JPG, PNG (بحد أقصى 5MB)",
+    resizeSettings: "إعدادات الحجم",
+    resizeWidth: "العرض (px)",
+    resizeHeight: "الارتفاع (px)",
+    resizeRatio: "الحفاظ على الأبعاد",
+    resizeOriginal: "الأبعاد الأصلية:",
+    resizeDownload: "تحميل الصورة المعدلة",
+    resizePreview: "معاينة الصورة ستظهر هنا",
+
+    // Palette Generator
+    paletteTitle: "مولد الألوان الذكي",
+    paletteSubtitle: "احصل على لوحات ألوان متناسقة لمشروعك بناءً على وصف نصي أو حالة مزاجية.",
+    palettePlaceholder: "صف الحالة المزاجية أو المشروع (مثال: غروب الشمس على الشاطئ)...",
+    paletteLoading: "جاري استخراج الألوان...",
+    paletteBtn: "توليد اللوحة",
+    paletteError: "فشل في توليد الألوان.",
+    paletteCopy: "نسخ",
+
+    // PDF Tools
+    pdfTitle: "أدوات PDF",
+    pdfMerge: "دمج الملفات",
+    pdfImages: "صور إلى PDF",
+    pdfUploadPdf: "رفع ملفات PDF",
+    pdfUploadImages: "رفع صور (JPG/PNG)",
+    pdfNoFiles: "لم يتم اختيار ملفات بعد",
+    pdfFileCount: "ملف",
+    pdfProcessing: "جاري المعالجة...",
+    pdfDownload: "تحميل الملف",
   },
   en: {
     appTitle: "Designer's Friend",
@@ -247,6 +292,7 @@ export const translations = {
     bcScale: "Scale",
     bcRotate: "Rotate",
     bcDownload: "Download Image",
+    bcFormat: "File Format",
     bcError: "Invalid value for this format",
 
     // Unit Converter
@@ -342,5 +388,49 @@ export const translations = {
     unit_week: "Week",
     unit_month: "Month",
     unit_year: "Year",
+
+    // Code Generator
+    codeGenTitle: "Smart Code Assistant",
+    codeGenSubtitle: "Generate UI code (HTML/Tailwind) quickly using AI.",
+    codeGenPlaceholder: "Describe the component you want in detail (e.g., product card with image and buy button)...",
+    codeGenLoading: "Generating...",
+    codeGenBtn: "Generate Code",
+    codeGenError: "An error occurred during generation. Please try again.",
+    codeGenCopied: "Code copied to clipboard!",
+    codeGenPreview: "Live Preview",
+    codeGenHtmlTitle: "HTML Code",
+    codeGenCopy: "Copy Code",
+
+    // Image Resizer
+    resizeTitle: "Image Resizer",
+    resizeUpload: "Click to upload or drag image here",
+    resizeUploadSub: "Supports JPG, PNG (Max 5MB)",
+    resizeSettings: "Resize Settings",
+    resizeWidth: "Width (px)",
+    resizeHeight: "Height (px)",
+    resizeRatio: "Maintain Aspect Ratio",
+    resizeOriginal: "Original Size:",
+    resizeDownload: "Download Resized Image",
+    resizePreview: "Image preview will appear here",
+
+    // Palette Generator
+    paletteTitle: "Smart Palette Generator",
+    paletteSubtitle: "Get consistent color palettes for your project based on text description or mood.",
+    palettePlaceholder: "Describe mood or project (e.g., sunset on the beach)...",
+    paletteLoading: "Extracting colors...",
+    paletteBtn: "Generate Palette",
+    paletteError: "Failed to generate palette.",
+    paletteCopy: "Copy",
+
+    // PDF Tools
+    pdfTitle: "PDF Tools",
+    pdfMerge: "Merge Files",
+    pdfImages: "Images to PDF",
+    pdfUploadPdf: "Upload PDF Files",
+    pdfUploadImages: "Upload Images (JPG/PNG)",
+    pdfNoFiles: "No files selected yet",
+    pdfFileCount: "file(s)",
+    pdfProcessing: "Processing...",
+    pdfDownload: "Download File",
   }
 };

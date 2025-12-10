@@ -16,6 +16,7 @@ export const BarcodeGenerator: React.FC<BarcodeGeneratorProps> = ({ onClose }) =
   const [bgColor, setBgColor] = useState('#FFFFFF');
   const [scale, setScale] = useState(3);
   const [rotate, setRotate] = useState<'N'|'R'|'L'|'I'>('N');
+  const [fileFormat, setFileFormat] = useState<'png' | 'svg'>('png');
   const [error, setError] = useState<string | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -68,12 +69,38 @@ export const BarcodeGenerator: React.FC<BarcodeGeneratorProps> = ({ onClose }) =
     }
   };
 
-  const downloadImage = () => {
-    if (canvasRef.current) {
-        const link = document.createElement('a');
-        link.download = `barcode-${symbology}-${text}.png`;
-        link.href = canvasRef.current.toDataURL('image/png');
-        link.click();
+  const handleDownload = () => {
+    if (fileFormat === 'png') {
+        if (canvasRef.current) {
+            const link = document.createElement('a');
+            link.download = `barcode-${symbology}-${text}.png`;
+            link.href = canvasRef.current.toDataURL('image/png');
+            link.click();
+        }
+    } else {
+        try {
+            // Using toSVG
+            const svg = bwipjs.toSVG({
+                bcid: symbology,
+                text: text,
+                scale: scale,
+                height: 10,
+                includetext: includeText,
+                textxalign: 'center',
+                barcolor: barColor,
+                backgroundcolor: bgColor.replace('#', ''),
+                rotate: rotate,
+            });
+            
+            const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `barcode-${symbology}-${text}.svg`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        } catch (e: any) {
+            setError(e.message || t.bcError);
+        }
     }
   };
 
@@ -213,14 +240,32 @@ export const BarcodeGenerator: React.FC<BarcodeGeneratorProps> = ({ onClose }) =
               </div>
             </div>
 
+            <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <span className="text-sm font-medium text-slate-600 dark:text-slate-400">{t.bcFormat || "File Format"}</span>
+                <div className="flex bg-white dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <button 
+                        onClick={() => setFileFormat('png')}
+                        className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${fileFormat === 'png' ? 'bg-indigo-600 text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                    >
+                        PNG
+                    </button>
+                    <button 
+                        onClick={() => setFileFormat('svg')}
+                        className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${fileFormat === 'svg' ? 'bg-indigo-600 text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                    >
+                        SVG
+                    </button>
+                </div>
+            </div>
+
             <div className="pt-4">
                 <button
-                    onClick={downloadImage}
+                    onClick={handleDownload}
                     disabled={!!error}
                     className={`w-full py-4 rounded-2xl font-bold text-white transition-all shadow-lg flex items-center justify-center gap-2
                     ${error ? 'bg-slate-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-indigo-500/30'}`}
                 >
-                    <span>📥</span> {t.bcDownload}
+                    <span>📥</span> {t.bcDownload} ({fileFormat.toUpperCase()})
                 </button>
             </div>
 
