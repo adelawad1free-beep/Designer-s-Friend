@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { AppProvider, useAppContext } from './context';
 import { Layout } from './components/Layout';
-import { CodeGenerator } from './components/tools/CodeGenerator';
-import { ImageResizer } from './components/tools/ImageResizer';
-import { PaletteGenerator } from './components/tools/PaletteGenerator';
 import { QrGenerator } from './components/tools/QrGenerator';
 import { UnitConverter } from './components/tools/UnitConverter';
+import { NutritionLabelGenerator } from './components/tools/NutritionLabelGenerator';
 import { ToolType } from './types';
-import { CodeIcon, ImageIcon, PaletteIcon, QrIcon, UnitIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -18,73 +16,92 @@ const MainApp: React.FC = () => {
 
   const renderContent = () => {
     switch (activeTool) {
-      case ToolType.CODE_GENERATOR:
-        return <CodeGenerator onClose={handleClose} />;
-      case ToolType.IMAGE_RESIZER:
-        return <ImageResizer onClose={handleClose} />;
-      case ToolType.PALETTE_GENERATOR:
-        return <PaletteGenerator onClose={handleClose} />;
       case ToolType.QR_GENERATOR:
         return <QrGenerator onClose={handleClose} />;
       case ToolType.UNIT_CONVERTER:
         return <UnitConverter onClose={handleClose} />;
+      case ToolType.NUTRITION_LABEL:
+        return <NutritionLabelGenerator onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
-          <div className="animate-fade-in">
+          <div className="animate-fade-in flex flex-col items-center">
              {/* Grid of Services */}
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
               {[
-                { 
-                  t: ToolType.CODE_GENERATOR, 
-                  title: t[ToolType.CODE_GENERATOR], 
-                  desc: t.codeDesc, 
-                  Icon: CodeIcon, 
-                  color: 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-300' 
-                },
-                { 
-                  t: ToolType.IMAGE_RESIZER, 
-                  title: t[ToolType.IMAGE_RESIZER], 
-                  desc: t.resizeDesc, 
-                  Icon: ImageIcon, 
-                  color: 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300' 
-                },
-                { 
-                  t: ToolType.PALETTE_GENERATOR, 
-                  title: t[ToolType.PALETTE_GENERATOR], 
-                  desc: t.paletteDesc, 
-                  Icon: PaletteIcon, 
-                  color: 'bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-300' 
-                },
                 { 
                   t: ToolType.QR_GENERATOR, 
                   title: t[ToolType.QR_GENERATOR], 
                   desc: t.qrDesc, 
                   Icon: QrIcon, 
-                  color: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300' 
+                  // Identity: Deep Indigo/Blue Gradient
+                  gradient: 'bg-gradient-to-br from-indigo-500 to-blue-600',
+                  shadow: 'shadow-blue-500/30',
+                  border: 'hover:border-indigo-200 dark:hover:border-indigo-800'
                 },
                 { 
                   t: ToolType.UNIT_CONVERTER, 
                   title: t[ToolType.UNIT_CONVERTER], 
                   desc: t.unitDesc, 
                   Icon: UnitIcon, 
-                  color: 'bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-300' 
+                  // Identity: Emerald/Teal Gradient
+                  gradient: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+                  shadow: 'shadow-emerald-500/30',
+                  border: 'hover:border-emerald-200 dark:hover:border-emerald-800'
+                },
+                { 
+                  t: ToolType.NUTRITION_LABEL, 
+                  title: t[ToolType.NUTRITION_LABEL], 
+                  desc: t.nutritionDesc, 
+                  Icon: NutritionIcon, 
+                  // Identity: Orange/Red Gradient
+                  gradient: 'bg-gradient-to-br from-orange-500 to-red-600',
+                  shadow: 'shadow-orange-500/30',
+                  border: 'hover:border-orange-200 dark:hover:border-orange-800'
                 },
               ].map((item) => (
                 <button
                   key={item.t}
                   onClick={() => setActiveTool(item.t)}
-                  className="w-full bg-white dark:bg-slate-800 rounded-[2rem] p-6 shadow-sm hover:shadow-2xl border border-slate-100 dark:border-slate-700 hover:border-primary-200 dark:hover:border-primary-600 transition-all duration-300 group text-right rtl:text-right ltr:text-left flex flex-col h-full transform hover:-translate-y-2 relative overflow-hidden"
+                  className={`
+                    w-full bg-white dark:bg-slate-800 rounded-[2.5rem] p-8 
+                    shadow-sm hover:shadow-2xl hover:-translate-y-2 
+                    border border-slate-100 dark:border-slate-700 ${item.border}
+                    transition-all duration-300 group text-right rtl:text-right ltr:text-left 
+                    flex flex-col relative overflow-hidden h-full min-h-[280px]
+                  `}
                 >
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 ${item.color} group-hover:scale-110 transition-transform duration-300 shadow-inner`}>
-                    <item.Icon className="w-7 h-7" />
+                  {/* Beautiful Identity Icon */}
+                  <div className={`
+                    w-20 h-20 rounded-3xl flex items-center justify-center mb-8 
+                    ${item.gradient} shadow-lg ${item.shadow}
+                    group-hover:scale-110 transition-transform duration-500
+                    ring-4 ring-white dark:ring-slate-700
+                  `}>
+                    <item.Icon className="w-10 h-10 text-white drop-shadow-md" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2 leading-tight">{item.title}</h3>
-                  <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-xs flex-1">{item.desc}</p>
+
+                  <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-3 leading-tight">
+                    {item.title}
+                  </h3>
                   
-                  <div className="mt-6 flex items-center text-primary-600 dark:text-primary-400 font-bold text-xs opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0 rtl:-translate-x-4 rtl:group-hover:translate-x-0">
+                  <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-base flex-1">
+                    {item.desc}
+                  </p>
+                  
+                  <div className={`
+                    mt-8 flex items-center font-bold text-sm opacity-0 group-hover:opacity-100 
+                    transition-all duration-300 transform translate-x-4 group-hover:translate-x-0 rtl:-translate-x-4 rtl:group-hover:translate-x-0
+                    text-slate-800 dark:text-slate-200
+                  `}>
                     {t.language === 'ar' ? 'ابدأ الآن ←' : 'Start Now →'}
                   </div>
+
+                  {/* Decorative Background Blob */}
+                  <div className={`
+                    absolute -bottom-10 -left-10 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none
+                    ${item.gradient}
+                  `}></div>
                 </button>
               ))}
             </div>

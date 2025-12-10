@@ -107,3 +107,9 @@ export const SwapIcon = ({ className }: { className?: string }) => (
     <path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/>
   </svg>
 );
+
+export const NutritionIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16V5h2v14H5zm4 0h2v-6h-2v6zm0-8h2V5h-2v6zm4 8h2v-4h-2v4zm0-6h2V5h-2v6z"/>
+  </svg>
+);

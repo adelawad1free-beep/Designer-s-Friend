@@ -14,6 +14,7 @@ export const translations = {
     [ToolType.PALETTE_GENERATOR]: "لوحات الألوان (AI)",
     [ToolType.QR_GENERATOR]: "مولد الباركود (QR)",
     [ToolType.UNIT_CONVERTER]: "محول الوحدات",
+    [ToolType.NUTRITION_LABEL]: "منشئ الملصق الغذائي",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -22,6 +23,7 @@ export const translations = {
     paletteDesc: "اقتراح ألوان متناسقة للتصميم",
     qrDesc: "إنشاء رموز QR احترافية ومخصصة",
     unitDesc: "تحويل سريع ودقيق لمختلف الوحدات",
+    nutritionDesc: "إنشاء ملصقات حقائق تغذوية احترافية (FDA)",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
@@ -110,6 +112,33 @@ export const translations = {
     unitCopied: "تم نسخ النتيجة",
     unitCopy: "نسخ",
 
+    // Nutrition Label
+    nutritionTitle: "منشئ الملصق الغذائي",
+    nutLabelLang: "لغة الملصق",
+    nutExport: "تصدير PNG",
+    nutInfo: "معلومات عامة",
+    nutCalories: "السعرات الحرارية",
+    nutFats: "الدهون والكوليسترول",
+    nutCarbs: "الكربوهيدرات والبروتين",
+    nutVitamins: "الفيتامينات والمعادن",
+    nutServings: "عدد الحصص",
+    nutServingSize: "حجم الحصة",
+    nutCalValue: "السعرات",
+    nutTotalFat: "الدهون الكلية",
+    nutSatFat: "دهون مشبعة",
+    nutTransFat: "دهون متحولة",
+    nutCholesterol: "كوليسترول",
+    nutSodium: "صوديوم",
+    nutTotalCarb: "الكربوهيدرات",
+    nutFiber: "ألياف غذائية",
+    nutSugar: "سكريات كلية",
+    nutAddedSugar: "سكريات مضافة",
+    nutProtein: "بروتين",
+    nutVitD: "فيتامين د",
+    nutCalcium: "كالسيوم",
+    nutIron: "حديد",
+    nutPotassium: "بوتاسيوم",
+
     // Units (General)
     unit_m: "متر",
     unit_km: "كيلومتر",
@@ -175,6 +204,7 @@ export const translations = {
     [ToolType.PALETTE_GENERATOR]: "Color Palettes (AI)",
     [ToolType.QR_GENERATOR]: "QR Generator",
     [ToolType.UNIT_CONVERTER]: "Unit Converter",
+    [ToolType.NUTRITION_LABEL]: "Nutrition Label",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -183,6 +213,7 @@ export const translations = {
     paletteDesc: "Generate consistent color schemes",
     qrDesc: "Create professional custom QR codes",
     unitDesc: "Fast and accurate unit conversion",
+    nutritionDesc: "Create professional nutrition fact labels (FDA)",
 
     // Home Page
     welcomeTitle: "Welcome to",
@@ -270,6 +301,33 @@ export const translations = {
     unitTo: "To",
     unitCopied: "Result copied",
     unitCopy: "Copy",
+
+    // Nutrition Label
+    nutritionTitle: "Nutrition Label Generator",
+    nutLabelLang: "Label Language",
+    nutExport: "Export PNG",
+    nutInfo: "General Info",
+    nutCalories: "Calories",
+    nutFats: "Fats & Cholesterol",
+    nutCarbs: "Carbs & Protein",
+    nutVitamins: "Vitamins & Minerals",
+    nutServings: "Servings Per Container",
+    nutServingSize: "Serving Size",
+    nutCalValue: "Calories",
+    nutTotalFat: "Total Fat",
+    nutSatFat: "Saturated Fat",
+    nutTransFat: "Trans Fat",
+    nutCholesterol: "Cholesterol",
+    nutSodium: "Sodium",
+    nutTotalCarb: "Total Carbohydrate",
+    nutFiber: "Dietary Fiber",
+    nutSugar: "Total Sugars",
+    nutAddedSugar: "Added Sugars",
+    nutProtein: "Protein",
+    nutVitD: "Vitamin D",
+    nutCalcium: "Calcium",
+    nutIron: "Iron",
+    nutPotassium: "Potassium",
 
     // Units
     unit_m: "Meter",
