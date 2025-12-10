@@ -16,6 +16,7 @@ export const translations = {
     [ToolType.IMAGE_COMPRESSOR]: "ضاغط الصور الذكي",
     [ToolType.PDF_TOOLS]: "أدوات PDF الشاملة",
     [ToolType.VAT_CALCULATOR]: "حاسبة ضريبة القيمة المضافة",
+    [ToolType.PANTONE_MATCH]: "مطابقة ألوان بانتون",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -26,11 +27,22 @@ export const translations = {
     compressDesc: "ضغط وتقليل حجم الصور مع الحفاظ على الجودة",
     pdfDesc: "دمج، تقسيم، حماية، استخراج نصوص، وتوقيع ملفات PDF",
     vatDesc: "حساب ضريبة القيمة المضافة بسهولة (شامل أو غير شامل)",
+    pantoneDesc: "إيجاد أقرب رقم بانتون (PMS) لأي لون تختاره",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
     welcomeTitleSpan: "صديق المصمم",
     welcomeText: "منصة مجانية توفر أدوات أساسية لمساعدتك في إنجاز المهام بسرعة وكفاءة عالية.",
+    
+    // Pantone Matcher
+    pmsTitle: "مطابقة ألوان بانتون",
+    pmsInputLabel: "اختر اللون أو أدخل الكود (Hex)",
+    pmsInputPlaceholder: "#FFFFFF",
+    pmsBestMatch: "أفضل تطابق",
+    pmsOtherMatches: "بدائل قريبة",
+    pmsCopy: "نسخ",
+    pmsCopied: "تم النسخ",
+    pmsAccuracy: "دقة التطابق",
     
     // VAT Calculator
     vatTitle: "حاسبة الضريبة",
@@ -280,6 +292,7 @@ export const translations = {
     [ToolType.IMAGE_COMPRESSOR]: "Smart Image Compressor",
     [ToolType.PDF_TOOLS]: "PDF Tools",
     [ToolType.VAT_CALCULATOR]: "VAT Calculator",
+    [ToolType.PANTONE_MATCH]: "Pantone Matcher",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -290,11 +303,22 @@ export const translations = {
     compressDesc: "Compress and reduce image size while maintaining quality",
     pdfDesc: "Merge, Split, Protect, Extract Text, Sign and more",
     vatDesc: "Easily calculate VAT (Inclusive or Exclusive)",
+    pantoneDesc: "Find the closest Pantone (PMS) number for any color",
 
     // Home Page
     welcomeTitle: "Welcome to",
     welcomeTitleSpan: "Designer's Friend",
     welcomeText: "A free platform providing essential tools to help you accomplish tasks efficiently.",
+
+    // Pantone Matcher
+    pmsTitle: "Pantone Color Matcher",
+    pmsInputLabel: "Pick Color or Enter Hex",
+    pmsInputPlaceholder: "#FFFFFF",
+    pmsBestMatch: "Best Match",
+    pmsOtherMatches: "Close Alternatives",
+    pmsCopy: "Copy",
+    pmsCopied: "Copied",
+    pmsAccuracy: "Match Accuracy",
 
     // VAT Calculator
     vatTitle: "VAT Calculator",

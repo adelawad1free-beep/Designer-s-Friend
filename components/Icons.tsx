@@ -162,3 +162,15 @@ export const CalculatorIcon = ({ className }: { className?: string }) => (
     <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 16h-2v-2h2v2zm0-4h-2v-2h2v2zm6 4h-2v-2h2v2zm0-4h-2v-2h2v2zm-6-5h-2V7h2v3zm6 0h-2V7h2v3zM7 7h5v5H7V7zm0 6h2v2H7v-2zm0 4h2v2H7v-2z"/>
   </svg>
 );
+
+export const SwatchIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M17.5 19c0 1.65-1.35 3-3 3s-3-1.35-3-3c0-1.32.85-2.45 2.03-2.85.29-.1.6-.15.97-.15.7 0 1.35.25 1.87.68.7.58 1.13 1.45 1.13 2.32zm1.65-8.63l-4.12 4.12c-.22.22-.53.38-.85.38s-.63-.16-.85-.38L3.5 4.67C2.56 3.73 2.56 2.2 3.5 1.26S5.97.32 6.91 1.26l9.82 9.83c.94.94.94 2.48 0 3.42l4.91-4.91c.94-.94 2.48-.94 3.42 0s.94 2.48 0 3.42l-5.91 5.92v.01z"/>
+  </svg>
+);
+
+export const EyeDropperIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M20.71 5.63l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-3.12 3.12-1.93-1.91-1.41 1.41 1.42 1.42L3 16.25V21h4.75l8.92-8.92 1.42 1.42 1.41-1.41-1.92-1.92 3.12-3.12c.4-.4.4-1.03.01-1.42zM5.21 18.96l6.06-6.06 1.72 1.72-6.06 6.06H5.21v-1.72z"/>
+  </svg>
+);

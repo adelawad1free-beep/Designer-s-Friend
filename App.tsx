@@ -8,8 +8,9 @@ import { BarcodeGenerator } from './components/tools/BarcodeGenerator';
 import { ImageCompressor } from './components/tools/ImageCompressor';
 import { PdfTools } from './components/tools/PdfTools';
 import { VatCalculator } from './components/tools/VatCalculator';
+import { PantoneMatch } from './components/tools/PantoneMatch';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -34,6 +35,8 @@ const MainApp: React.FC = () => {
         return <PdfTools onClose={handleClose} />;
       case ToolType.VAT_CALCULATOR:
         return <VatCalculator onClose={handleClose} />;
+      case ToolType.PANTONE_MATCH:
+        return <PantoneMatch onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -49,6 +52,15 @@ const MainApp: React.FC = () => {
                   bgClass: 'bg-gradient-to-br from-[#8B5CF6] to-[#DB2777]',
                   iconContainer: 'bg-white/20 text-white backdrop-blur-md',
                   descColor: 'text-purple-100'
+                },
+                { 
+                  t: ToolType.PANTONE_MATCH, 
+                  title: t[ToolType.PANTONE_MATCH], 
+                  desc: t.pantoneDesc, 
+                  Icon: SwatchIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#06B6D4] to-[#3B82F6]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-cyan-100'
                 },
                 { 
                   t: ToolType.PDF_TOOLS, 
