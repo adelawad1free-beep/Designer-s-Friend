@@ -17,6 +17,7 @@ export const translations = {
     [ToolType.PDF_TOOLS]: "أدوات PDF الشاملة",
     [ToolType.VAT_CALCULATOR]: "حاسبة ضريبة القيمة المضافة",
     [ToolType.PANTONE_MATCH]: "مطابقة ألوان بانتون",
+    [ToolType.BMR_CALCULATOR]: "حاسبة السعرات (BMR)",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -28,6 +29,7 @@ export const translations = {
     pdfDesc: "دمج، تقسيم، حماية، استخراج نصوص، وتوقيع ملفات PDF",
     vatDesc: "حساب ضريبة القيمة المضافة بسهولة (شامل أو غير شامل)",
     pantoneDesc: "إيجاد أقرب رقم بانتون (PMS) لأي لون تختاره",
+    bmrDesc: "حساب معدل الأيض الأساسي والسعرات الحرارية اليومية بدقة",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
@@ -55,6 +57,27 @@ export const translations = {
     vatResultTax: "مبلغ الضريبة",
     vatResultTotal: "الإجمالي",
     vatReset: "تصفير",
+    
+    // BMR Calculator
+    bmrTitle: "حاسبة السعرات الحرارية (BMR)",
+    bmrGender: "الجنس",
+    bmrMale: "ذكر",
+    bmrFemale: "أنثى",
+    bmrAge: "العمر",
+    bmrWeight: "الوزن (kg)",
+    bmrHeight: "الطول (cm)",
+    bmrActivity: "مستوى النشاط",
+    bmrActivitySedentary: "خامل (قليل أو معدوم)",
+    bmrActivityLight: "نشاط خفيف (تمرين 1-3 أيام)",
+    bmrActivityModerate: "نشاط متوسط (تمرين 3-5 أيام)",
+    bmrActivityActive: "نشاط عالي (تمرين 6-7 أيام)",
+    bmrActivityVeryActive: "نشاط شاق جدًا (عمل بدني شاق)",
+    bmrResultBMR: "معدل الحرق أثناء الراحة (BMR)",
+    bmrResultTDEE: "الاحتياج اليومي للثبات (TDEE)",
+    bmrGoalLose: "لخسارة الوزن",
+    bmrGoalMaintain: "للحفاظ على الوزن",
+    bmrGoalGain: "لزيادة الوزن",
+    bmrCalories: "سعر حراري",
     
     // Code Generator
     codeGenTitle: "مولد أكواد الواجهات",
@@ -293,6 +316,7 @@ export const translations = {
     [ToolType.PDF_TOOLS]: "PDF Tools",
     [ToolType.VAT_CALCULATOR]: "VAT Calculator",
     [ToolType.PANTONE_MATCH]: "Pantone Matcher",
+    [ToolType.BMR_CALCULATOR]: "BMR Calculator",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -304,6 +328,7 @@ export const translations = {
     pdfDesc: "Merge, Split, Protect, Extract Text, Sign and more",
     vatDesc: "Easily calculate VAT (Inclusive or Exclusive)",
     pantoneDesc: "Find the closest Pantone (PMS) number for any color",
+    bmrDesc: "Accurately calculate your Basal Metabolic Rate and daily calorie needs",
 
     // Home Page
     welcomeTitle: "Welcome to",
@@ -331,6 +356,27 @@ export const translations = {
     vatResultTax: "Tax Amount",
     vatResultTotal: "Total Amount",
     vatReset: "Reset",
+
+    // BMR Calculator
+    bmrTitle: "BMR Calculator",
+    bmrGender: "Gender",
+    bmrMale: "Male",
+    bmrFemale: "Female",
+    bmrAge: "Age",
+    bmrWeight: "Weight (kg)",
+    bmrHeight: "Height (cm)",
+    bmrActivity: "Activity Level",
+    bmrActivitySedentary: "Sedentary (little or no exercise)",
+    bmrActivityLight: "Lightly active (exercise 1-3 days/week)",
+    bmrActivityModerate: "Moderately active (exercise 3-5 days/week)",
+    bmrActivityActive: "Active (exercise 6-7 days/week)",
+    bmrActivityVeryActive: "Very active (hard exercise/physical job)",
+    bmrResultBMR: "Basal Metabolic Rate (BMR)",
+    bmrResultTDEE: "Daily Energy Expenditure (TDEE)",
+    bmrGoalLose: "Weight Loss",
+    bmrGoalMaintain: "Maintenance",
+    bmrGoalGain: "Weight Gain",
+    bmrCalories: "Calories",
 
     // Code Generator
     codeGenTitle: "UI Code Generator",

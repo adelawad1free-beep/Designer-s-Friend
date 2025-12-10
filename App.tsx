@@ -9,8 +9,9 @@ import { ImageCompressor } from './components/tools/ImageCompressor';
 import { PdfTools } from './components/tools/PdfTools';
 import { VatCalculator } from './components/tools/VatCalculator';
 import { PantoneMatch } from './components/tools/PantoneMatch';
+import { BmrCalculator } from './components/tools/BmrCalculator';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -37,6 +38,8 @@ const MainApp: React.FC = () => {
         return <VatCalculator onClose={handleClose} />;
       case ToolType.PANTONE_MATCH:
         return <PantoneMatch onClose={handleClose} />;
+      case ToolType.BMR_CALCULATOR:
+        return <BmrCalculator onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -44,6 +47,15 @@ const MainApp: React.FC = () => {
              {/* Grid of Services */}
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
               {[
+                { 
+                  t: ToolType.BMR_CALCULATOR, 
+                  title: t[ToolType.BMR_CALCULATOR], 
+                  desc: t.bmrDesc, 
+                  Icon: FireIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#F59E0B] to-[#D97706]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-amber-100'
+                },
                 { 
                   t: ToolType.QR_GENERATOR, 
                   title: t[ToolType.QR_GENERATOR], 
