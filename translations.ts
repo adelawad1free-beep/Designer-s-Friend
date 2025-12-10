@@ -13,6 +13,7 @@ export const translations = {
     [ToolType.UNIT_CONVERTER]: "محول الوحدات",
     [ToolType.NUTRITION_LABEL]: "منشئ الملصق الغذائي",
     [ToolType.BARCODE_GENERATOR]: "مولد الباركود الشامل",
+    [ToolType.IMAGE_COMPRESSOR]: "ضاغط الصور الذكي",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -20,6 +21,7 @@ export const translations = {
     unitDesc: "تحويل سريع ودقيق لمختلف الوحدات",
     nutritionDesc: "إنشاء ملصقات حقائق تغذوية احترافية (FDA)",
     barcodeDesc: "دعم لجميع صيغ الباركود العالمية (EAN, UPC, Code128)",
+    compressDesc: "ضغط وتقليل حجم الصور مع الحفاظ على الجودة (حتى 10 صور)",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
@@ -78,6 +80,21 @@ export const translations = {
     bcDownload: "تحميل الصورة",
     bcFormat: "صيغة الملف",
     bcError: "قيمة غير صالحة لهذا النوع",
+
+    // Image Compressor
+    compTitle: "ضاغط الصور الذكي",
+    compUpload: "اضغط لاختيار الصور أو اسحبها هنا",
+    compUploadSub: "يدعم JPG, PNG, WEBP (بحد أقصى 10 صور)",
+    compSettings: "إعدادات الضغط",
+    compQuality: "الجودة",
+    compFormat: "صيغة المخرجات",
+    compOriginal: "أصلي",
+    compCompressed: "مضغوط",
+    compReduction: "توفير",
+    compProcess: "ضغط الصور",
+    compDownload: "تحميل",
+    compClear: "مسح الكل",
+    compAuto: "تلقائي (JPEG/WebP)",
 
     // Unit Converter
     unitTitle: "محول الوحدات الشامل",
@@ -229,6 +246,7 @@ export const translations = {
     [ToolType.UNIT_CONVERTER]: "Unit Converter",
     [ToolType.NUTRITION_LABEL]: "Nutrition Label",
     [ToolType.BARCODE_GENERATOR]: "Barcode Generator",
+    [ToolType.IMAGE_COMPRESSOR]: "Smart Image Compressor",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -236,6 +254,7 @@ export const translations = {
     unitDesc: "Fast and accurate unit conversion",
     nutritionDesc: "Create professional nutrition fact labels (FDA)",
     barcodeDesc: "Support for all major barcode formats (EAN, UPC, Code128)",
+    compressDesc: "Compress and reduce image size while maintaining quality (Max 10 images)",
 
     // Home Page
     welcomeTitle: "Welcome to",
@@ -294,6 +313,21 @@ export const translations = {
     bcDownload: "Download Image",
     bcFormat: "File Format",
     bcError: "Invalid value for this format",
+
+    // Image Compressor
+    compTitle: "Smart Image Compressor",
+    compUpload: "Click to select or drag images here",
+    compUploadSub: "Supports JPG, PNG, WEBP (Max 10 images)",
+    compSettings: "Compression Settings",
+    compQuality: "Quality",
+    compFormat: "Output Format",
+    compOriginal: "Original",
+    compCompressed: "Compressed",
+    compReduction: "Saved",
+    compProcess: "Compress Images",
+    compDownload: "Download",
+    compClear: "Clear All",
+    compAuto: "Auto (JPEG/WebP)",
 
     // Unit Converter
     unitTitle: "Comprehensive Unit Converter",

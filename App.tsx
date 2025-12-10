@@ -5,8 +5,9 @@ import { QrGenerator } from './components/tools/QrGenerator';
 import { UnitConverter } from './components/tools/UnitConverter';
 import { NutritionLabelGenerator } from './components/tools/NutritionLabelGenerator';
 import { BarcodeGenerator } from './components/tools/BarcodeGenerator';
+import { ImageCompressor } from './components/tools/ImageCompressor';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -25,11 +26,13 @@ const MainApp: React.FC = () => {
         return <NutritionLabelGenerator onClose={handleClose} />;
       case ToolType.BARCODE_GENERATOR:
         return <BarcodeGenerator onClose={handleClose} />;
+      case ToolType.IMAGE_COMPRESSOR:
+        return <ImageCompressor onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
           <div className="animate-fade-in flex flex-col items-center">
-             {/* Grid of Services - Updated to include Barcode Generator */}
+             {/* Grid of Services - Updated to include Image Compressor */}
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
               {[
                 { 
@@ -51,6 +54,16 @@ const MainApp: React.FC = () => {
                   bgClass: 'bg-gradient-to-br from-[#4F46E5] to-[#2563EB]',
                   iconContainer: 'bg-white/20 text-white backdrop-blur-md',
                   descColor: 'text-indigo-100'
+                },
+                { 
+                  t: ToolType.IMAGE_COMPRESSOR, 
+                  title: t[ToolType.IMAGE_COMPRESSOR], 
+                  desc: t.compressDesc, 
+                  Icon: CompressIcon, 
+                  // Pink/Rose Gradient
+                  bgClass: 'bg-gradient-to-br from-[#EC4899] to-[#E11D48]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-pink-100'
                 },
                 { 
                   t: ToolType.UNIT_CONVERTER, 

@@ -125,3 +125,10 @@ export const BarcodeIcon = ({ className }: { className?: string }) => (
     <path d="M3 4h2v16H3V4zm4 0h1v16H7V4zm3 0h2v16h-2V4zm4 0h1v16h-1V4zm3 0h2v16h-2V4zm4 0h1v16h-1V4z"/>
   </svg>
 );
+
+export const CompressIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M8 11h8v2H8v-2zm8-6v4h-2v-2h-4v2H8V5h8zm1.18 8.82l-1.41-1.41L13 17.17V9h-2v8.17l-4.77-4.77-1.41 1.41L12 21.01l7.18-7.19z"/>
+    <path d="M4 3h16c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2zm16 16V5H4v14h16z" opacity=".3"/>
+  </svg>
+);
