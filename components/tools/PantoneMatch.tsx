@@ -6,15 +6,24 @@ interface PantoneMatchProps {
   onClose?: () => void;
 }
 
-// Type for the experimental EyeDropper API
-interface EyeDropper {
-  open: () => Promise<{ sRGBHex: string }>;
-}
+// Type definitions for the experimental EyeDropper API
+declare global {
+  interface EyeDropper {
+    open: () => Promise<{ sRGBHex: string }>;
+  }
 
-declare const EyeDropper: {
-  prototype: EyeDropper;
-  new (): EyeDropper;
-};
+  interface Window {
+    EyeDropper?: {
+      prototype: EyeDropper;
+      new (): EyeDropper;
+    };
+  }
+
+  var EyeDropper: {
+    prototype: EyeDropper;
+    new (): EyeDropper;
+  };
+}
 
 // --- Color Math Helpers (CIELAB Conversion) ---
 const hexToRgb = (hex: string) => {
@@ -363,8 +372,8 @@ export const PantoneMatch: React.FC<PantoneMatchProps> = ({ onClose }) => {
                     />
                     
                     {/* Overlay Controls */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 backdrop-blur-[1px] gap-2">
-                       <div className="bg-white/90 text-slate-800 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm flex items-center gap-2 pointer-events-none">
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 backdrop-blur-[1px] gap-2 pointer-events-none">
+                       <div className="bg-white/90 text-slate-800 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm flex items-center gap-2">
                           <SwatchIcon className="w-3 h-3" />
                           <span>Editor</span>
                        </div>
