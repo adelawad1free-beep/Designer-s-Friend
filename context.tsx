@@ -13,17 +13,35 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('ar');
-  const [theme, setTheme] = useState<Theme>('light');
+  // Initialize Language based on Storage -> Browser Preference -> Default
+  const [language, setLanguage] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      const savedLang = localStorage.getItem('app-lang') as Language;
+      if (savedLang) return savedLang;
+      
+      // Check browser language
+      const browserLang = navigator.language;
+      if (browserLang.toLowerCase().startsWith('ar')) {
+        return 'ar';
+      }
+      return 'en';
+    }
+    return 'ar';
+  });
 
-  // Initialize from local storage or defaults
-  useEffect(() => {
-    const savedLang = localStorage.getItem('app-lang') as Language;
-    const savedTheme = localStorage.getItem('app-theme') as Theme;
-    
-    if (savedLang) setLanguage(savedLang);
-    if (savedTheme) setTheme(savedTheme);
-  }, []);
+  // Initialize Theme based on Storage -> System Preference -> Default
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('app-theme') as Theme;
+      if (savedTheme) return savedTheme;
+      
+      // Check system theme preference
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+    }
+    return 'light';
+  });
 
   // Update Document Direction and Language
   useEffect(() => {
