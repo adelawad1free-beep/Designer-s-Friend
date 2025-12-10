@@ -12,7 +12,8 @@
     "@google/genai": "^1.32.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "qrcode": "latest"
+    "qrcode": "latest",
+    "pdf-lib": "latest"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

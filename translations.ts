@@ -4,7 +4,7 @@ export const translations = {
   ar: {
     appTitle: "صديق المصمم",
     appDesc: "أدوات ذكية للإبداع الرقمي",
-    copyright: "© 2024 صديق المصمم",
+    copyright: "كافة الحقوق محفوظة 2025 | adelawad1@gmail.com",
     backToHome: "العودة للرئيسية",
     
     // Tools
@@ -15,6 +15,7 @@ export const translations = {
     [ToolType.QR_GENERATOR]: "مولد الباركود (QR)",
     [ToolType.UNIT_CONVERTER]: "محول الوحدات",
     [ToolType.NUTRITION_LABEL]: "منشئ الملصق الغذائي",
+    [ToolType.PDF_TOOLS]: "أدوات PDF الاحترافية",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -24,6 +25,7 @@ export const translations = {
     qrDesc: "إنشاء رموز QR احترافية ومخصصة",
     unitDesc: "تحويل سريع ودقيق لمختلف الوحدات",
     nutritionDesc: "إنشاء ملصقات حقائق تغذوية احترافية (FDA)",
+    pdfDesc: "دمج الملفات وتحويل الصور إلى PDF",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
@@ -139,6 +141,18 @@ export const translations = {
     nutIron: "حديد",
     nutPotassium: "بوتاسيوم",
 
+    // PDF Tools
+    pdfTitle: "أدوات PDF الاحترافية",
+    pdfMerge: "دمج ملفات PDF",
+    pdfImages: "صور إلى PDF",
+    pdfUploadPdf: "اختر ملفات PDF",
+    pdfUploadImages: "اختر الصور (PNG, JPG)",
+    pdfProcess: "تنفيذ العملية",
+    pdfProcessing: "جاري المعالجة...",
+    pdfDownload: "تحميل الملف",
+    pdfNoFiles: "لم يتم اختيار ملفات بعد",
+    pdfFileCount: "ملفات",
+
     // Units (General)
     unit_m: "متر",
     unit_km: "كيلومتر",
@@ -194,7 +208,7 @@ export const translations = {
   en: {
     appTitle: "Designer's Friend",
     appDesc: "Smart tools for digital creativity",
-    copyright: "© 2024 Designer's Friend",
+    copyright: "All rights reserved 2025 | adelawad1@gmail.com",
     backToHome: "Back to Home",
     
     // Tools
@@ -205,6 +219,7 @@ export const translations = {
     [ToolType.QR_GENERATOR]: "QR Generator",
     [ToolType.UNIT_CONVERTER]: "Unit Converter",
     [ToolType.NUTRITION_LABEL]: "Nutrition Label",
+    [ToolType.PDF_TOOLS]: "Professional PDF Tools",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -214,6 +229,7 @@ export const translations = {
     qrDesc: "Create professional custom QR codes",
     unitDesc: "Fast and accurate unit conversion",
     nutritionDesc: "Create professional nutrition fact labels (FDA)",
+    pdfDesc: "Merge PDFs and convert Images to PDF",
 
     // Home Page
     welcomeTitle: "Welcome to",
@@ -328,6 +344,18 @@ export const translations = {
     nutCalcium: "Calcium",
     nutIron: "Iron",
     nutPotassium: "Potassium",
+
+    // PDF Tools
+    pdfTitle: "Professional PDF Tools",
+    pdfMerge: "Merge PDFs",
+    pdfImages: "Images to PDF",
+    pdfUploadPdf: "Select PDF Files",
+    pdfUploadImages: "Select Images (PNG, JPG)",
+    pdfProcess: "Process Files",
+    pdfProcessing: "Processing...",
+    pdfDownload: "Download File",
+    pdfNoFiles: "No files selected yet",
+    pdfFileCount: "files",
 
     // Units
     unit_m: "Meter",

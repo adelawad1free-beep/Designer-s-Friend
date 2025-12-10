@@ -4,8 +4,12 @@ import { Layout } from './components/Layout';
 import { QrGenerator } from './components/tools/QrGenerator';
 import { UnitConverter } from './components/tools/UnitConverter';
 import { NutritionLabelGenerator } from './components/tools/NutritionLabelGenerator';
+import { PdfTools } from './components/tools/PdfTools';
+import { CodeGenerator } from './components/tools/CodeGenerator';
+import { ImageResizer } from './components/tools/ImageResizer';
+import { PaletteGenerator } from './components/tools/PaletteGenerator';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, PdfIcon, CodeIcon, ImageIcon, PaletteIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -22,6 +26,14 @@ const MainApp: React.FC = () => {
         return <UnitConverter onClose={handleClose} />;
       case ToolType.NUTRITION_LABEL:
         return <NutritionLabelGenerator onClose={handleClose} />;
+      case ToolType.PDF_TOOLS:
+        return <PdfTools onClose={handleClose} />;
+      case ToolType.CODE_GENERATOR:
+        return <CodeGenerator onClose={handleClose} />;
+      case ToolType.IMAGE_RESIZER:
+        return <ImageResizer onClose={handleClose} />;
+      case ToolType.PALETTE_GENERATOR:
+        return <PaletteGenerator onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -30,11 +42,37 @@ const MainApp: React.FC = () => {
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
               {[
                 { 
+                  t: ToolType.CODE_GENERATOR, 
+                  title: t[ToolType.CODE_GENERATOR], 
+                  desc: t.codeDesc, 
+                  Icon: CodeIcon, 
+                  gradient: 'bg-gradient-to-br from-purple-500 to-indigo-600',
+                  shadow: 'shadow-purple-500/30',
+                  border: 'hover:border-purple-200 dark:hover:border-purple-800'
+                },
+                { 
+                  t: ToolType.IMAGE_RESIZER, 
+                  title: t[ToolType.IMAGE_RESIZER], 
+                  desc: t.resizeDesc, 
+                  Icon: ImageIcon, 
+                  gradient: 'bg-gradient-to-br from-blue-500 to-sky-600',
+                  shadow: 'shadow-blue-500/30',
+                  border: 'hover:border-blue-200 dark:hover:border-blue-800'
+                },
+                { 
+                  t: ToolType.PALETTE_GENERATOR, 
+                  title: t[ToolType.PALETTE_GENERATOR], 
+                  desc: t.paletteDesc, 
+                  Icon: PaletteIcon, 
+                  gradient: 'bg-gradient-to-br from-orange-400 to-amber-600',
+                  shadow: 'shadow-orange-500/30',
+                  border: 'hover:border-orange-200 dark:hover:border-orange-800'
+                },
+                { 
                   t: ToolType.QR_GENERATOR, 
                   title: t[ToolType.QR_GENERATOR], 
                   desc: t.qrDesc, 
                   Icon: QrIcon, 
-                  // Identity: Deep Indigo/Blue Gradient
                   gradient: 'bg-gradient-to-br from-indigo-500 to-blue-600',
                   shadow: 'shadow-blue-500/30',
                   border: 'hover:border-indigo-200 dark:hover:border-indigo-800'
@@ -44,7 +82,6 @@ const MainApp: React.FC = () => {
                   title: t[ToolType.UNIT_CONVERTER], 
                   desc: t.unitDesc, 
                   Icon: UnitIcon, 
-                  // Identity: Emerald/Teal Gradient
                   gradient: 'bg-gradient-to-br from-emerald-500 to-teal-600',
                   shadow: 'shadow-emerald-500/30',
                   border: 'hover:border-emerald-200 dark:hover:border-emerald-800'
@@ -54,10 +91,18 @@ const MainApp: React.FC = () => {
                   title: t[ToolType.NUTRITION_LABEL], 
                   desc: t.nutritionDesc, 
                   Icon: NutritionIcon, 
-                  // Identity: Orange/Red Gradient
                   gradient: 'bg-gradient-to-br from-orange-500 to-red-600',
                   shadow: 'shadow-orange-500/30',
                   border: 'hover:border-orange-200 dark:hover:border-orange-800'
+                },
+                { 
+                  t: ToolType.PDF_TOOLS, 
+                  title: t[ToolType.PDF_TOOLS], 
+                  desc: t.pdfDesc, 
+                  Icon: PdfIcon, 
+                  gradient: 'bg-gradient-to-br from-red-500 to-rose-600',
+                  shadow: 'shadow-red-500/30',
+                  border: 'hover:border-red-200 dark:hover:border-red-800'
                 },
               ].map((item) => (
                 <button
