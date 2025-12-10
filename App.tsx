@@ -35,106 +35,112 @@ const MainApp: React.FC = () => {
       default:
         return (
           <div className="animate-fade-in flex flex-col items-center">
-             {/* Grid of Services */}
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
+             {/* Grid of Services - Smaller Gap */}
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl">
               {[
                 { 
                   t: ToolType.CODE_GENERATOR, 
                   title: t[ToolType.CODE_GENERATOR], 
                   desc: t.codeDesc, 
                   Icon: CodeIcon, 
-                  gradient: 'bg-gradient-to-br from-purple-500 to-indigo-600',
-                  shadow: 'shadow-purple-500/30',
-                  border: 'hover:border-purple-200 dark:hover:border-purple-800'
+                  // Purple/Violet Gradient
+                  bgClass: 'bg-gradient-to-br from-[#8B5CF6] to-[#6D28D9]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-sm',
+                  descColor: 'text-purple-100'
                 },
                 { 
                   t: ToolType.IMAGE_RESIZER, 
                   title: t[ToolType.IMAGE_RESIZER], 
                   desc: t.resizeDesc, 
                   Icon: ImageIcon, 
-                  gradient: 'bg-gradient-to-br from-blue-500 to-sky-600',
-                  shadow: 'shadow-blue-500/30',
-                  border: 'hover:border-blue-200 dark:hover:border-blue-800'
+                  // Blue/Cyan Gradient
+                  bgClass: 'bg-gradient-to-br from-[#0EA5E9] to-[#0284C7]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-sm',
+                  descColor: 'text-blue-100'
                 },
                 { 
                   t: ToolType.PALETTE_GENERATOR, 
                   title: t[ToolType.PALETTE_GENERATOR], 
                   desc: t.paletteDesc, 
                   Icon: PaletteIcon, 
-                  gradient: 'bg-gradient-to-br from-orange-400 to-amber-600',
-                  shadow: 'shadow-orange-500/30',
-                  border: 'hover:border-orange-200 dark:hover:border-orange-800'
+                  // Orange/Amber Gradient
+                  bgClass: 'bg-gradient-to-br from-[#F59E0B] to-[#D97706]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-sm',
+                  descColor: 'text-orange-100'
                 },
                 { 
                   t: ToolType.QR_GENERATOR, 
                   title: t[ToolType.QR_GENERATOR], 
                   desc: t.qrDesc, 
                   Icon: QrIcon, 
-                  gradient: 'bg-gradient-to-br from-indigo-500 to-blue-600',
-                  shadow: 'shadow-blue-500/30',
-                  border: 'hover:border-indigo-200 dark:hover:border-indigo-800'
+                  // Pink/Rose Gradient
+                  bgClass: 'bg-gradient-to-br from-[#EC4899] to-[#DB2777]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-sm',
+                  descColor: 'text-pink-100'
                 },
                 { 
                   t: ToolType.UNIT_CONVERTER, 
                   title: t[ToolType.UNIT_CONVERTER], 
                   desc: t.unitDesc, 
                   Icon: UnitIcon, 
-                  gradient: 'bg-gradient-to-br from-emerald-500 to-teal-600',
-                  shadow: 'shadow-emerald-500/30',
-                  border: 'hover:border-emerald-200 dark:hover:border-emerald-800'
+                  // Emerald/Green Gradient
+                  bgClass: 'bg-gradient-to-br from-[#10B981] to-[#059669]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-sm',
+                  descColor: 'text-emerald-100'
                 },
                 { 
                   t: ToolType.NUTRITION_LABEL, 
                   title: t[ToolType.NUTRITION_LABEL], 
                   desc: t.nutritionDesc, 
                   Icon: NutritionIcon, 
-                  gradient: 'bg-gradient-to-br from-orange-500 to-red-600',
-                  shadow: 'shadow-orange-500/30',
-                  border: 'hover:border-orange-200 dark:hover:border-orange-800'
+                  // Red/Rose Gradient
+                  bgClass: 'bg-gradient-to-br from-[#F43F5E] to-[#E11D48]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-sm',
+                  descColor: 'text-rose-100'
                 },
               ].map((item) => (
                 <button
                   key={item.t}
                   onClick={() => setActiveTool(item.t)}
                   className={`
-                    w-full bg-white dark:bg-slate-800 rounded-[2.5rem] p-8 
-                    shadow-sm hover:shadow-2xl hover:-translate-y-2 
-                    border border-slate-100 dark:border-slate-700 ${item.border}
+                    w-full rounded-2xl p-5 
+                    shadow-lg hover:shadow-xl hover:-translate-y-1 
+                    ${item.bgClass} text-white
                     transition-all duration-300 group text-right rtl:text-right ltr:text-left 
-                    flex flex-col relative overflow-hidden h-full min-h-[280px]
+                    flex flex-col relative overflow-hidden h-full min-h-[140px] border border-white/10
                   `}
                 >
-                  {/* Beautiful Identity Icon */}
-                  <div className={`
-                    w-20 h-20 rounded-3xl flex items-center justify-center mb-8 
-                    ${item.gradient} shadow-lg ${item.shadow}
-                    group-hover:scale-110 transition-transform duration-500
-                    ring-4 ring-white dark:ring-slate-700
-                  `}>
-                    <item.Icon className="w-10 h-10 text-white drop-shadow-md" />
+                  <div className="flex items-start justify-between w-full mb-3">
+                     {/* Icon Container - Smaller & Semi-transparent */}
+                    <div className={`
+                      w-10 h-10 rounded-xl flex items-center justify-center
+                      ${item.iconContainer} shadow-inner
+                      group-hover:scale-110 transition-transform duration-500
+                    `}>
+                      <item.Icon className="w-5 h-5 drop-shadow-sm" />
+                    </div>
+                    
+                    {/* Action Arrow */}
+                    <div className={`
+                      w-7 h-7 rounded-full flex items-center justify-center 
+                      bg-white/20 text-white
+                      group-hover:bg-white/40
+                      transition-colors opacity-80 group-hover:opacity-100
+                    `}>
+                       <span className="transform rtl:rotate-180 text-xs">➜</span>
+                    </div>
                   </div>
 
-                  <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-3 leading-tight">
+                  <h3 className="text-lg font-bold mb-1 leading-tight text-white drop-shadow-sm">
                     {item.title}
                   </h3>
                   
-                  <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-base flex-1">
+                  <p className={`leading-snug text-xs font-medium ${item.descColor}`}>
                     {item.desc}
                   </p>
                   
-                  <div className={`
-                    mt-8 flex items-center font-bold text-sm opacity-0 group-hover:opacity-100 
-                    transition-all duration-300 transform translate-x-4 group-hover:translate-x-0 rtl:-translate-x-4 rtl:group-hover:translate-x-0
-                    text-slate-800 dark:text-slate-200
-                  `}>
-                    {t.language === 'ar' ? 'ابدأ الآن ←' : 'Start Now →'}
-                  </div>
-
                   {/* Decorative Background Blob */}
-                  <div className={`
-                    absolute -bottom-10 -left-10 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none
-                    ${item.gradient}
-                  `}></div>
+                  <div className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full bg-white/10 blur-2xl group-hover:bg-white/20 transition-all duration-500 pointer-events-none"></div>
                 </button>
               ))}
             </div>
