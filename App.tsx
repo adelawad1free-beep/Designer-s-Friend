@@ -5,8 +5,9 @@ import { CodeGenerator } from './components/tools/CodeGenerator';
 import { ImageResizer } from './components/tools/ImageResizer';
 import { PaletteGenerator } from './components/tools/PaletteGenerator';
 import { QrGenerator } from './components/tools/QrGenerator';
+import { UnitConverter } from './components/tools/UnitConverter';
 import { ToolType } from './types';
-import { CodeIcon, ImageIcon, PaletteIcon, QrIcon } from './components/Icons';
+import { CodeIcon, ImageIcon, PaletteIcon, QrIcon, UnitIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -25,6 +26,8 @@ const MainApp: React.FC = () => {
         return <PaletteGenerator onClose={handleClose} />;
       case ToolType.QR_GENERATOR:
         return <QrGenerator onClose={handleClose} />;
+      case ToolType.UNIT_CONVERTER:
+        return <UnitConverter onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -59,6 +62,13 @@ const MainApp: React.FC = () => {
                   desc: t.qrDesc, 
                   Icon: QrIcon, 
                   color: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300' 
+                },
+                { 
+                  t: ToolType.UNIT_CONVERTER, 
+                  title: t[ToolType.UNIT_CONVERTER], 
+                  desc: t.unitDesc, 
+                  Icon: UnitIcon, 
+                  color: 'bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-300' 
                 },
               ].map((item) => (
                 <button

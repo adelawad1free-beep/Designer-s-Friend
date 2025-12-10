@@ -13,6 +13,7 @@ export const translations = {
     [ToolType.IMAGE_RESIZER]: "تعديل الصور",
     [ToolType.PALETTE_GENERATOR]: "لوحات الألوان (AI)",
     [ToolType.QR_GENERATOR]: "مولد الباركود (QR)",
+    [ToolType.UNIT_CONVERTER]: "محول الوحدات",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -20,6 +21,7 @@ export const translations = {
     resizeDesc: "تغيير مقاسات الصور بسرعة",
     paletteDesc: "اقتراح ألوان متناسقة للتصميم",
     qrDesc: "إنشاء رموز QR احترافية ومخصصة",
+    unitDesc: "تحويل سريع ودقيق لمختلف الوحدات",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
@@ -92,6 +94,73 @@ export const translations = {
     qrContactPhone: "رقم الجوال",
     qrEmailSubject: "الموضوع",
     qrEmailBody: "محتوى الرسالة",
+
+    // Unit Converter
+    unitTitle: "محول الوحدات الشامل",
+    unitCatLength: "الطول",
+    unitCatWeight: "الوزن",
+    unitCatTemp: "الحرارة",
+    unitCatArea: "المساحة",
+    unitCatVolume: "الحجم",
+    unitCatSpeed: "السرعة",
+    unitCatData: "البيانات",
+    unitCatTime: "الوقت",
+    unitFrom: "من",
+    unitTo: "إلى",
+    unitCopied: "تم نسخ النتيجة",
+    unitCopy: "نسخ",
+
+    // Units (General)
+    unit_m: "متر",
+    unit_km: "كيلومتر",
+    unit_cm: "سنتيمتر",
+    unit_mm: "مليمتر",
+    unit_ft: "قدم",
+    unit_in: "بوصة",
+    unit_yd: "ياردة",
+    unit_mi: "ميل",
+    
+    unit_kg: "كيلوجرام",
+    unit_g: "جرام",
+    unit_mg: "مليجرام",
+    unit_lb: "باوند",
+    unit_oz: "أوقية",
+    
+    unit_c: "سيليزيوس",
+    unit_f: "فهرنهايت",
+    unit_k: "كلفن",
+
+    unit_sqm: "متر مربع",
+    unit_sqkm: "كيلومتر مربع",
+    unit_sqft: "قدم مربع",
+    unit_acre: "فدان",
+    unit_ha: "هكتار",
+
+    unit_l: "لتر",
+    unit_ml: "مليلتر",
+    unit_gal: "جالون (أمريكي)",
+    unit_qt: "كوارت",
+    unit_pt: "باينت",
+    unit_cup: "كوب",
+
+    unit_kph: "كم/ساعة",
+    unit_mph: "ميل/ساعة",
+    unit_mps: "متر/ثانية",
+    unit_kn: "عقدة",
+
+    unit_b: "بايت",
+    unit_kb: "كيلوبايت",
+    unit_mb: "ميجابايت",
+    unit_gb: "جيجابايت",
+    unit_tb: "تيجابايت",
+
+    unit_sec: "ثانية",
+    unit_min: "دقيقة",
+    unit_hr: "ساعة",
+    unit_day: "يوم",
+    unit_week: "أسبوع",
+    unit_month: "شهر",
+    unit_year: "سنة",
   },
   en: {
     appTitle: "Designer's Friend",
@@ -105,6 +174,7 @@ export const translations = {
     [ToolType.IMAGE_RESIZER]: "Image Resizer",
     [ToolType.PALETTE_GENERATOR]: "Color Palettes (AI)",
     [ToolType.QR_GENERATOR]: "QR Generator",
+    [ToolType.UNIT_CONVERTER]: "Unit Converter",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -112,6 +182,7 @@ export const translations = {
     resizeDesc: "Resize images quickly",
     paletteDesc: "Generate consistent color schemes",
     qrDesc: "Create professional custom QR codes",
+    unitDesc: "Fast and accurate unit conversion",
 
     // Home Page
     welcomeTitle: "Welcome to",
@@ -184,5 +255,72 @@ export const translations = {
     qrContactPhone: "Mobile Number",
     qrEmailSubject: "Subject",
     qrEmailBody: "Body",
+
+    // Unit Converter
+    unitTitle: "Comprehensive Unit Converter",
+    unitCatLength: "Length",
+    unitCatWeight: "Weight",
+    unitCatTemp: "Temperature",
+    unitCatArea: "Area",
+    unitCatVolume: "Volume",
+    unitCatSpeed: "Speed",
+    unitCatData: "Data",
+    unitCatTime: "Time",
+    unitFrom: "From",
+    unitTo: "To",
+    unitCopied: "Result copied",
+    unitCopy: "Copy",
+
+    // Units
+    unit_m: "Meter",
+    unit_km: "Kilometer",
+    unit_cm: "Centimeter",
+    unit_mm: "Millimeter",
+    unit_ft: "Foot",
+    unit_in: "Inch",
+    unit_yd: "Yard",
+    unit_mi: "Mile",
+    
+    unit_kg: "Kilogram",
+    unit_g: "Gram",
+    unit_mg: "Milligram",
+    unit_lb: "Pound",
+    unit_oz: "Ounce",
+    
+    unit_c: "Celsius",
+    unit_f: "Fahrenheit",
+    unit_k: "Kelvin",
+
+    unit_sqm: "Square Meter",
+    unit_sqkm: "Square Kilometer",
+    unit_sqft: "Square Foot",
+    unit_acre: "Acre",
+    unit_ha: "Hectare",
+
+    unit_l: "Liter",
+    unit_ml: "Milliliter",
+    unit_gal: "Gallon (US)",
+    unit_qt: "Quart",
+    unit_pt: "Pint",
+    unit_cup: "Cup",
+
+    unit_kph: "Km/h",
+    unit_mph: "Mph",
+    unit_mps: "m/s",
+    unit_kn: "Knot",
+
+    unit_b: "Byte",
+    unit_kb: "Kilobyte",
+    unit_mb: "Megabyte",
+    unit_gb: "Gigabyte",
+    unit_tb: "Terabyte",
+
+    unit_sec: "Second",
+    unit_min: "Minute",
+    unit_hr: "Hour",
+    unit_day: "Day",
+    unit_week: "Week",
+    unit_month: "Month",
+    unit_year: "Year",
   }
 };
