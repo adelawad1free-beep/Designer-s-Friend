@@ -9,18 +9,12 @@ export const translations = {
     
     // Tools
     [ToolType.HOME]: "الرئيسية",
-    [ToolType.CODE_GENERATOR]: "مولد الأكواد (AI)",
-    [ToolType.IMAGE_RESIZER]: "تعديل الصور",
-    [ToolType.PALETTE_GENERATOR]: "لوحات الألوان (AI)",
     [ToolType.QR_GENERATOR]: "مولد الباركود (QR)",
     [ToolType.UNIT_CONVERTER]: "محول الوحدات",
     [ToolType.NUTRITION_LABEL]: "منشئ الملصق الغذائي",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
-    codeDesc: "تحويل الأفكار إلى كود HTML/Tailwind",
-    resizeDesc: "تغيير مقاسات الصور بسرعة",
-    paletteDesc: "اقتراح ألوان متناسقة للتصميم",
     qrDesc: "إنشاء رموز QR احترافية ومخصصة",
     unitDesc: "تحويل سريع ودقيق لمختلف الوحدات",
     nutritionDesc: "إنشاء ملصقات حقائق تغذوية احترافية (FDA)",
@@ -28,41 +22,8 @@ export const translations = {
     // Home Page
     welcomeTitle: "مرحباً بك في",
     welcomeTitleSpan: "صديق المصمم",
-    welcomeText: "منصة مجانية توفر أدوات أساسية لمساعدتك في إنجاز مهام التصميم والبرمجة بسرعة وكفاءة عالية.",
+    welcomeText: "منصة مجانية توفر أدوات أساسية لمساعدتك في إنجاز المهام بسرعة وكفاءة عالية.",
     
-    // Code Generator
-    codeGenTitle: "مولد واجهات (HTML/Tailwind)",
-    codeGenSubtitle: "صف العنصر الذي تريد تصميمه (مثلاً: بطاقة منتج مع صورة وزر شراء أزرق).",
-    codeGenPlaceholder: "اكتب وصف التصميم هنا...",
-    codeGenBtn: "توليد الكود",
-    codeGenLoading: "جاري التصميم بواسطة الذكاء الاصطناعي...",
-    codeGenPreview: "المعاينـة الحية",
-    codeGenCopy: "نسخ الكود",
-    codeGenCopied: "تم نسخ الكود!",
-    codeGenError: "حدث خطأ أثناء توليد الكود. يرجى المحاولة مرة أخرى.",
-    codeGenHtmlTitle: "كود HTML",
-
-    // Image Resizer
-    resizeTitle: "تعديل مقاسات الصور",
-    resizeUpload: "اضغط لرفع صورة",
-    resizeUploadSub: "JPG, PNG, WEBP",
-    resizeSettings: "إعدادات التحجيم",
-    resizeWidth: "العرض (px)",
-    resizeHeight: "الارتفاع (px)",
-    resizeRatio: "الحفاظ على نسبة الأبعاد",
-    resizeOriginal: "الأبعاد الأصلية:",
-    resizeDownload: "تحميل الصورة المعدلة ⬇️",
-    resizePreview: "ستظهر المعاينة هنا",
-
-    // Palette Generator
-    paletteTitle: "مولد لوحات الألوان الذكي",
-    paletteSubtitle: "احصل على ألوان متناسقة لمشروعك. فقط اكتب الجو العام أو فكرة المشروع.",
-    palettePlaceholder: "مثال: غروب الشمس في الصحراء...",
-    paletteBtn: "اقتراح ألوان",
-    paletteLoading: "جاري المزج...",
-    paletteCopy: "نسخ",
-    paletteError: "حدث خطأ أثناء توليد الألوان.",
-
     // QR Generator
     qrTitle: "مولد الباركود الاحترافي",
     qrSubtitle: "قم بإنشاء رموز QR مخصصة للروابط والنصوص والواي فاي والمزيد.",
@@ -205,18 +166,12 @@ export const translations = {
     
     // Tools
     [ToolType.HOME]: "Home",
-    [ToolType.CODE_GENERATOR]: "Code Generator (AI)",
-    [ToolType.IMAGE_RESIZER]: "Image Resizer",
-    [ToolType.PALETTE_GENERATOR]: "Color Palettes (AI)",
     [ToolType.QR_GENERATOR]: "QR Generator",
     [ToolType.UNIT_CONVERTER]: "Unit Converter",
     [ToolType.NUTRITION_LABEL]: "Nutrition Label",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
-    codeDesc: "Convert ideas into HTML/Tailwind code",
-    resizeDesc: "Resize images quickly",
-    paletteDesc: "Generate consistent color schemes",
     qrDesc: "Create professional custom QR codes",
     unitDesc: "Fast and accurate unit conversion",
     nutritionDesc: "Create professional nutrition fact labels (FDA)",
@@ -224,41 +179,8 @@ export const translations = {
     // Home Page
     welcomeTitle: "Welcome to",
     welcomeTitleSpan: "Designer's Friend",
-    welcomeText: "A free platform providing essential tools to help you accomplish design and coding tasks efficiently.",
+    welcomeText: "A free platform providing essential tools to help you accomplish tasks efficiently.",
     
-    // Code Generator
-    codeGenTitle: "UI Generator (HTML/Tailwind)",
-    codeGenSubtitle: "Describe the element you want to design (e.g., product card with image and blue buy button).",
-    codeGenPlaceholder: "Describe your design here...",
-    codeGenBtn: "Generate Code",
-    codeGenLoading: "Generating design with AI...",
-    codeGenPreview: "Live Preview",
-    codeGenCopy: "Copy Code",
-    codeGenCopied: "Code copied!",
-    codeGenError: "An error occurred while generating code. Please try again.",
-    codeGenHtmlTitle: "HTML Code",
-
-    // Image Resizer
-    resizeTitle: "Image Resizer",
-    resizeUpload: "Click to upload image",
-    resizeUploadSub: "JPG, PNG, WEBP",
-    resizeSettings: "Resizing Settings",
-    resizeWidth: "Width (px)",
-    resizeHeight: "Height (px)",
-    resizeRatio: "Maintain Aspect Ratio",
-    resizeOriginal: "Original:",
-    resizeDownload: "Download Resized Image ⬇️",
-    resizePreview: "Preview will appear here",
-
-    // Palette Generator
-    paletteTitle: "Smart Color Palette Generator",
-    paletteSubtitle: "Get consistent colors for your project. Just describe the mood or project idea.",
-    palettePlaceholder: "Ex: Sunset in the desert...",
-    paletteBtn: "Generate Palette",
-    paletteLoading: "Mixing colors...",
-    paletteCopy: "Copy",
-    paletteError: "An error occurred while generating colors.",
-
     // QR Generator
     qrTitle: "Professional QR Generator",
     qrSubtitle: "Create custom QR codes for links, text, WiFi, and more.",
