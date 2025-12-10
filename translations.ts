@@ -14,6 +14,7 @@ export const translations = {
     [ToolType.NUTRITION_LABEL]: "منشئ الملصق الغذائي",
     [ToolType.BARCODE_GENERATOR]: "مولد الباركود الشامل",
     [ToolType.IMAGE_COMPRESSOR]: "ضاغط الصور الذكي",
+    [ToolType.PDF_TOOLS]: "أدوات PDF الشاملة",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -21,14 +22,85 @@ export const translations = {
     unitDesc: "تحويل سريع ودقيق لمختلف الوحدات",
     nutritionDesc: "إنشاء ملصقات حقائق تغذوية احترافية (FDA)",
     barcodeDesc: "دعم لجميع صيغ الباركود العالمية (EAN, UPC, Code128)",
-    compressDesc: "ضغط وتقليل حجم الصور مع الحفاظ على الجودة (حتى 10 صور)",
+    compressDesc: "ضغط وتقليل حجم الصور مع الحفاظ على الجودة",
+    pdfDesc: "دمج، تقسيم، حماية، استخراج نصوص، وتوقيع ملفات PDF",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
     welcomeTitleSpan: "صديق المصمم",
     welcomeText: "منصة مجانية توفر أدوات أساسية لمساعدتك في إنجاز المهام بسرعة وكفاءة عالية.",
     
-    // QR Generator
+    // Code Generator
+    codeGenTitle: "مولد أكواد الواجهات",
+    codeGenSubtitle: "صف ما تريد إنشاءه وسأقوم بكتابة HTML/Tailwind لك.",
+    codeGenPlaceholder: "مثال: بطاقة منتج مع صورة وزر شراء...",
+    codeGenLoading: "جاري الكتابة...",
+    codeGenBtn: "إنشاء الكود",
+    codeGenError: "حدث خطأ أثناء إنشاء الكود.",
+    codeGenCopied: "تم نسخ الكود!",
+    codeGenPreview: "المعاينة",
+    codeGenHtmlTitle: "كود HTML",
+    codeGenCopy: "نسخ",
+
+    // Image Resizer
+    resizeTitle: "تغيير حجم الصور",
+    resizeUpload: "رفع صورة",
+    resizeUploadSub: "اسحب الصورة أو اضغط هنا",
+    resizeSettings: "إعدادات الحجم",
+    resizeWidth: "العرض (px)",
+    resizeHeight: "الارتفاع (px)",
+    resizeRatio: "الحفاظ على الأبعاد",
+    resizeOriginal: "الأبعاد الأصلية:",
+    resizeDownload: "تحميل الصورة",
+    resizePreview: "معاينة",
+
+    // Palette Generator
+    paletteTitle: "مولد لوحات الألوان",
+    paletteSubtitle: "استلهم ألواناً متناسقة لمشروعك باستخدام الذكاء الاصطناعي.",
+    palettePlaceholder: "صف الحالة المزاجية أو الموضوع (مثال: غروب الشمس في البحر)",
+    paletteLoading: "جاري التوليد...",
+    paletteBtn: "توليد اللوحة",
+    paletteError: "فشل توليد الألوان.",
+    paletteCopy: "نسخ",
+
+    // PDF Tools
+    pdfTitle: "أدوات PDF الاحترافية",
+    pdfMerge: "دمج الملفات",
+    pdfSplit: "تقسيم الملف",
+    pdfCompress: "ضغط (تحسين)",
+    pdfToImages: "استخراج نصوص",
+    pdfImages: "صور إلى PDF",
+    pdfProtect: "حماية بكلمة مرور",
+    pdfUnlock: "فك الحماية",
+    pdfRotate: "تدوير الصفحات",
+    pdfReorder: "ترتيب الصفحات",
+    pdfSign: "توقيع المستند",
+    
+    pdfUploadPdf: "رفع ملفات PDF",
+    pdfUploadImages: "رفع صور (JPG/PNG)",
+    pdfNoFiles: "لم يتم اختيار ملفات",
+    pdfFileCount: "ملف",
+    pdfProcessing: "جاري المعالجة...",
+    pdfDownload: "تحميل الملف",
+    pdfDragDrop: "اسحب الملفات هنا",
+    
+    // PDF Sub-tools specific
+    pdfSplitRange: "نطاق الصفحات (مثال: 1-5)",
+    pdfSplitAll: "استخراج كل الصفحات كملفات منفصلة",
+    pdfProtectPass: "كلمة المرور",
+    pdfRotateAngle: "زاوية التدوير",
+    pdfReorderDesc: "اسحب الملفات لترتيبها (قريباً) أو اكتب الترتيب: 1,3,2",
+    pdfSignClear: "مسح التوقيع",
+    pdfSignAdd: "إضافة التوقيع للصفحة الأخيرة",
+    pdfExtractTextInfo: "استخراج النصوص من ملف PDF",
+    pdfExtractBtn: "استخراج النص",
+    pdfExtractedTitle: "النص المستخرج:",
+    pdfCompressInfo: "تحسين بنية الملف وتقليل الحجم (Basic)",
+    pdfRotate90: "90 درجة",
+    pdfRotate180: "180 درجة",
+    pdfRotate270: "270 درجة",
+
+    // ... (Existing translations kept to avoid breaking)
     qrTitle: "مولد الباركود الاحترافي",
     qrSubtitle: "قم بإنشاء رموز QR مخصصة للروابط والنصوص والواي فاي والمزيد.",
     qrTabLink: "رابط",
@@ -68,7 +140,6 @@ export const translations = {
     qrQualityMax: "قصوى (4096px)",
     qrFormat: "صيغة الملف",
 
-    // Barcode Generator
     bcTitle: "مولد الباركود الشامل",
     bcType: "نوع الرمز",
     bcContent: "قيمة الباركود",
@@ -81,7 +152,6 @@ export const translations = {
     bcFormat: "صيغة الملف",
     bcError: "قيمة غير صالحة لهذا النوع",
 
-    // Image Compressor
     compTitle: "ضاغط الصور الذكي",
     compUpload: "اضغط لاختيار الصور أو اسحبها هنا",
     compUploadSub: "يدعم JPG, PNG, WEBP (بحد أقصى 10 صور)",
@@ -96,7 +166,6 @@ export const translations = {
     compClear: "مسح الكل",
     compAuto: "تلقائي (JPEG/WebP)",
 
-    // Unit Converter
     unitTitle: "محول الوحدات الشامل",
     unitCatLength: "الطول",
     unitCatWeight: "الوزن",
@@ -111,7 +180,6 @@ export const translations = {
     unitCopied: "تم نسخ النتيجة",
     unitCopy: "نسخ",
 
-    // Nutrition Label
     nutritionTitle: "منشئ الملصق الغذائي",
     nutLabelLang: "لغة الملصق",
     nutExport: "تصدير PNG",
@@ -137,8 +205,8 @@ export const translations = {
     nutCalcium: "كالسيوم",
     nutIron: "حديد",
     nutPotassium: "بوتاسيوم",
-
-    // Units (General)
+    
+    // Helper units translations
     unit_m: "متر",
     unit_km: "كيلومتر",
     unit_cm: "سنتيمتر",
@@ -147,41 +215,34 @@ export const translations = {
     unit_in: "بوصة",
     unit_yd: "ياردة",
     unit_mi: "ميل",
-    
     unit_kg: "كيلوجرام",
     unit_g: "جرام",
     unit_mg: "مليجرام",
     unit_lb: "باوند",
     unit_oz: "أوقية",
-    
     unit_c: "سيليزيوس",
     unit_f: "فهرنهايت",
     unit_k: "كلفن",
-
     unit_sqm: "متر مربع",
     unit_sqkm: "كيلومتر مربع",
     unit_sqft: "قدم مربع",
     unit_acre: "فدان",
     unit_ha: "هكتار",
-
     unit_l: "لتر",
     unit_ml: "مليلتر",
     unit_gal: "جالون (أمريكي)",
     unit_qt: "كوارت",
     unit_pt: "باينت",
     unit_cup: "كوب",
-
     unit_kph: "كم/ساعة",
     unit_mph: "ميل/ساعة",
     unit_mps: "متر/ثانية",
     unit_kn: "عقدة",
-
     unit_b: "بايت",
     unit_kb: "كيلوبايت",
     unit_mb: "ميجابايت",
     unit_gb: "جيجابايت",
     unit_tb: "تيجابايت",
-
     unit_sec: "ثانية",
     unit_min: "دقيقة",
     unit_hr: "ساعة",
@@ -189,50 +250,6 @@ export const translations = {
     unit_week: "أسبوع",
     unit_month: "شهر",
     unit_year: "سنة",
-
-    // Code Generator
-    codeGenTitle: "مساعد الكود الذكي",
-    codeGenSubtitle: "توليد أكواد واجهات (HTML/Tailwind) بسرعة باستخدام الذكاء الاصطناعي.",
-    codeGenPlaceholder: "صف المكون الذي تريده بالتفصيل (مثال: بطاقة منتج مع صورة وزر شراء)...",
-    codeGenLoading: "جاري التوليد...",
-    codeGenBtn: "توليد الكود",
-    codeGenError: "حدث خطأ أثناء التوليد. الرجاء المحاولة مرة أخرى.",
-    codeGenCopied: "تم نسخ الكود للحافظة!",
-    codeGenPreview: "معاينة حية",
-    codeGenHtmlTitle: "HTML كود",
-    codeGenCopy: "نسخ الكود",
-
-    // Image Resizer
-    resizeTitle: "تغيير حجم الصور",
-    resizeUpload: "اضغط للرفع أو اسحب الصورة هنا",
-    resizeUploadSub: "ندعم JPG, PNG (بحد أقصى 5MB)",
-    resizeSettings: "إعدادات الحجم",
-    resizeWidth: "العرض (px)",
-    resizeHeight: "الارتفاع (px)",
-    resizeRatio: "الحفاظ على الأبعاد",
-    resizeOriginal: "الأبعاد الأصلية:",
-    resizeDownload: "تحميل الصورة المعدلة",
-    resizePreview: "معاينة الصورة ستظهر هنا",
-
-    // Palette Generator
-    paletteTitle: "مولد الألوان الذكي",
-    paletteSubtitle: "احصل على لوحات ألوان متناسقة لمشروعك بناءً على وصف نصي أو حالة مزاجية.",
-    palettePlaceholder: "صف الحالة المزاجية أو المشروع (مثال: غروب الشمس على الشاطئ)...",
-    paletteLoading: "جاري استخراج الألوان...",
-    paletteBtn: "توليد اللوحة",
-    paletteError: "فشل في توليد الألوان.",
-    paletteCopy: "نسخ",
-
-    // PDF Tools
-    pdfTitle: "أدوات PDF",
-    pdfMerge: "دمج الملفات",
-    pdfImages: "صور إلى PDF",
-    pdfUploadPdf: "رفع ملفات PDF",
-    pdfUploadImages: "رفع صور (JPG/PNG)",
-    pdfNoFiles: "لم يتم اختيار ملفات بعد",
-    pdfFileCount: "ملف",
-    pdfProcessing: "جاري المعالجة...",
-    pdfDownload: "تحميل الملف",
   },
   en: {
     appTitle: "Designer's Friend",
@@ -247,6 +264,7 @@ export const translations = {
     [ToolType.NUTRITION_LABEL]: "Nutrition Label",
     [ToolType.BARCODE_GENERATOR]: "Barcode Generator",
     [ToolType.IMAGE_COMPRESSOR]: "Smart Image Compressor",
+    [ToolType.PDF_TOOLS]: "PDF Tools",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -254,14 +272,84 @@ export const translations = {
     unitDesc: "Fast and accurate unit conversion",
     nutritionDesc: "Create professional nutrition fact labels (FDA)",
     barcodeDesc: "Support for all major barcode formats (EAN, UPC, Code128)",
-    compressDesc: "Compress and reduce image size while maintaining quality (Max 10 images)",
+    compressDesc: "Compress and reduce image size while maintaining quality",
+    pdfDesc: "Merge, Split, Protect, Extract Text, Sign and more",
 
     // Home Page
     welcomeTitle: "Welcome to",
     welcomeTitleSpan: "Designer's Friend",
     welcomeText: "A free platform providing essential tools to help you accomplish tasks efficiently.",
+
+    // Code Generator
+    codeGenTitle: "UI Code Generator",
+    codeGenSubtitle: "Describe what you want to build and I'll write the HTML/Tailwind code.",
+    codeGenPlaceholder: "Ex: Product card with image and buy button...",
+    codeGenLoading: "Generating...",
+    codeGenBtn: "Generate Code",
+    codeGenError: "Error generating code.",
+    codeGenCopied: "Code copied!",
+    codeGenPreview: "Preview",
+    codeGenHtmlTitle: "HTML Code",
+    codeGenCopy: "Copy",
+
+    // Image Resizer
+    resizeTitle: "Image Resizer",
+    resizeUpload: "Upload Image",
+    resizeUploadSub: "Drag image or click here",
+    resizeSettings: "Resize Settings",
+    resizeWidth: "Width (px)",
+    resizeHeight: "Height (px)",
+    resizeRatio: "Maintain Aspect Ratio",
+    resizeOriginal: "Original Dimensions:",
+    resizeDownload: "Download Image",
+    resizePreview: "Preview",
+
+    // Palette Generator
+    paletteTitle: "Color Palette Generator",
+    paletteSubtitle: "Generate consistent color palettes for your project using AI.",
+    palettePlaceholder: "Describe mood or theme (e.g., Ocean sunset)",
+    paletteLoading: "Generating...",
+    paletteBtn: "Generate Palette",
+    paletteError: "Failed to generate palette.",
+    paletteCopy: "Copy",
+
+    // PDF Tools
+    pdfTitle: "Professional PDF Tools",
+    pdfMerge: "Merge Files",
+    pdfSplit: "Split PDF",
+    pdfCompress: "Compress (Optimize)",
+    pdfToImages: "Extract Text",
+    pdfImages: "Images to PDF",
+    pdfProtect: "Protect PDF",
+    pdfUnlock: "Unlock PDF",
+    pdfRotate: "Rotate Pages",
+    pdfReorder: "Reorder Pages",
+    pdfSign: "Sign PDF",
     
-    // QR Generator
+    pdfUploadPdf: "Upload PDF Files",
+    pdfUploadImages: "Upload Images (JPG/PNG)",
+    pdfNoFiles: "No files selected",
+    pdfFileCount: "file(s)",
+    pdfProcessing: "Processing...",
+    pdfDownload: "Download File",
+    pdfDragDrop: "Drag & Drop files here",
+
+    pdfSplitRange: "Page Range (e.g., 1-5)",
+    pdfSplitAll: "Extract all pages separately",
+    pdfProtectPass: "Password",
+    pdfRotateAngle: "Rotation Angle",
+    pdfReorderDesc: "Enter page order (e.g., 1,3,2)",
+    pdfSignClear: "Clear Signature",
+    pdfSignAdd: "Add Signature to Last Page",
+    pdfExtractTextInfo: "Extract plain text from PDF",
+    pdfExtractBtn: "Extract Text",
+    pdfExtractedTitle: "Extracted Text:",
+    pdfCompressInfo: "Optimize file structure (Basic)",
+    pdfRotate90: "90 Degrees",
+    pdfRotate180: "180 Degrees",
+    pdfRotate270: "270 Degrees",
+
+    // ... (Existing translations)
     qrTitle: "Professional QR Generator",
     qrSubtitle: "Create custom QR codes for links, text, WiFi, and more.",
     qrTabLink: "Link",
@@ -301,7 +389,6 @@ export const translations = {
     qrQualityMax: "Max (4096px)",
     qrFormat: "File Format",
 
-    // Barcode Generator
     bcTitle: "Universal Barcode Generator",
     bcType: "Barcode Type",
     bcContent: "Barcode Value",
@@ -314,7 +401,6 @@ export const translations = {
     bcFormat: "File Format",
     bcError: "Invalid value for this format",
 
-    // Image Compressor
     compTitle: "Smart Image Compressor",
     compUpload: "Click to select or drag images here",
     compUploadSub: "Supports JPG, PNG, WEBP (Max 10 images)",
@@ -329,7 +415,6 @@ export const translations = {
     compClear: "Clear All",
     compAuto: "Auto (JPEG/WebP)",
 
-    // Unit Converter
     unitTitle: "Comprehensive Unit Converter",
     unitCatLength: "Length",
     unitCatWeight: "Weight",
@@ -344,7 +429,6 @@ export const translations = {
     unitCopied: "Result copied",
     unitCopy: "Copy",
 
-    // Nutrition Label
     nutritionTitle: "Nutrition Label Generator",
     nutLabelLang: "Label Language",
     nutExport: "Export PNG",
@@ -371,7 +455,6 @@ export const translations = {
     nutIron: "Iron",
     nutPotassium: "Potassium",
 
-    // Units
     unit_m: "Meter",
     unit_km: "Kilometer",
     unit_cm: "Centimeter",
@@ -380,41 +463,34 @@ export const translations = {
     unit_in: "Inch",
     unit_yd: "Yard",
     unit_mi: "Mile",
-    
     unit_kg: "Kilogram",
     unit_g: "Gram",
     unit_mg: "Milligram",
     unit_lb: "Pound",
     unit_oz: "Ounce",
-    
     unit_c: "Celsius",
     unit_f: "Fahrenheit",
     unit_k: "Kelvin",
-
     unit_sqm: "Square Meter",
     unit_sqkm: "Square Kilometer",
     unit_sqft: "Square Foot",
     unit_acre: "Acre",
     unit_ha: "Hectare",
-
     unit_l: "Liter",
     unit_ml: "Milliliter",
     unit_gal: "Gallon (US)",
     unit_qt: "Quart",
     unit_pt: "Pint",
     unit_cup: "Cup",
-
     unit_kph: "Km/h",
     unit_mph: "Mph",
     unit_mps: "m/s",
     unit_kn: "Knot",
-
     unit_b: "Byte",
     unit_kb: "Kilobyte",
     unit_mb: "Megabyte",
     unit_gb: "Gigabyte",
     unit_tb: "Terabyte",
-
     unit_sec: "Second",
     unit_min: "Minute",
     unit_hr: "Hour",
@@ -422,49 +498,5 @@ export const translations = {
     unit_week: "Week",
     unit_month: "Month",
     unit_year: "Year",
-
-    // Code Generator
-    codeGenTitle: "Smart Code Assistant",
-    codeGenSubtitle: "Generate UI code (HTML/Tailwind) quickly using AI.",
-    codeGenPlaceholder: "Describe the component you want in detail (e.g., product card with image and buy button)...",
-    codeGenLoading: "Generating...",
-    codeGenBtn: "Generate Code",
-    codeGenError: "An error occurred during generation. Please try again.",
-    codeGenCopied: "Code copied to clipboard!",
-    codeGenPreview: "Live Preview",
-    codeGenHtmlTitle: "HTML Code",
-    codeGenCopy: "Copy Code",
-
-    // Image Resizer
-    resizeTitle: "Image Resizer",
-    resizeUpload: "Click to upload or drag image here",
-    resizeUploadSub: "Supports JPG, PNG (Max 5MB)",
-    resizeSettings: "Resize Settings",
-    resizeWidth: "Width (px)",
-    resizeHeight: "Height (px)",
-    resizeRatio: "Maintain Aspect Ratio",
-    resizeOriginal: "Original Size:",
-    resizeDownload: "Download Resized Image",
-    resizePreview: "Image preview will appear here",
-
-    // Palette Generator
-    paletteTitle: "Smart Palette Generator",
-    paletteSubtitle: "Get consistent color palettes for your project based on text description or mood.",
-    palettePlaceholder: "Describe mood or project (e.g., sunset on the beach)...",
-    paletteLoading: "Extracting colors...",
-    paletteBtn: "Generate Palette",
-    paletteError: "Failed to generate palette.",
-    paletteCopy: "Copy",
-
-    // PDF Tools
-    pdfTitle: "PDF Tools",
-    pdfMerge: "Merge Files",
-    pdfImages: "Images to PDF",
-    pdfUploadPdf: "Upload PDF Files",
-    pdfUploadImages: "Upload Images (JPG/PNG)",
-    pdfNoFiles: "No files selected yet",
-    pdfFileCount: "file(s)",
-    pdfProcessing: "Processing...",
-    pdfDownload: "Download File",
   }
 };
