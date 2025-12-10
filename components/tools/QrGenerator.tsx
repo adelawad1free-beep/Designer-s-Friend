@@ -4,6 +4,7 @@ import { useAppContext } from '../../context';
 import { QrIcon, LinkIcon, TextIcon, WifiIcon, EmailIcon, PhoneIcon, SmsIcon, ContactIcon, BackIcon } from '../Icons';
 
 type Tab = 'link' | 'text' | 'wifi' | 'email' | 'phone' | 'sms' | 'contact';
+type Quality = '512' | '1024' | '2048' | '4096';
 
 interface QrGeneratorProps {
   onClose?: () => void;
@@ -18,6 +19,7 @@ export const QrGenerator: React.FC<QrGeneratorProps> = ({ onClose }) => {
   const [bgColor, setBgColor] = useState('#FFFFFF');
   const [fgColor, setFgColor] = useState('#000000');
   const [includeMargin, setIncludeMargin] = useState(true);
+  const [downloadQuality, setDownloadQuality] = useState<Quality>('1024');
 
   // Content State
   const [content, setContent] = useState('https://example.com');
@@ -44,10 +46,8 @@ export const QrGenerator: React.FC<QrGeneratorProps> = ({ onClose }) => {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Generate QR logic
-  useEffect(() => {
+  const getFinalContent = () => {
     let finalContent = '';
-
     switch (activeTab) {
       case 'link':
       case 'text':
@@ -77,20 +77,28 @@ TITLE:${contactTitle}
 END:VCARD`;
         break;
     }
+    return finalContent;
+  };
 
+  // Generate QR logic for Preview
+  useEffect(() => {
+    const finalContent = getFinalContent();
     if (!finalContent) return;
 
     const generate = async () => {
       setLoading(true);
       try {
         if (canvasRef.current) {
+          // Preview generation (always reasonable size for display)
+          // We use a fixed width for the canvas internal resolution, CSS handles display size
           await QRCode.toCanvas(canvasRef.current, finalContent, {
-            width: 800, // High res for download
+            width: 1000, 
             margin: includeMargin ? 2 : 0,
             color: {
               dark: fgColor,
               light: bgColor
-            }
+            },
+            errorCorrectionLevel: 'H'
           });
         }
       } catch (err) {
@@ -112,12 +120,29 @@ END:VCARD`;
     bgColor, fgColor, includeMargin
   ]);
 
-  const handleDownload = () => {
-    if (canvasRef.current) {
+  const handleDownload = async () => {
+    const finalContent = getFinalContent();
+    if (!finalContent) return;
+
+    try {
+      // Create a temporary high-res QR for download
+      const dataUrl = await QRCode.toDataURL(finalContent, {
+        width: parseInt(downloadQuality),
+        margin: includeMargin ? 2 : 0,
+        color: {
+            dark: fgColor,
+            light: bgColor
+        },
+        errorCorrectionLevel: 'H'
+      });
+
       const link = document.createElement('a');
-      link.download = `qrcode-${Date.now()}.png`;
-      link.href = canvasRef.current.toDataURL('image/png');
+      link.download = `qrcode-${Date.now()}-${downloadQuality}px.png`;
+      link.href = dataUrl;
       link.click();
+    } catch (e) {
+      console.error("Download failed", e);
+      alert("Failed to generate high quality image.");
     }
   };
 
@@ -134,10 +159,8 @@ END:VCARD`;
   return (
     <div className="bg-white dark:bg-[#0F172A] rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
       
-      {/* Service Header - Slim & Beautiful */}
+      {/* Service Header */}
       <div className="px-5 py-2 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-between sticky top-0 z-20">
-        
-        {/* Title and Icon Group */}
         <div className="flex items-center gap-2.5">
           <div className="text-blue-600 dark:text-blue-400 p-1.5 bg-blue-100/50 dark:bg-blue-900/20 rounded-lg">
             <QrIcon className="w-5 h-5" />
@@ -147,7 +170,6 @@ END:VCARD`;
           </h2>
         </div>
 
-        {/* Close/Back Button */}
         {onClose && (
           <button 
             onClick={onClose}
@@ -159,7 +181,7 @@ END:VCARD`;
         )}
       </div>
 
-      {/* Tabs Bar - Scrollable Horizontal */}
+      {/* Tabs Bar */}
       <div className="border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-[#020617]">
         <div className="flex overflow-x-auto no-scrollbar py-3 px-4 gap-2 snap-x">
           {tabs.map((tab) => {
@@ -186,23 +208,24 @@ END:VCARD`;
 
       <div className="flex flex-col lg:flex-row min-h-[600px]">
         
-        {/* Preview Section (Left on Desktop) */}
-        <div className="w-full lg:w-5/12 p-8 bg-slate-50 dark:bg-[#0B1120] flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r rtl:lg:border-l rtl:lg:border-r-0 border-slate-200 dark:border-slate-800">
-          <div className="relative group w-full max-w-[320px]">
-            {/* Card Mockup */}
-            <div className="bg-white p-4 rounded-[2.5rem] shadow-2xl ring-1 ring-slate-900/5 dark:ring-slate-700/50 transform transition-transform duration-500">
-              <div className="aspect-square w-full flex items-center justify-center bg-transparent rounded-2xl overflow-hidden relative">
-                 <canvas ref={canvasRef} className="w-full h-full object-contain" />
-                 {loading && (
-                   <div className="absolute inset-0 bg-white/80 flex items-center justify-center backdrop-blur-sm z-10">
-                     <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                   </div>
-                 )}
-              </div>
-            </div>
+        {/* Preview Section - Frame removed, using natural canvas size */}
+        <div className="w-full lg:w-5/12 p-8 bg-slate-100 dark:bg-[#0B1120] flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r rtl:lg:border-l rtl:lg:border-r-0 border-slate-200 dark:border-slate-800">
+          <div className="relative group w-full flex flex-col items-center">
             
-            {/* Visual Flair */}
-            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-500/20 dark:bg-blue-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            {/* Direct Canvas Display - No extra wrapper causing clipping */}
+            <canvas 
+                ref={canvasRef} 
+                className="max-w-full h-auto shadow-2xl rounded-lg"
+                style={{ maxHeight: '400px' }} 
+            />
+            
+            {loading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-black/50 backdrop-blur-sm z-10 rounded-lg">
+                    <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
+            
+            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
           </div>
           <p className="mt-8 text-xs font-mono text-slate-400 opacity-60 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
@@ -210,7 +233,7 @@ END:VCARD`;
           </p>
         </div>
 
-        {/* Controls Section (Right on Desktop) */}
+        {/* Controls Section */}
         <div className="w-full lg:w-7/12 p-6 lg:p-10 space-y-8 overflow-y-auto max-h-[800px]">
           
           <div className="space-y-6">
@@ -345,17 +368,48 @@ END:VCARD`;
             </label>
           </div>
 
-          <button
-            onClick={handleDownload}
-            className="w-full py-4 mt-4 rounded-2xl font-bold text-white bg-blue-600 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30 transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-base"
-          >
-            <span className="text-xl">⬇️</span> {t.qrDownload}
-          </button>
+          <div className="h-px bg-slate-100 dark:bg-slate-800 my-8"></div>
+
+          {/* Download Options */}
+          <div className="space-y-4">
+             <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+              <span>⬇️</span> {t.qrQuality}
+             </h3>
+             
+             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+               {[
+                 { id: '512', label: t.qrQualityLow },
+                 { id: '1024', label: t.qrQualityHigh },
+                 { id: '2048', label: t.qrQualityUltra },
+                 { id: '4096', label: t.qrQualityMax },
+               ].map((opt) => (
+                 <button
+                   key={opt.id}
+                   onClick={() => setDownloadQuality(opt.id as Quality)}
+                   className={`
+                      px-3 py-3 rounded-xl text-xs font-bold border transition-all
+                      ${downloadQuality === opt.id 
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/30' 
+                        : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-blue-400'
+                      }
+                   `}
+                 >
+                   {opt.label}
+                 </button>
+               ))}
+             </div>
+
+             <button
+                onClick={handleDownload}
+                className="w-full py-4 mt-4 rounded-2xl font-bold text-white bg-blue-600 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/30 transition-all active:scale-[0.98] flex items-center justify-center gap-3 text-base"
+             >
+                {t.qrDownload} (PNG)
+             </button>
+          </div>
 
         </div>
       </div>
       
-      {/* Helper styles for inputs injected via jsx styled components logic usually, but here plain classes */}
       <style>{`
         .input-field {
           @apply w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-800 dark:text-white;

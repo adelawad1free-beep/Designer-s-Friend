@@ -96,6 +96,12 @@ export const translations = {
     qrContactPhone: "رقم الجوال",
     qrEmailSubject: "الموضوع",
     qrEmailBody: "محتوى الرسالة",
+    qrQuality: "دقة التحميل",
+    qrQualityLow: "عادية (512px)",
+    qrQualityHigh: "عالية (1024px)",
+    qrQualityUltra: "فائقة (2048px)",
+    qrQualityMax: "قصوى (4096px)",
+    qrFormat: "صيغة الملف",
 
     // Unit Converter
     unitTitle: "محول الوحدات الشامل",
@@ -286,6 +292,12 @@ export const translations = {
     qrContactPhone: "Mobile Number",
     qrEmailSubject: "Subject",
     qrEmailBody: "Body",
+    qrQuality: "Download Quality",
+    qrQualityLow: "Standard (512px)",
+    qrQualityHigh: "High (1024px)",
+    qrQualityUltra: "Ultra (2048px)",
+    qrQualityMax: "Max (4096px)",
+    qrFormat: "File Format",
 
     // Unit Converter
     unitTitle: "Comprehensive Unit Converter",
