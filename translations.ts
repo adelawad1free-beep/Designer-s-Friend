@@ -21,6 +21,7 @@ export const translations = {
     [ToolType.MOCKUP_GENERATOR]: "مولد النماذج (Mockups)",
     [ToolType.SVG_LIBRARY]: "مكتبة الأيقونات (SVG)",
     [ToolType.BUSINESS_CARD]: "صانع بطاقات الأعمال",
+    [ToolType.CALENDAR_CONVERTER]: "التقويم والمحول الهجري",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -36,6 +37,24 @@ export const translations = {
     mockupDesc: "وضع صورك وتصميماتك داخل إطارات هواتف وأجهزة لابتوب احترافية",
     svgDesc: "مكتبة شاملة من أيقونات SVG الجاهزة للنسخ والاستخدام",
     cardDesc: "تصميم بطاقات شخصية وتجارية احترافية في ثوانٍ",
+    calDesc: "تحويل التواريخ بين الهجري والميلادي وعرض التقويم الشهري",
+
+    // Calendar & Converter
+    calTitle: "التقويم والمحول",
+    calTabConverter: "محول التواريخ",
+    calTabCalendar: "التقويم الشهري",
+    calFromGregorian: "من ميلادي إلى هجري",
+    calFromHijri: "من هجري إلى ميلادي",
+    calDateInput: "أدخل التاريخ",
+    calResult: "النتيجة",
+    calToday: "اليوم",
+    calYear: "السنة",
+    calMonth: "الشهر",
+    calDay: "اليوم",
+    calHijriMonths: "محرم,صفر,ربيع الأول,ربيع الآخر,جمادى الأولى,جمادى الآخرة,رجب,شعبان,رمضان,شوال,ذو القعدة,ذو الحجة",
+    calGregorianMonths: "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر",
+    calWeekDays: "الأحد,الاثنين,الثلاثاء,الأربعاء,الخميس,الجمعة,السبت",
+    calExport: "تصدير التقويم",
 
     // SVG Library
     svgTitle: "مكتبة أيقونات SVG",
@@ -391,6 +410,7 @@ export const translations = {
     [ToolType.MOCKUP_GENERATOR]: "Mockup Generator",
     [ToolType.SVG_LIBRARY]: "SVG Library",
     [ToolType.BUSINESS_CARD]: "Business Card Maker",
+    [ToolType.CALENDAR_CONVERTER]: "Hijri Calendar & Converter",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -406,6 +426,24 @@ export const translations = {
     mockupDesc: "Place your designs into professional device frames",
     svgDesc: "A library of common SVG icons ready to copy and use",
     cardDesc: "Design professional personal and business cards in seconds",
+    calDesc: "Convert dates between Hijri and Gregorian and view monthly calendar",
+
+    // Calendar & Converter
+    calTitle: "Calendar & Converter",
+    calTabConverter: "Date Converter",
+    calTabCalendar: "Monthly Calendar",
+    calFromGregorian: "Gregorian to Hijri",
+    calFromHijri: "Hijri to Gregorian",
+    calDateInput: "Enter Date",
+    calResult: "Result",
+    calToday: "Today",
+    calYear: "Year",
+    calMonth: "Month",
+    calDay: "Day",
+    calHijriMonths: "Muharram,Safar,Rabi I,Rabi II,Jumada I,Jumada II,Rajab,Shaaban,Ramadan,Shawwal,Dhu al-Qi'dah,Dhu al-Hijjah",
+    calGregorianMonths: "January,February,March,April,May,June,July,August,September,October,November,December",
+    calWeekDays: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",
+    calExport: "Export Calendar",
 
     // SVG Library
     svgTitle: "SVG Icon Library",

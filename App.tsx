@@ -13,8 +13,9 @@ import { BmrCalculator } from './components/tools/BmrCalculator';
 import { MockupGenerator } from './components/tools/MockupGenerator';
 import { SvgLibrary } from './components/tools/SvgLibrary';
 import { BusinessCardMaker } from './components/tools/BusinessCardMaker';
+import { CalendarConverter } from './components/tools/CalendarConverter';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, MockupIcon, ShapesIcon, IdCardIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, MockupIcon, ShapesIcon, IdCardIcon, DateIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -49,6 +50,8 @@ const MainApp: React.FC = () => {
         return <SvgLibrary onClose={handleClose} />;
       case ToolType.BUSINESS_CARD:
         return <BusinessCardMaker onClose={handleClose} />;
+      case ToolType.CALENDAR_CONVERTER:
+        return <CalendarConverter onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -56,6 +59,15 @@ const MainApp: React.FC = () => {
              {/* Grid of Services */}
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
               {[
+                { 
+                  t: ToolType.CALENDAR_CONVERTER, 
+                  title: t[ToolType.CALENDAR_CONVERTER], 
+                  desc: t.calDesc, 
+                  Icon: DateIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#10B981] to-[#047857]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-emerald-100'
+                },
                 { 
                   t: ToolType.BUSINESS_CARD, 
                   title: t.cardTitle, 

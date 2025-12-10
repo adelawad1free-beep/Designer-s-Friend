@@ -10,6 +10,13 @@ type DeviceType = 'phone' | 'laptop' | 'browser';
 type FitMode = 'cover' | 'contain';
 type BgType = 'transparent' | 'color' | 'gradient';
 
+// UI Components for Controls
+const SectionTitle = ({ children }: { children?: React.ReactNode }) => (
+    <h3 className="text-xs font-bold text-slate-400 uppercase mb-3 tracking-wider flex items-center gap-2">
+        {children}
+    </h3>
+);
+
 export const MockupGenerator: React.FC<MockupGeneratorProps> = ({ onClose }) => {
   const { t } = useAppContext();
   
@@ -468,13 +475,6 @@ export const MockupGenerator: React.FC<MockupGeneratorProps> = ({ onClose }) => 
       link.href = canvas.toDataURL('image/png', 1.0); // Max quality
       link.click();
   };
-
-  // UI Components for Controls
-  const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-      <h3 className="text-xs font-bold text-slate-400 uppercase mb-3 tracking-wider flex items-center gap-2">
-          {children}
-      </h3>
-  );
 
   return (
     <div className="bg-white dark:bg-[#0F172A] rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
