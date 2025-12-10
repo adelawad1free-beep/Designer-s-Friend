@@ -119,3 +119,9 @@ export const PdfIcon = ({ className }: { className?: string }) => (
     <path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v2.5zm2.5 3.5h-2.5V7h2.5c.83 0 1.5.67 1.5 1.5v3.5c0 .83-.67 1.5-1.5 1.5zm4-3.5h-2.5v1h2.5v1.5h-2.5V14h2.5v1.5h-4V7h4v2zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6z"/>
   </svg>
 );
+
+export const BarcodeIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M3 4h2v16H3V4zm4 0h1v16H7V4zm3 0h2v16h-2V4zm4 0h1v16h-1V4zm3 0h2v16h-2V4zm4 0h1v16h-1V4z"/>
+  </svg>
+);

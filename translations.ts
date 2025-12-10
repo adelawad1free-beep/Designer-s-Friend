@@ -12,12 +12,14 @@ export const translations = {
     [ToolType.QR_GENERATOR]: "مولد الباركود (QR)",
     [ToolType.UNIT_CONVERTER]: "محول الوحدات",
     [ToolType.NUTRITION_LABEL]: "منشئ الملصق الغذائي",
+    [ToolType.BARCODE_GENERATOR]: "مولد الباركود الشامل",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
     qrDesc: "إنشاء رموز QR احترافية ومخصصة",
     unitDesc: "تحويل سريع ودقيق لمختلف الوحدات",
     nutritionDesc: "إنشاء ملصقات حقائق تغذوية احترافية (FDA)",
+    barcodeDesc: "دعم لجميع صيغ الباركود العالمية (EAN, UPC, Code128)",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
@@ -63,6 +65,18 @@ export const translations = {
     qrQualityUltra: "فائقة (2048px)",
     qrQualityMax: "قصوى (4096px)",
     qrFormat: "صيغة الملف",
+
+    // Barcode Generator
+    bcTitle: "مولد الباركود الشامل",
+    bcType: "نوع الرمز",
+    bcContent: "قيمة الباركود",
+    bcOptions: "خيارات العرض",
+    bcShowText: "إظهار النص",
+    bcHeight: "الارتفاع",
+    bcScale: "الحجم",
+    bcRotate: "تدوير",
+    bcDownload: "تحميل الصورة",
+    bcError: "قيمة غير صالحة لهذا النوع",
 
     // Unit Converter
     unitTitle: "محول الوحدات الشامل",
@@ -169,12 +183,14 @@ export const translations = {
     [ToolType.QR_GENERATOR]: "QR Generator",
     [ToolType.UNIT_CONVERTER]: "Unit Converter",
     [ToolType.NUTRITION_LABEL]: "Nutrition Label",
+    [ToolType.BARCODE_GENERATOR]: "Barcode Generator",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
     qrDesc: "Create professional custom QR codes",
     unitDesc: "Fast and accurate unit conversion",
     nutritionDesc: "Create professional nutrition fact labels (FDA)",
+    barcodeDesc: "Support for all major barcode formats (EAN, UPC, Code128)",
 
     // Home Page
     welcomeTitle: "Welcome to",
@@ -220,6 +236,18 @@ export const translations = {
     qrQualityUltra: "Ultra (2048px)",
     qrQualityMax: "Max (4096px)",
     qrFormat: "File Format",
+
+    // Barcode Generator
+    bcTitle: "Universal Barcode Generator",
+    bcType: "Barcode Type",
+    bcContent: "Barcode Value",
+    bcOptions: "Display Options",
+    bcShowText: "Show Text",
+    bcHeight: "Height",
+    bcScale: "Scale",
+    bcRotate: "Rotate",
+    bcDownload: "Download Image",
+    bcError: "Invalid value for this format",
 
     // Unit Converter
     unitTitle: "Comprehensive Unit Converter",
