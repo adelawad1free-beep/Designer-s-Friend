@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { generateDesignCode } from '../../services/geminiService';
 import { GeneratedCode } from '../../types';
 import { useAppContext } from '../../context';
-import { CodeIcon } from '../Icons';
+import { CodeIcon, BackIcon } from '../Icons';
 
-export const CodeGenerator: React.FC = () => {
+interface CodeGeneratorProps {
+  onClose?: () => void;
+}
+
+export const CodeGenerator: React.FC<CodeGeneratorProps> = ({ onClose }) => {
   const { t, language } = useAppContext();
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,14 +40,26 @@ export const CodeGenerator: React.FC = () => {
     <div className="space-y-6">
       <div className="bg-white dark:bg-slate-800 rounded-[2rem] shadow-sm border border-slate-200 dark:border-slate-700 transition-colors overflow-hidden">
         
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center gap-3">
-          <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400">
-             <CodeIcon className="w-5 h-5" />
+        {/* Header - Slim & Beautiful */}
+        <div className="px-5 py-2 border-b border-slate-100 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-between sticky top-0 z-20">
+          <div className="flex items-center gap-2.5">
+            <div className="p-1.5 bg-purple-100/50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
+               <CodeIcon className="w-5 h-5" />
+            </div>
+            <h2 className="text-base font-bold text-slate-800 dark:text-slate-100 tracking-wide">
+              {t.codeGenTitle}
+            </h2>
           </div>
-          <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 tracking-wide">
-            {t.codeGenTitle}
-          </h2>
+          
+          {onClose && (
+            <button 
+              onClick={onClose}
+              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 rounded-full transition-all"
+              aria-label="Close"
+            >
+              <BackIcon className="w-5 h-5 rtl:rotate-180" />
+            </button>
+          )}
         </div>
 
         <div className="p-6 md:p-8 space-y-6">

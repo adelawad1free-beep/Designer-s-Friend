@@ -134,15 +134,15 @@ END:VCARD`;
   return (
     <div className="bg-white dark:bg-[#0F172A] rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
       
-      {/* Service Header - Compact & Beautiful */}
-      <div className="px-5 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-between">
+      {/* Service Header - Slim & Beautiful */}
+      <div className="px-5 py-2 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-between sticky top-0 z-20">
         
         {/* Title and Icon Group */}
-        <div className="flex items-center gap-3">
-          <div className="text-blue-600 dark:text-blue-400">
-            <QrIcon className="w-6 h-6 drop-shadow-sm" />
+        <div className="flex items-center gap-2.5">
+          <div className="text-blue-600 dark:text-blue-400 p-1.5 bg-blue-100/50 dark:bg-blue-900/20 rounded-lg">
+            <QrIcon className="w-5 h-5" />
           </div>
-          <h2 className="text-base md:text-lg font-bold text-slate-800 dark:text-slate-100 tracking-wide">
+          <h2 className="text-base font-bold text-slate-800 dark:text-slate-100 tracking-wide">
             {t.qrTitle}
           </h2>
         </div>
@@ -151,7 +151,7 @@ END:VCARD`;
         {onClose && (
           <button 
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 rounded-full transition-all"
+            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 rounded-full transition-all"
             aria-label="Close"
           >
             <BackIcon className="w-5 h-5 rtl:rotate-180" />

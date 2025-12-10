@@ -13,16 +13,18 @@ const MainApp: React.FC = () => {
   const [activeTool, setActiveTool] = useState<ToolType>(ToolType.HOME);
   const { t } = useAppContext();
 
+  const handleClose = () => setActiveTool(ToolType.HOME);
+
   const renderContent = () => {
     switch (activeTool) {
       case ToolType.CODE_GENERATOR:
-        return <CodeGenerator />;
+        return <CodeGenerator onClose={handleClose} />;
       case ToolType.IMAGE_RESIZER:
-        return <ImageResizer />;
+        return <ImageResizer onClose={handleClose} />;
       case ToolType.PALETTE_GENERATOR:
-        return <PaletteGenerator />;
+        return <PaletteGenerator onClose={handleClose} />;
       case ToolType.QR_GENERATOR:
-        return <QrGenerator onClose={() => setActiveTool(ToolType.HOME)} />;
+        return <QrGenerator onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
