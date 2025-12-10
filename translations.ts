@@ -20,6 +20,7 @@ export const translations = {
     [ToolType.BMR_CALCULATOR]: "حاسبة السعرات (BMR)",
     [ToolType.MOCKUP_GENERATOR]: "مولد النماذج (Mockups)",
     [ToolType.SVG_LIBRARY]: "مكتبة الأيقونات (SVG)",
+    [ToolType.BUSINESS_CARD]: "صانع بطاقات الأعمال",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -34,6 +35,7 @@ export const translations = {
     bmrDesc: "حساب معدل الأيض الأساسي والسعرات الحرارية اليومية بدقة",
     mockupDesc: "وضع صورك وتصميماتك داخل إطارات هواتف وأجهزة لابتوب احترافية",
     svgDesc: "مكتبة شاملة من أيقونات SVG الجاهزة للنسخ والاستخدام",
+    cardDesc: "تصميم بطاقات شخصية وتجارية احترافية في ثوانٍ",
 
     // SVG Library
     svgTitle: "مكتبة أيقونات SVG",
@@ -45,6 +47,37 @@ export const translations = {
     svgDownloaded: "تم التحميل!",
     svgNoResults: "لم يتم العثور على أيقونات",
     svgIconsCount: "أيقونة",
+
+    // Business Card
+    cardTitle: "صانع بطاقات الأعمال",
+    cardName: "الاسم الكامل",
+    cardJob: "المسمى الوظيفي",
+    cardCompany: "اسم الشركة / المؤسسة",
+    cardPhone: "رقم الهاتف",
+    cardEmail: "البريد الإلكتروني",
+    cardWebsite: "الموقع الإلكتروني",
+    cardAddress: "العنوان",
+    cardColor: "لون الهوية",
+    cardLayout: "نوع التصميم",
+    cardModern: "عصري",
+    cardMinimal: "بسيط",
+    cardBold: "جريء",
+    cardElegant: "أنيق",
+    cardCreative: "إبداعي",
+    cardDownload: "تحميل (PNG)",
+    cardDownloadPdf: "تحميل (PDF)",
+    cardPreview: "معاينة البطاقة",
+    cardRemoveBg: "تفريغ الخلفية البيضاء للشعار",
+    
+    // Text Positioning
+    cardPosTitle: "تحريك النصوص",
+    cardPosLabel: "اختر العنصر للتحريك",
+    cardPosName: "الاسم",
+    cardPosJob: "المسمى الوظيفي",
+    cardPosCompany: "الشركة",
+    cardPosContact: "معلومات الاتصال",
+    cardPosX: "أفقي (X)",
+    cardPosY: "عمودي (Y)",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
@@ -357,6 +390,7 @@ export const translations = {
     [ToolType.BMR_CALCULATOR]: "BMR Calculator",
     [ToolType.MOCKUP_GENERATOR]: "Mockup Generator",
     [ToolType.SVG_LIBRARY]: "SVG Library",
+    [ToolType.BUSINESS_CARD]: "Business Card Maker",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -371,6 +405,7 @@ export const translations = {
     bmrDesc: "Accurately calculate your Basal Metabolic Rate and daily calorie needs",
     mockupDesc: "Place your designs into professional device frames",
     svgDesc: "A library of common SVG icons ready to copy and use",
+    cardDesc: "Design professional personal and business cards in seconds",
 
     // SVG Library
     svgTitle: "SVG Icon Library",
@@ -382,6 +417,37 @@ export const translations = {
     svgDownloaded: "Downloaded!",
     svgNoResults: "No icons found",
     svgIconsCount: "Icons",
+
+    // Business Card
+    cardTitle: "Business Card Maker",
+    cardName: "Full Name",
+    cardJob: "Job Title",
+    cardCompany: "Company Name",
+    cardPhone: "Phone Number",
+    cardEmail: "Email",
+    cardWebsite: "Website",
+    cardAddress: "Address",
+    cardColor: "Brand Color",
+    cardLayout: "Layout Style",
+    cardModern: "Modern",
+    cardMinimal: "Minimal",
+    cardBold: "Bold",
+    cardElegant: "Elegant",
+    cardCreative: "Creative",
+    cardDownload: "Download (PNG)",
+    cardDownloadPdf: "Download (PDF)",
+    cardPreview: "Card Preview",
+    cardRemoveBg: "Remove White Background from Logo",
+    
+    // Text Positioning
+    cardPosTitle: "Text Positioning",
+    cardPosLabel: "Select Element to Move",
+    cardPosName: "Name",
+    cardPosJob: "Job Title",
+    cardPosCompany: "Company",
+    cardPosContact: "Contact Info",
+    cardPosX: "Horizontal (X)",
+    cardPosY: "Vertical (Y)",
 
     // Home Page
     welcomeTitle: "Welcome to",

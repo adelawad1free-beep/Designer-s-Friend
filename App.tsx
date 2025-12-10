@@ -12,8 +12,9 @@ import { PantoneMatch } from './components/tools/PantoneMatch';
 import { BmrCalculator } from './components/tools/BmrCalculator';
 import { MockupGenerator } from './components/tools/MockupGenerator';
 import { SvgLibrary } from './components/tools/SvgLibrary';
+import { BusinessCardMaker } from './components/tools/BusinessCardMaker';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, MockupIcon, ShapesIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, MockupIcon, ShapesIcon, IdCardIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -46,6 +47,8 @@ const MainApp: React.FC = () => {
         return <MockupGenerator onClose={handleClose} />;
       case ToolType.SVG_LIBRARY:
         return <SvgLibrary onClose={handleClose} />;
+      case ToolType.BUSINESS_CARD:
+        return <BusinessCardMaker onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -53,6 +56,15 @@ const MainApp: React.FC = () => {
              {/* Grid of Services */}
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
               {[
+                { 
+                  t: ToolType.BUSINESS_CARD, 
+                  title: t.cardTitle, 
+                  desc: t.cardDesc, 
+                  Icon: IdCardIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#2563EB] to-[#1E40AF]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-blue-100'
+                },
                 { 
                   t: ToolType.SVG_LIBRARY, 
                   title: t[ToolType.SVG_LIBRARY], 

@@ -192,3 +192,9 @@ export const ShapesIcon = ({ className }: { className?: string }) => (
     <path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18-.21 0-.41-.06-.57-.18l-7.9-4.44A.991.991 0 0 1 3 16.5c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18.21 0 .41.06.57.18l7.9 4.44c.32.17.53.5.53.88zM4.15 7.56L12 12l7.85-4.44-7.85-4.44L4.15 7.56z"/>
   </svg>
 );
+
+export const IdCardIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-9H4V6h16v3zM6 10h2v2H6zm0 4h8v2H6z"/>
+  </svg>
+);
