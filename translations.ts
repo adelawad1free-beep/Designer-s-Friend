@@ -15,6 +15,7 @@ export const translations = {
     [ToolType.BARCODE_GENERATOR]: "مولد الباركود الشامل",
     [ToolType.IMAGE_COMPRESSOR]: "ضاغط الصور الذكي",
     [ToolType.PDF_TOOLS]: "أدوات PDF الشاملة",
+    [ToolType.VAT_CALCULATOR]: "حاسبة ضريبة القيمة المضافة",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -24,11 +25,24 @@ export const translations = {
     barcodeDesc: "دعم لجميع صيغ الباركود العالمية (EAN, UPC, Code128)",
     compressDesc: "ضغط وتقليل حجم الصور مع الحفاظ على الجودة",
     pdfDesc: "دمج، تقسيم، حماية، استخراج نصوص، وتوقيع ملفات PDF",
+    vatDesc: "حساب ضريبة القيمة المضافة بسهولة (شامل أو غير شامل)",
 
     // Home Page
     welcomeTitle: "مرحباً بك في",
     welcomeTitleSpan: "صديق المصمم",
     welcomeText: "منصة مجانية توفر أدوات أساسية لمساعدتك في إنجاز المهام بسرعة وكفاءة عالية.",
+    
+    // VAT Calculator
+    vatTitle: "حاسبة الضريبة",
+    vatAmountInput: "المبلغ",
+    vatRateInput: "نسبة الضريبة (%)",
+    vatMode: "طريقة الحساب",
+    vatModeExcl: "المبلغ غير شامل الضريبة (إضافة)",
+    vatModeIncl: "المبلغ شامل الضريبة (استخراج)",
+    vatResultNet: "المبلغ الأساسي",
+    vatResultTax: "مبلغ الضريبة",
+    vatResultTotal: "الإجمالي",
+    vatReset: "تصفير",
     
     // Code Generator
     codeGenTitle: "مولد أكواد الواجهات",
@@ -265,6 +279,7 @@ export const translations = {
     [ToolType.BARCODE_GENERATOR]: "Barcode Generator",
     [ToolType.IMAGE_COMPRESSOR]: "Smart Image Compressor",
     [ToolType.PDF_TOOLS]: "PDF Tools",
+    [ToolType.VAT_CALCULATOR]: "VAT Calculator",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -274,11 +289,24 @@ export const translations = {
     barcodeDesc: "Support for all major barcode formats (EAN, UPC, Code128)",
     compressDesc: "Compress and reduce image size while maintaining quality",
     pdfDesc: "Merge, Split, Protect, Extract Text, Sign and more",
+    vatDesc: "Easily calculate VAT (Inclusive or Exclusive)",
 
     // Home Page
     welcomeTitle: "Welcome to",
     welcomeTitleSpan: "Designer's Friend",
     welcomeText: "A free platform providing essential tools to help you accomplish tasks efficiently.",
+
+    // VAT Calculator
+    vatTitle: "VAT Calculator",
+    vatAmountInput: "Amount",
+    vatRateInput: "VAT Rate (%)",
+    vatMode: "Calculation Mode",
+    vatModeExcl: "Exclusive of VAT (Add Tax)",
+    vatModeIncl: "Inclusive of VAT (Extract Tax)",
+    vatResultNet: "Net Amount",
+    vatResultTax: "Tax Amount",
+    vatResultTotal: "Total Amount",
+    vatReset: "Reset",
 
     // Code Generator
     codeGenTitle: "UI Code Generator",

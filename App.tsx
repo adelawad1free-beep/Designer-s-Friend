@@ -7,8 +7,9 @@ import { NutritionLabelGenerator } from './components/tools/NutritionLabelGenera
 import { BarcodeGenerator } from './components/tools/BarcodeGenerator';
 import { ImageCompressor } from './components/tools/ImageCompressor';
 import { PdfTools } from './components/tools/PdfTools';
+import { VatCalculator } from './components/tools/VatCalculator';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -31,6 +32,8 @@ const MainApp: React.FC = () => {
         return <ImageCompressor onClose={handleClose} />;
       case ToolType.PDF_TOOLS:
         return <PdfTools onClose={handleClose} />;
+      case ToolType.VAT_CALCULATOR:
+        return <VatCalculator onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -57,6 +60,15 @@ const MainApp: React.FC = () => {
                   descColor: 'text-red-100'
                 },
                 { 
+                  t: ToolType.VAT_CALCULATOR, 
+                  title: t[ToolType.VAT_CALCULATOR], 
+                  desc: t.vatDesc, 
+                  Icon: CalculatorIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#10B981] to-[#059669]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-emerald-100'
+                },
+                { 
                   t: ToolType.IMAGE_COMPRESSOR, 
                   title: t[ToolType.IMAGE_COMPRESSOR], 
                   desc: t.compressDesc, 
@@ -79,9 +91,9 @@ const MainApp: React.FC = () => {
                   title: t[ToolType.UNIT_CONVERTER], 
                   desc: t.unitDesc, 
                   Icon: UnitIcon, 
-                  bgClass: 'bg-gradient-to-br from-[#10B981] to-[#0F766E]',
+                  bgClass: 'bg-gradient-to-br from-[#0D9488] to-[#0F766E]',
                   iconContainer: 'bg-white/20 text-white backdrop-blur-md',
-                  descColor: 'text-emerald-100'
+                  descColor: 'text-teal-100'
                 },
                 { 
                   t: ToolType.NUTRITION_LABEL, 
