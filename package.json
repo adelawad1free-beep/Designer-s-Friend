@@ -13,7 +13,7 @@
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "qrcode": "latest",
-    "pdf-lib": "latest"
+    "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

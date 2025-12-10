@@ -4,12 +4,11 @@ import { Layout } from './components/Layout';
 import { QrGenerator } from './components/tools/QrGenerator';
 import { UnitConverter } from './components/tools/UnitConverter';
 import { NutritionLabelGenerator } from './components/tools/NutritionLabelGenerator';
-import { PdfTools } from './components/tools/PdfTools';
 import { CodeGenerator } from './components/tools/CodeGenerator';
 import { ImageResizer } from './components/tools/ImageResizer';
 import { PaletteGenerator } from './components/tools/PaletteGenerator';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, PdfIcon, CodeIcon, ImageIcon, PaletteIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, CodeIcon, ImageIcon, PaletteIcon } from './components/Icons';
 
 // Component separated to use context
 const MainApp: React.FC = () => {
@@ -26,8 +25,6 @@ const MainApp: React.FC = () => {
         return <UnitConverter onClose={handleClose} />;
       case ToolType.NUTRITION_LABEL:
         return <NutritionLabelGenerator onClose={handleClose} />;
-      case ToolType.PDF_TOOLS:
-        return <PdfTools onClose={handleClose} />;
       case ToolType.CODE_GENERATOR:
         return <CodeGenerator onClose={handleClose} />;
       case ToolType.IMAGE_RESIZER:
@@ -94,15 +91,6 @@ const MainApp: React.FC = () => {
                   gradient: 'bg-gradient-to-br from-orange-500 to-red-600',
                   shadow: 'shadow-orange-500/30',
                   border: 'hover:border-orange-200 dark:hover:border-orange-800'
-                },
-                { 
-                  t: ToolType.PDF_TOOLS, 
-                  title: t[ToolType.PDF_TOOLS], 
-                  desc: t.pdfDesc, 
-                  Icon: PdfIcon, 
-                  gradient: 'bg-gradient-to-br from-red-500 to-rose-600',
-                  shadow: 'shadow-red-500/30',
-                  border: 'hover:border-red-200 dark:hover:border-red-800'
                 },
               ].map((item) => (
                 <button
