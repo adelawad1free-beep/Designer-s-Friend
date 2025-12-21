@@ -17,12 +17,13 @@ import { GridGenerator } from './components/tools/GridGenerator';
 import { SocialSizes } from './components/tools/SocialSizes';
 import { PrintSizes } from './components/tools/PrintSizes';
 import { PatternGenerator } from './components/tools/PatternGenerator';
+import { DielineGenerator } from './components/tools/DielineGenerator';
 import { ToolType } from './types';
 import { 
   QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, 
   CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, 
   FireIcon, ShapesIcon, DateIcon, GridIcon, 
-  SocialIcon, PrintIcon, PatternIcon 
+  SocialIcon, PrintIcon, PatternIcon, DielineIcon 
 } from './components/Icons';
 
 // المكون الداخلي الذي يستهلك السياق (Context)
@@ -64,6 +65,8 @@ const DesignerAppContent: React.FC = () => {
         return <PrintSizes onClose={handleClose} />;
       case ToolType.PATTERN_GENERATOR:
         return <PatternGenerator onClose={handleClose} />;
+      case ToolType.DIELINE_GENERATOR:
+        return <DielineGenerator onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -79,6 +82,15 @@ const DesignerAppContent: React.FC = () => {
 
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
               {[
+                { 
+                  t: ToolType.DIELINE_GENERATOR, 
+                  title: t[ToolType.DIELINE_GENERATOR], 
+                  desc: t.dieDesc, 
+                  Icon: DielineIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#3B82F6] to-[#2563EB]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-blue-100'
+                },
                 { 
                   t: ToolType.PATTERN_GENERATOR, 
                   title: t[ToolType.PATTERN_GENERATOR], 
@@ -251,7 +263,6 @@ const DesignerAppContent: React.FC = () => {
   );
 };
 
-// المكون الرئيسي الذي يوفر السياق (Context)
 const App: React.FC = () => {
   return (
     <AppProvider>
