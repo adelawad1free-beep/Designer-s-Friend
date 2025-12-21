@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { AppProvider, useAppContext } from './context';
 import { Layout } from './components/Layout';
@@ -15,10 +16,17 @@ import { CalendarConverter } from './components/tools/CalendarConverter';
 import { GridGenerator } from './components/tools/GridGenerator';
 import { SocialSizes } from './components/tools/SocialSizes';
 import { PrintSizes } from './components/tools/PrintSizes';
+import { PatternGenerator } from './components/tools/PatternGenerator';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, ShapesIcon, DateIcon, GridIcon, SocialIcon, PrintIcon } from './components/Icons';
+import { 
+  QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, 
+  CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, 
+  FireIcon, ShapesIcon, DateIcon, GridIcon, 
+  SocialIcon, PrintIcon, PatternIcon 
+} from './components/Icons';
 
-const MainApp: React.FC = () => {
+// المكون الداخلي الذي يستهلك السياق (Context)
+const DesignerAppContent: React.FC = () => {
   const [activeTool, setActiveTool] = useState<ToolType>(ToolType.HOME);
   const { t } = useAppContext();
 
@@ -54,11 +62,12 @@ const MainApp: React.FC = () => {
         return <SocialSizes onClose={handleClose} />;
       case ToolType.PRINT_SIZES:
         return <PrintSizes onClose={handleClose} />;
+      case ToolType.PATTERN_GENERATOR:
+        return <PatternGenerator onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
           <div className="animate-fade-in flex flex-col items-center">
-             {/* Simple Section Header for Home */}
              <div className="w-full max-w-6xl mb-12 text-right">
                 <h2 className="text-4xl font-black text-slate-800 dark:text-white mb-4">
                   {t.welcomeTitle} <span className="text-blue-600">{t.welcomeTitleSpan}</span>
@@ -68,9 +77,17 @@ const MainApp: React.FC = () => {
                 </p>
              </div>
 
-             {/* Grid of Services */}
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
               {[
+                { 
+                  t: ToolType.PATTERN_GENERATOR, 
+                  title: t[ToolType.PATTERN_GENERATOR], 
+                  desc: t.patternDesc, 
+                  Icon: PatternIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#6366F1] to-[#4338CA]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-indigo-100'
+                },
                 { 
                   t: ToolType.PRINT_SIZES, 
                   title: t[ToolType.PRINT_SIZES], 
@@ -234,10 +251,11 @@ const MainApp: React.FC = () => {
   );
 };
 
+// المكون الرئيسي الذي يوفر السياق (Context)
 const App: React.FC = () => {
   return (
     <AppProvider>
-      <MainApp />
+      <DesignerAppContent />
     </AppProvider>
   );
 };
