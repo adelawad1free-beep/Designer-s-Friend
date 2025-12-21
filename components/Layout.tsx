@@ -1,7 +1,7 @@
 import React from 'react';
 import { ToolType } from '../types';
 import { useAppContext } from '../context';
-import { BackIcon, LangIcon, MoonIcon, SunIcon, LogoIcon, QrIcon, PdfIcon, ShapesIcon, DateIcon, GridIcon, SocialIcon } from './Icons';
+import { BackIcon, LangIcon, MoonIcon, SunIcon, LogoIcon, QrIcon, PdfIcon, ShapesIcon, DateIcon, GridIcon, SocialIcon, PrintIcon } from './Icons';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -62,12 +62,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
 
           {/* List of shortcut icons for the sidebar */}
           {[
+            { id: ToolType.PRINT_SIZES, icon: PrintIcon },
             { id: ToolType.SOCIAL_SIZES, icon: SocialIcon },
             { id: ToolType.GRID_GENERATOR, icon: GridIcon },
             { id: ToolType.SVG_LIBRARY, icon: ShapesIcon },
             { id: ToolType.QR_GENERATOR, icon: QrIcon },
             { id: ToolType.PDF_TOOLS, icon: PdfIcon },
-            { id: ToolType.CALENDAR_CONVERTER, icon: DateIcon },
           ].map((item) => (
             <button
               key={item.id}

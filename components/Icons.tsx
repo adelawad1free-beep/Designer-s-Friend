@@ -6,6 +6,15 @@ interface IconProps {
   className?: string;
 }
 
+// Print: Printer style
+export const PrintIcon = ({ className }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <polyline points="6 9 6 2 18 2 18 9" />
+    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+    <rect x="6" y="14" width="12" height="8" />
+  </svg>
+);
+
 // Social: Network/Share style
 export const SocialIcon = ({ className }: IconProps) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -58,10 +67,10 @@ export const SunIcon = ({ className }: IconProps) => (
   </svg>
 );
 
-// Logo: Sparkles/Star
+// Logo: Reverted to the first Layout style based on user preference
 export const LogoIcon = ({ className }: IconProps) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    <path d="M21 3H3C1.89 3 1 3.89 1 5V19C1 20.11 1.89 21 3 21H21C22.11 21 23 20.11 23 19V5C23 3.89 22.11 3 21 3ZM9 19H3V5H9V19ZM21 19H11V13H21V19ZM21 11H11V5H21V11Z" />
   </svg>
 );
 

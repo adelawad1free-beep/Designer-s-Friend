@@ -14,8 +14,9 @@ import { SvgLibrary } from './components/tools/SvgLibrary';
 import { CalendarConverter } from './components/tools/CalendarConverter';
 import { GridGenerator } from './components/tools/GridGenerator';
 import { SocialSizes } from './components/tools/SocialSizes';
+import { PrintSizes } from './components/tools/PrintSizes';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, ShapesIcon, DateIcon, GridIcon, SocialIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, ShapesIcon, DateIcon, GridIcon, SocialIcon, PrintIcon } from './components/Icons';
 
 const MainApp: React.FC = () => {
   const [activeTool, setActiveTool] = useState<ToolType>(ToolType.HOME);
@@ -51,6 +52,8 @@ const MainApp: React.FC = () => {
         return <GridGenerator onClose={handleClose} />;
       case ToolType.SOCIAL_SIZES:
         return <SocialSizes onClose={handleClose} />;
+      case ToolType.PRINT_SIZES:
+        return <PrintSizes onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -68,6 +71,15 @@ const MainApp: React.FC = () => {
              {/* Grid of Services */}
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
               {[
+                { 
+                  t: ToolType.PRINT_SIZES, 
+                  title: t[ToolType.PRINT_SIZES], 
+                  desc: t.printDesc, 
+                  Icon: PrintIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#10B981] to-[#047857]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-emerald-100'
+                },
                 { 
                   t: ToolType.SOCIAL_SIZES, 
                   title: t[ToolType.SOCIAL_SIZES], 

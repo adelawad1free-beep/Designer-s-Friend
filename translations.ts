@@ -22,6 +22,7 @@ export const translations = {
     [ToolType.CALENDAR_CONVERTER]: "التقويم والمحول الهجري",
     [ToolType.GRID_GENERATOR]: "مولد الشبكات (Grid)",
     [ToolType.SOCIAL_SIZES]: "مقاسات السوشيال ميديا",
+    [ToolType.PRINT_SIZES]: "مقاسات الطباعة العالمية",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -38,7 +39,20 @@ export const translations = {
     calDesc: "تحويل التواريخ بين الهجري والميلادي وعرض التقويم الشهري",
     gridDesc: "إنشاء شبكات تصميم (Columns / Rows) للويب والطباعة",
     socialDesc: "دليل قياسات الصور والفيديو المحدث لكل المنصات",
+    printDesc: "الدليل الشامل لمقاسات الورق والأظرف والكروت المطبعية",
 
+    // Print Sizes
+    printTitle: "دليل مقاسات الطباعة العالمية",
+    printUnitMm: "مليمتر",
+    printUnitCm: "سنتيمتر",
+    printUnitIn: "بوصة",
+    printSearch: "ابحث عن مقاس (A4, DL, كارت)...",
+    printCatPaper: "مقاسات الورق (ISO)",
+    printCatEnvelopes: "الأظرف والمراسلات",
+    printCatBusiness: "كروت الأعمال",
+    printCatPosters: "البوسترات واللوحات",
+    printCopySize: "نسخ المقاس",
+    
     // Pantone Match
     pmsTitle: "مطابقة ألوان بانتون العالمية",
     pmsInputLabel: "اختر اللون أو لقط من الشاشة",
@@ -355,6 +369,7 @@ export const translations = {
     [ToolType.CALENDAR_CONVERTER]: "Hijri Calendar & Converter",
     [ToolType.GRID_GENERATOR]: "Grid Generator",
     [ToolType.SOCIAL_SIZES]: "Social Media Sizes",
+    [ToolType.PRINT_SIZES]: "Print Dimensions Guide",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -371,6 +386,19 @@ export const translations = {
     calDesc: "Convert dates between Hijri and Gregorian and view monthly calendar",
     gridDesc: "Generate design grids (Columns / Rows) for web and print",
     socialDesc: "Updated image and video size guide for all platforms",
+    printDesc: "Comprehensive guide for Paper, Envelopes, and Business Cards",
+
+    // Print Sizes
+    printTitle: "Global Print Dimensions Guide",
+    printUnitMm: "mm",
+    printUnitCm: "cm",
+    printUnitIn: "inch",
+    printSearch: "Search sizes (A4, DL, Card)...",
+    printCatPaper: "Standard Paper (ISO)",
+    printCatEnvelopes: "Envelopes & Mail",
+    printCatBusiness: "Business Cards",
+    printCatPosters: "Posters & Signage",
+    printCopySize: "Copy Size",
 
     // Pantone Match
     pmsTitle: "Global Pantone Color Matcher",
