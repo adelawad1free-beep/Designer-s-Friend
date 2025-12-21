@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useAppContext } from '../../context';
 import { GridIcon, BackIcon, ImageIcon } from '../Icons';
 
@@ -11,6 +11,13 @@ interface GridTemplate {
   name: string;
   cells: number;
   areas: string;
+}
+
+interface ImageData {
+  src: string;
+  x: number;
+  y: number;
+  zoom: number;
 }
 
 const templates: GridTemplate[] = [
@@ -32,13 +39,26 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
   const [cellColor, setCellColor] = useState('#3b82f6');
   const [cellOpacity, setCellOpacity] = useState(0.15);
   const [mode, setMode] = useState<'template' | 'custom'>('template');
-  const [images, setImages] = useState<Record<number, string>>({});
+  
+  // Advanced Image State
+  const [images, setImages] = useState<Record<number, ImageData>>({});
+  const [draggingCell, setDraggingCell] = useState<number | null>(null);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [targetCell, setTargetCell] = useState<number | null>(null);
-
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const handleCellClick = (index: number) => {
+  const handleCellClick = (index: number, e: React.MouseEvent) => {
+    // If clicking an existing image, we don't necessarily want to re-upload
+    // unless it's a double click or specific button. For now, let's use a "Change" logic.
+    if (!images[index]) {
+        setTargetCell(index);
+        fileInputRef.current?.click();
+    }
+  };
+
+  const triggerFileUpload = (index: number) => {
     setTargetCell(index);
     fileInputRef.current?.click();
   };
@@ -47,10 +67,39 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
     if (e.target.files && e.target.files[0] && targetCell !== null) {
       const reader = new FileReader();
       reader.onload = (ev) => {
-        setImages(prev => ({ ...prev, [targetCell]: ev.target?.result as string }));
+        setImages(prev => ({ 
+          ...prev, 
+          [targetCell]: { src: ev.target?.result as string, x: 0, y: 0, zoom: 1 } 
+        }));
       };
       reader.readAsDataURL(e.target.files[0]);
     }
+  };
+
+  // Dragging Logic
+  const handleMouseDown = (index: number, e: React.MouseEvent) => {
+    if (!images[index]) return;
+    setDraggingCell(index);
+    setDragStart({ x: e.clientX - images[index].x, y: e.clientY - images[index].y });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (draggingCell === null) return;
+    const newX = e.clientX - dragStart.x;
+    const newY = e.clientY - dragStart.y;
+    setImages(prev => ({
+        ...prev,
+        [draggingCell]: { ...prev[draggingCell], x: newX, y: newY }
+    }));
+  };
+
+  const handleMouseUp = () => setDraggingCell(null);
+
+  const updateZoom = (index: number, zoom: number) => {
+      setImages(prev => ({
+          ...prev,
+          [index]: { ...prev[index], zoom }
+      }));
   };
 
   const clearImages = () => setImages({});
@@ -59,19 +108,16 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
     if (!gridRef.current) return;
     
     const canvas = document.createElement('canvas');
-    const scale = 2; // Increase for higher resolution
+    const scale = 2; 
     const rect = gridRef.current.getBoundingClientRect();
     canvas.width = rect.width * scale;
     canvas.height = rect.height * scale;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Fill Background
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Render Grid Cells manually on Canvas for high fidelity
-    const gridStyle = window.getComputedStyle(gridRef.current);
     const children = Array.from(gridRef.current.children) as HTMLElement[];
 
     for (let i = 0; i < children.length; i++) {
@@ -83,7 +129,6 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
         const h = cRect.height * scale;
         const r = radius * scale;
 
-        // Path for rounded rect
         ctx.beginPath();
         ctx.moveTo(x + r, y);
         ctx.arcTo(x + w, y, x + w, y + h, r);
@@ -92,14 +137,12 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
         ctx.arcTo(x, y, x + w, y, r);
         ctx.closePath();
 
-        // Draw Image if exists
-        const imgPath = images[i];
-        if (imgPath) {
+        const imgData = images[i];
+        if (imgData) {
             ctx.save();
             ctx.clip();
             const img = new Image();
-            img.src = imgPath;
-            // Wait for image load logic simplified here as they are already dataURLs
+            img.src = imgData.src;
             await new Promise(res => {
                 if (img.complete) res(null);
                 else img.onload = () => res(null);
@@ -109,17 +152,19 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
             const cellRatio = w / h;
             let drawW, drawH, drawX, drawY;
 
+            // Base cover logic
             if (imgRatio > cellRatio) {
-                drawH = h;
-                drawW = h * imgRatio;
-                drawX = x + (w - drawW) / 2;
-                drawY = y;
+                drawH = h * imgData.zoom;
+                drawW = drawH * imgRatio;
             } else {
-                drawW = w;
-                drawH = w / imgRatio;
-                drawX = x;
-                drawY = y + (h - drawH) / 2;
+                drawW = w * imgData.zoom;
+                drawH = drawW / imgRatio;
             }
+            
+            // Center + User Offset
+            drawX = x + (w - drawW) / 2 + (imgData.x * scale);
+            drawY = y + (h - drawH) / 2 + (imgData.y * scale);
+
             ctx.drawImage(img, drawX, drawY, drawW, drawH);
             ctx.restore();
         } else {
@@ -129,7 +174,7 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
     }
 
     const link = document.createElement('a');
-    link.download = `design-grid-${Date.now()}.png`;
+    link.download = `pro-moodboard-${Date.now()}.png`;
     link.href = canvas.toDataURL('image/png', 1.0);
     link.click();
   };
@@ -137,7 +182,12 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
   const cellCount = mode === 'template' ? activeTemplate.cells : cols * rows;
 
   return (
-    <div className="bg-white dark:bg-[#0F172A] rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors flex flex-col lg:flex-row min-h-[700px]">
+    <div 
+        className="bg-white dark:bg-[#0F172A] rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors flex flex-col lg:flex-row min-h-[700px]"
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+    >
       
       {/* Settings Sidebar */}
       <div className="w-full lg:w-96 bg-slate-50 dark:bg-slate-900 border-b lg:border-b-0 lg:border-r rtl:lg:border-l rtl:lg:border-r-0 border-slate-200 dark:border-slate-800 overflow-y-auto p-6 space-y-8 flex-shrink-0 custom-scrollbar">
@@ -150,7 +200,6 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
             {onClose && <button onClick={onClose} className="lg:hidden text-slate-400 p-2"><BackIcon className="w-5 h-5 rtl:rotate-180" /></button>}
           </div>
 
-          {/* Mode Selector */}
           <div className="bg-white dark:bg-slate-800 p-1.5 rounded-2xl flex border border-slate-200 dark:border-slate-700 shadow-sm">
             <button 
                 onClick={() => setMode('template')} 
@@ -214,11 +263,17 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
                 className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black shadow-xl shadow-blue-500/30 transition-all active:scale-95 flex flex-col items-center gap-1"
               >
                   <span className="text-sm">{t.gridDownloadHighRes}</span>
-                  <span className="text-[9px] opacity-70 uppercase tracking-tighter">PNG - 2x Scale</span>
+                  <span className="text-[9px] opacity-70 uppercase tracking-tighter">PNG - Studio Quality</span>
               </button>
               <button onClick={clearImages} className="w-full py-3 bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black transition-all hover:bg-red-500 hover:text-white">
                   {t.gridClearImages}
               </button>
+          </div>
+          
+          <div className="p-4 bg-blue-50 dark:bg-blue-900/10 rounded-2xl border border-blue-100 dark:border-blue-900/20">
+             <p className="text-[10px] font-bold text-blue-700 dark:text-blue-400 text-center leading-relaxed">
+                💡 {language === 'ar' ? 'يمكنك سحب الصورة داخل الخلية لضبط تموضعها، واستخدام شريط التكبير للمزيد من الدقة.' : 'Drag image inside cell to reposition, and use zoom slider for precision.'}
+             </p>
           </div>
       </div>
 
@@ -232,7 +287,6 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
               </div>
               <div className="flex gap-2">
                   <span className="px-3 py-1.5 bg-white dark:bg-slate-800 rounded-full text-[10px] font-black shadow-sm border border-slate-200 dark:border-slate-800 text-slate-500">{cellCount} Cells</span>
-                  <span className="px-3 py-1.5 bg-white dark:bg-slate-800 rounded-full text-[10px] font-black shadow-sm border border-slate-200 dark:border-slate-800 text-slate-500">{gutter}px Gap</span>
               </div>
           </div>
 
@@ -240,7 +294,7 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
           <div className="flex-1 flex items-center justify-center p-4">
              <div 
                 ref={gridRef}
-                className="w-full h-full max-h-[80vh] transition-all duration-500 ease-out"
+                className="w-full h-full max-h-[80vh] transition-all duration-500 ease-out select-none"
                 style={{
                     display: 'grid',
                     gap: `${gutter}px`,
@@ -252,33 +306,68 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
                 {Array.from({ length: cellCount }).map((_, i) => (
                     <div 
                         key={i}
-                        onClick={() => handleCellClick(i)}
-                        className="relative cursor-pointer group overflow-hidden shadow-sm hover:shadow-xl transition-all"
+                        className="relative group overflow-hidden shadow-sm hover:shadow-xl transition-shadow bg-slate-200 dark:bg-slate-800"
                         style={{ 
                             gridArea: mode === 'template' ? 'abcdefghij'[i] : 'auto',
-                            backgroundColor: images[i] ? 'transparent' : cellColor,
-                            opacity: images[i] ? 1 : 1, // Using real opacity here for solid feel
                             borderRadius: `${radius}px`,
                         }}
                     >
-                        {/* Overlay if no image */}
-                        {!images[i] && (
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ backgroundColor: `${cellColor}${Math.floor(cellOpacity * 255).toString(16).padStart(2, '0')}` }}>
-                                <ImageIcon className="w-8 h-8 text-white opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all" />
+                        {/* Interactive Image Container */}
+                        <div 
+                           className={`absolute inset-0 ${images[i] ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'}`}
+                           onClick={(e) => handleCellClick(i, e)}
+                           onMouseDown={(e) => handleMouseDown(i, e)}
+                        >
+                            {/* Overlay if no image */}
+                            {!images[i] && (
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ backgroundColor: `${cellColor}${Math.floor(cellOpacity * 255).toString(16).padStart(2, '0')}` }}>
+                                    <ImageIcon className="w-8 h-8 text-white opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all" />
+                                </div>
+                            )}
+
+                            {/* User Image Render */}
+                            {images[i] && (
+                                <img 
+                                    src={images[i].src} 
+                                    draggable={false}
+                                    className="absolute min-w-full min-h-full object-cover transition-transform duration-100 ease-out pointer-events-none"
+                                    style={{ 
+                                        transform: `translate(${images[i].x}px, ${images[i].y}px) scale(${images[i].zoom})`,
+                                        left: '50%',
+                                        top: '50%',
+                                        marginLeft: '-50%',
+                                        marginTop: '-50%'
+                                    }} 
+                                    alt="" 
+                                />
+                            )}
+                        </div>
+
+                        {/* Cell Overlay Tools */}
+                        {images[i] && (
+                            <div className="absolute bottom-2 left-2 right-2 opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2 bg-black/40 backdrop-blur-md p-2 rounded-xl border border-white/10 translate-y-2 group-hover:translate-y-0">
+                                <span className="text-[8px] font-bold text-white uppercase shrink-0">Zoom</span>
+                                <input 
+                                    type="range" 
+                                    min="1" 
+                                    max="3" 
+                                    step="0.01" 
+                                    value={images[i].zoom} 
+                                    onChange={(e) => updateZoom(i, parseFloat(e.target.value))}
+                                    className="flex-1 accent-blue-500 h-1"
+                                />
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); triggerFileUpload(i); }} 
+                                    className="p-1.5 bg-white/20 hover:bg-white/40 rounded-lg text-white transition-colors"
+                                    title="Change Image"
+                                >
+                                    <ImageIcon className="w-3 h-3" />
+                                </button>
                             </div>
                         )}
 
-                        {/* User Image */}
-                        {images[i] && (
-                            <img 
-                                src={images[i]} 
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-                                alt="" 
-                            />
-                        )}
-
-                        {/* Cell UI */}
-                        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {/* Cell Number */}
+                        <div className="absolute top-2 right-2 pointer-events-none">
                              <div className="w-6 h-6 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white text-[10px] font-black">
                                 {i + 1}
                              </div>
@@ -297,7 +386,7 @@ export const GridGenerator: React.FC<GridGeneratorProps> = ({ onClose }) => {
           />
 
           <div className="mt-8 text-center">
-             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">{language === 'ar' ? 'شبكات تصميم احترافية' : 'PRO DESIGN GRID ENGINE'}</p>
+             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">{language === 'ar' ? 'شبكات تصميم ومودبورد احترافية' : 'PRO DESIGN GRID & MOODBOARD'}</p>
           </div>
       </div>
     </div>
