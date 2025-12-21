@@ -17,7 +17,6 @@ import { CalendarConverter } from './components/tools/CalendarConverter';
 import { ToolType } from './types';
 import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, MockupIcon, ShapesIcon, IdCardIcon, DateIcon } from './components/Icons';
 
-// Component separated to use context
 const MainApp: React.FC = () => {
   const [activeTool, setActiveTool] = useState<ToolType>(ToolType.HOME);
   const { t } = useAppContext();
@@ -56,6 +55,16 @@ const MainApp: React.FC = () => {
       default:
         return (
           <div className="animate-fade-in flex flex-col items-center">
+             {/* Simple Section Header for Home */}
+             <div className="w-full max-w-6xl mb-12 text-right">
+                <h2 className="text-4xl font-black text-slate-800 dark:text-white mb-4">
+                  {t.welcomeTitle} <span className="text-blue-600">{t.welcomeTitleSpan}</span>
+                </h2>
+                <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl">
+                  {t.welcomeText}
+                </p>
+             </div>
+
              {/* Grid of Services */}
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
               {[

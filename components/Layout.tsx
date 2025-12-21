@@ -1,7 +1,7 @@
 import React from 'react';
 import { ToolType } from '../types';
 import { useAppContext } from '../context';
-import { BackIcon, LangIcon, MoonIcon, SunIcon, LogoIcon } from './Icons';
+import { BackIcon, LangIcon, MoonIcon, SunIcon, LogoIcon, QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, MockupIcon, ShapesIcon, IdCardIcon, DateIcon } from './Icons';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,96 +14,162 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
 
   const isHome = activeTool === ToolType.HOME;
 
-  return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 font-sans transition-colors duration-200 flex flex-col">
-      
-      {/* Full Width Header Banner */}
-      <header className={`
-        relative w-full
-        bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-500 dark:from-blue-900 dark:via-blue-800 dark:to-cyan-900
-        text-white shadow-2xl transition-all duration-500 ease-in-out
-        ${isHome ? 'min-h-[300px]' : 'min-h-[200px]'}
-        overflow-hidden
-      `}>
-          
-        {/* Decorative Background Elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-400/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+  // Helper to check if a tool is active for styling
+  const isActive = (type: ToolType) => activeTool === type;
 
-        {/* Controls (Theme/Lang) - Positioned at logical Start (Top Left in LTR, Top Right in RTL) */}
-        <div className="absolute top-6 left-6 rtl:right-6 rtl:left-auto flex gap-2 z-20">
+  return (
+    <div className="min-h-screen bg-slate-50 dark:bg-[#020617] font-sans transition-colors duration-300 flex flex-col lg:flex-row">
+      
+      {/* Sidebar / Navigation */}
+      <aside className={`
+        lg:w-80 w-full lg:h-screen lg:sticky lg:top-0 z-50
+        bg-gradient-to-b from-blue-700 to-blue-900 dark:from-slate-900 dark:to-black
+        text-white shadow-2xl flex flex-col transition-all duration-500
+      `}>
+        
+        {/* Brand Area */}
+        <div className="p-8 flex flex-col items-center lg:items-start gap-4">
+          <div 
+            onClick={() => onNavigate(ToolType.HOME)}
+            className="cursor-pointer group flex flex-col items-center lg:items-start"
+          >
+            <div className="w-16 h-16 bg-white/10 backdrop-blur-xl rounded-2xl flex items-center justify-center border border-white/20 shadow-lg group-hover:rotate-6 transition-transform duration-300 mb-4">
+              <LogoIcon className="w-10 h-10 text-white" />
+            </div>
+            <h1 className="text-2xl font-black tracking-tight leading-tight">
+              {t.appTitle}
+            </h1>
+            <p className="text-blue-200 text-xs font-medium opacity-80 mt-1 hidden lg:block">
+              {t.appDesc}
+            </p>
+          </div>
+        </div>
+
+        {/* Navigation Links - Desktop Only scrollable area */}
+        <nav className="flex-1 overflow-y-auto px-4 py-2 hidden lg:flex flex-col gap-1 custom-scrollbar">
+          <button
+            onClick={() => onNavigate(ToolType.HOME)}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-bold text-sm ${isHome ? 'bg-white/15 text-white shadow-inner' : 'hover:bg-white/5 text-blue-100'}`}
+          >
+            <div className={`p-1.5 rounded-lg ${isHome ? 'bg-blue-500' : 'bg-white/10'}`}>
+              <LogoIcon className="w-4 h-4" />
+            </div>
+            <span>{t[ToolType.HOME]}</span>
+          </button>
+
+          <div className="my-4 h-px bg-white/10 mx-4"></div>
+          <span className="px-4 text-[10px] font-black text-blue-300 uppercase tracking-widest mb-2">{t.homeDesc}</span>
+
+          {/* List of shortcut icons for the sidebar */}
+          {[
+            { id: ToolType.BUSINESS_CARD, icon: IdCardIcon },
+            { id: ToolType.MOCKUP_GENERATOR, icon: MockupIcon },
+            { id: ToolType.SVG_LIBRARY, icon: ShapesIcon },
+            { id: ToolType.QR_GENERATOR, icon: QrIcon },
+            { id: ToolType.PDF_TOOLS, icon: PdfIcon },
+            { id: ToolType.CALENDAR_CONVERTER, icon: DateIcon },
+          ].map((item) => (
+            <button
+              key={item.id}
+              onClick={() => onNavigate(item.id)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-bold text-sm ${isActive(item.id) ? 'bg-white text-blue-900 shadow-xl' : 'hover:bg-white/5 text-blue-100'}`}
+            >
+              <item.icon className="w-5 h-5" />
+              <span className="truncate">{t[item.id]}</span>
+            </button>
+          ))}
+        </nav>
+
+        {/* Bottom Controls / Settings */}
+        <div className="p-6 mt-auto bg-black/10 backdrop-blur-md border-t border-white/5 flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-2">
             <button 
               onClick={toggleTheme}
-              className="p-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl text-white transition-all border border-white/10 shadow-lg active:scale-95"
+              className="flex-1 flex items-center justify-center gap-2 p-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all border border-white/10"
               title="Toggle Theme"
             >
               {theme === 'light' ? <MoonIcon className="w-5 h-5" /> : <SunIcon className="w-5 h-5" />}
+              <span className="text-xs font-bold lg:hidden xl:block">{theme === 'light' ? 'ليلي' : 'نهاري'}</span>
             </button>
             <button 
               onClick={toggleLanguage}
-              className="p-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl text-white transition-all border border-white/10 shadow-lg active:scale-95"
+              className="flex-1 flex items-center justify-center gap-2 p-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all border border-white/10"
               title="Switch Language"
             >
               <LangIcon className="w-5 h-5" />
+              <span className="text-xs font-bold lg:hidden xl:block">{language === 'ar' ? 'English' : 'عربي'}</span>
             </button>
-        </div>
-
-        {/* Inner Content Container - Centered and Constrained */}
-        <div className={`
-           max-w-7xl mx-auto px-6 h-full flex flex-col md:flex-row items-center md:items-stretch justify-between
-           relative z-10
-           ${isHome ? 'pt-20 pb-16' : 'pt-12 pb-10'}
-        `}>
-          
-          {/* Text Content */}
-          <div className="flex flex-col justify-center items-center md:items-start text-center md:text-start w-full md:w-2/3 mt-8 md:mt-0">
-             {/* Optional Badge */}
-             <div className="hidden md:inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/20 text-xs font-bold text-blue-50 mb-4 self-center md:self-start">
-                <span>✨</span>
-                <span>v1.0</span>
-             </div>
-
-             <h1 className={`font-black tracking-tight leading-tight transition-all duration-500 ${isHome ? 'text-4xl md:text-6xl mb-3' : 'text-3xl md:text-4xl mb-2'}`}>
-               {t.appTitle}
-             </h1>
-             <p className={`text-blue-50 max-w-lg leading-relaxed font-medium transition-all duration-500 ${isHome ? 'text-lg md:text-xl opacity-90' : 'text-sm opacity-80'}`}>
-               {t.welcomeText}
-             </p>
-
-             {/* Back Button (Only when not home) */}
-             {!isHome && (
-                <button
-                  onClick={() => onNavigate(ToolType.HOME)}
-                  className="mt-6 flex items-center gap-2 px-6 py-3 bg-white text-blue-700 rounded-xl shadow-lg font-bold hover:bg-blue-50 transition-all active:scale-95"
-                >
-                  <BackIcon className="w-5 h-5 rtl:rotate-180" />
-                  <span>{t.backToHome}</span>
-                </button>
-              )}
           </div>
 
-          {/* Icon/Brand Visual */}
-          <div className={`mt-8 md:mt-0 md:ml-8 rtl:md:mr-8 transition-all duration-500 flex items-center justify-center ${!isHome && 'scale-75 md:scale-90 origin-center'}`}>
-            <div className="w-28 h-28 md:w-40 md:h-40 bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-2xl rounded-[2rem] flex items-center justify-center border border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] rotate-3 hover:rotate-6 transition-transform duration-500 group">
-               <LogoIcon className="w-14 h-14 md:w-20 md:h-20 text-white drop-shadow-lg group-hover:scale-110 transition-transform" />
-               {/* Decorative sparkles */}
-               <div className="absolute top-4 right-4 text-white/60 text-xl">✦</div>
-               <div className="absolute bottom-4 left-4 text-white/40 text-sm">✦</div>
+          <div className="text-[10px] text-blue-300/60 text-center font-medium mt-2 hidden lg:block">
+            {t.copyright}
+          </div>
+        </div>
+
+        {/* Mobile Header / Bottom Bar (Visible only on mobile) */}
+        {!isHome && (
+          <button
+            onClick={() => onNavigate(ToolType.HOME)}
+            className="lg:hidden absolute top-6 left-6 rtl:right-6 rtl:left-auto bg-white/20 p-2 rounded-full backdrop-blur-md border border-white/30"
+          >
+            <BackIcon className="w-6 h-6 rtl:rotate-180" />
+          </button>
+        )}
+      </aside>
+
+      {/* Main Content Area */}
+      <main className="flex-1 lg:h-screen overflow-y-auto bg-slate-50 dark:bg-[#020617] flex flex-col">
+        
+        {/* Contextual Header (Top of content area) */}
+        {!isHome && (
+          <div className="px-8 py-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between sticky top-0 z-30 lg:z-10">
+            <div className="flex items-center gap-4">
+               <button 
+                  onClick={() => onNavigate(ToolType.HOME)}
+                  className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors lg:flex hidden"
+               >
+                  <BackIcon className="w-5 h-5 rtl:rotate-180 text-slate-400" />
+               </button>
+               <div>
+                  <h2 className="text-xl font-black text-slate-800 dark:text-white">{t[activeTool]}</h2>
+                  <p className="text-xs text-slate-500 font-medium">{t.appDesc}</p>
+               </div>
+            </div>
+            
+            <div className="hidden sm:flex items-center gap-2">
+                <div className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-[10px] font-bold text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800">
+                  Ready to use
+                </div>
             </div>
           </div>
+        )}
 
+        {/* Content Body */}
+        <div className={`flex-1 p-6 md:p-12 ${isHome ? 'animate-fade-in' : 'animate-fade-in-up'}`}>
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="flex-1 container mx-auto px-4 py-12 w-full max-w-7xl animate-fade-in">
-        {children}
+        {/* Mobile footer padding */}
+        <div className="h-20 lg:hidden"></div>
       </main>
 
-      {/* Footer */}
-      <footer className="py-8 text-center text-slate-400 dark:text-slate-600 text-sm">
-        <p>{t.copyright}</p>
-      </footer>
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.2);
+        }
+      `}</style>
     </div>
   );
 };

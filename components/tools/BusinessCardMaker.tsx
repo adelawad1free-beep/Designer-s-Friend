@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAppContext } from '../../context';
-import { IdCardIcon, BackIcon, ImageIcon } from '../Icons';
+import { IdCardIcon, BackIcon, ImageIcon, SwapIcon } from '../Icons';
 import { PDFDocument } from 'pdf-lib';
 
 interface BusinessCardMakerProps {
   onClose?: () => void;
 }
+
+type LayoutType = 'modern' | 'minimal' | 'bold' | 'elegant' | 'creative' | 'corporate' | 'artistic' | 'tech' | 'classic' | 'geometric';
+type CardSide = 'front' | 'back';
 
 export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose }) => {
   const { t, language } = useAppContext();
@@ -22,8 +25,9 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
   });
 
   const [themeColor, setThemeColor] = useState('#2563eb');
-  const [layout, setLayout] = useState<'modern' | 'minimal' | 'bold' | 'elegant' | 'creative'>('modern');
+  const [layout, setLayout] = useState<LayoutType>('modern');
   const [orientation, setOrientation] = useState<'landscape' | 'portrait'>('landscape');
+  const [activeSide, setActiveSide] = useState<CardSide>('front');
 
   // Logo State
   const [logo, setLogo] = useState<string | null>(null);
@@ -52,7 +56,6 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
           const rawLogo = ev.target.result as string;
           setOriginalLogo(rawLogo);
           setLogo(rawLogo);
-          // Reset position slightly for visibility
           setLogoSettings(prev => ({ ...prev, x: 50, y: 50 }));
         }
       };
@@ -60,7 +63,6 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
     }
   };
 
-  // Helper to process image and remove white background
   useEffect(() => {
     if (!originalLogo) return;
 
@@ -81,20 +83,15 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
       ctx.drawImage(img, 0, 0);
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imageData.data;
-
-      // Loop through pixels and make white transparent
-      // Threshold: 230 (out of 255) to catch off-whites and compression artifacts
       const threshold = 230;
       for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
-        
         if (r > threshold && g > threshold && b > threshold) {
-          data[i + 3] = 0; // Set Alpha to 0
+          data[i + 3] = 0; 
         }
       }
-
       ctx.putImageData(imageData, 0, 0);
       setLogo(canvas.toDataURL());
     };
@@ -122,7 +119,7 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
       if (ctx) {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         const link = document.createElement('a');
-        link.download = `business-card-${layout}-${orientation}-${Date.now()}.png`;
+        link.download = `card-${layout}-${activeSide}-${Date.now()}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
       }
@@ -164,11 +161,11 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `business-card-${layout}-${orientation}-${Date.now()}.pdf`;
+            link.download = `card-${layout}-${activeSide}.pdf`;
             link.click();
         } catch (e) {
             console.error("PDF generation failed", e);
-            alert("Failed to generate PDF. Please try again.");
+            alert("Failed to generate PDF.");
         }
       }
       URL.revokeObjectURL(url);
@@ -178,26 +175,33 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
 
   // --- Layout Helpers ---
   const isRtl = language === 'ar';
-  
-  // In SVG with direction="rtl", 'start' aligns to the right edge (start of the Arabic line).
-  const textAnchorStart = 'start'; 
+  const textAnchorStart = 'start'; // In SVG RTL, start is right
   const textAnchorEnd = 'end';
-
-  // Dynamic Margins & Coordinates
   const margin = 50;
-  // Standard layout X positions (for layouts without sidebar)
   const xStart = isRtl ? cardWidth - margin : margin; 
   const centerX = cardWidth / 2;
   const centerY = cardHeight / 2;
 
-  // Modern Layout Specifics
-  const sidebarWidth = 300;
-  // For Landscape Modern:
-  // RTL: Sidebar is at [750, 1050]. Content is at [0, 750]. Text aligns to 700.
-  // LTR: Sidebar is at [0, 300]. Content is at [300, 1050]. Text aligns to 350.
-  const modernContentX = isLandscape 
-    ? (isRtl ? cardWidth - sidebarWidth - margin : sidebarWidth + margin)
-    : centerX;
+  // Render Logic Helpers
+  const renderLogo = (x: number, y: number, size: number = 100) => {
+      if (logo) {
+          return <image href={logo} x={x - size/2} y={y - size/2} width={size} height={size} preserveAspectRatio="xMidYMid meet" />;
+      }
+      // Placeholder if no logo
+      return (
+          <g transform={`translate(${x}, ${y})`}>
+              <circle r={size/2} fill="rgba(0,0,0,0.1)" />
+              <text y="10" fontSize={size/2} textAnchor="middle" fill="#666" fontWeight="bold">
+                  {data.company.charAt(0).toUpperCase()}
+              </text>
+          </g>
+      );
+  };
+
+  const layouts = [
+      'modern', 'minimal', 'bold', 'elegant', 'creative',
+      'corporate', 'artistic', 'tech', 'classic', 'geometric'
+  ];
 
   return (
     <div className="bg-white dark:bg-[#0F172A] rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors flex flex-col md:flex-row min-h-[600px]">
@@ -221,36 +225,28 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
 
           <div className="p-5 space-y-6 pb-20">
              
-             {/* Orientation Selector */}
-             <div>
-                <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">أبعاد البطاقة (Orientation)</label>
+             {/* Side & Orientation */}
+             <div className="space-y-4">
+                <div className="bg-white dark:bg-slate-800 p-1 rounded-xl flex border border-slate-200 dark:border-slate-700 shadow-sm">
+                    <button onClick={() => setActiveSide('front')} className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${activeSide === 'front' ? 'bg-blue-600 text-white shadow' : 'text-slate-500'}`}>{t.cardFaceFront}</button>
+                    <button onClick={() => setActiveSide('back')} className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${activeSide === 'back' ? 'bg-blue-600 text-white shadow' : 'text-slate-500'}`}>{t.cardFaceBack}</button>
+                </div>
+
                 <div className="grid grid-cols-2 gap-2">
-                   <button
-                      onClick={() => setOrientation('landscape')}
-                      className={`py-2 rounded-lg text-xs font-bold border transition-all flex items-center justify-center gap-2 ${orientation === 'landscape' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'}`}
-                   >
-                      <span className="w-6 h-4 border-2 border-current rounded-sm"></span>
-                      عرضي
-                   </button>
-                   <button
-                      onClick={() => setOrientation('portrait')}
-                      className={`py-2 rounded-lg text-xs font-bold border transition-all flex items-center justify-center gap-2 ${orientation === 'portrait' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'}`}
-                   >
-                      <span className="w-4 h-6 border-2 border-current rounded-sm"></span>
-                      طولي
-                   </button>
+                   <button onClick={() => setOrientation('landscape')} className={`py-2 rounded-lg text-xs font-bold border transition-all ${orientation === 'landscape' ? 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500'}`}>عرضي</button>
+                   <button onClick={() => setOrientation('portrait')} className={`py-2 rounded-lg text-xs font-bold border transition-all ${orientation === 'portrait' ? 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500'}`}>طولي</button>
                 </div>
              </div>
 
              {/* Layout Selector */}
              <div>
                 <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">{t.cardLayout}</label>
-                <div className="grid grid-cols-2 gap-2">
-                   {['modern', 'minimal', 'bold', 'elegant', 'creative'].map((l) => (
+                <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto pr-1 custom-scrollbar">
+                   {layouts.map((l) => (
                       <button
                         key={l}
                         onClick={() => setLayout(l as any)}
-                        className={`py-2 px-1 rounded-lg text-xs font-bold border transition-all ${layout === l ? 'bg-blue-600 text-white border-blue-600' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'}`}
+                        className={`py-2 px-1 rounded-lg text-xs font-bold border transition-all ${layout === l ? 'bg-slate-800 text-white border-slate-800 dark:bg-white dark:text-slate-900' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-blue-400'}`}
                       >
                          {t[`card${l.charAt(0).toUpperCase() + l.slice(1)}` as keyof typeof t]}
                       </button>
@@ -262,7 +258,7 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
              <div>
                 <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">{t.cardColor}</label>
                 <div className="flex flex-wrap gap-2">
-                   {['#2563eb', '#dc2626', '#16a34a', '#d97706', '#9333ea', '#000000', '#D4AF37'].map(c => (
+                   {['#2563eb', '#dc2626', '#16a34a', '#d97706', '#9333ea', '#000000', '#D4AF37', '#06b6d4', '#e11d48'].map(c => (
                       <button
                         key={c}
                         onClick={() => setThemeColor(c)}
@@ -274,96 +270,33 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
                 </div>
              </div>
 
-             {/* Logo Upload Section */}
+             {/* Logo & Position */}
              <div className="bg-slate-100 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                <label className="text-xs font-bold text-slate-500 uppercase mb-3 block flex justify-between">
-                   <span>{language === 'ar' ? 'الشعار' : 'Logo'}</span>
-                   {logo && <button onClick={() => { setLogo(null); setOriginalLogo(null); }} className="text-red-500 hover:underline">✕</button>}
-                </label>
+                <div className="flex justify-between items-center mb-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase">{language === 'ar' ? 'الشعار' : 'Logo'}</label>
+                    {logo && <button onClick={() => { setLogo(null); setOriginalLogo(null); }} className="text-xs text-red-500 hover:underline">✕</button>}
+                </div>
                 
                 {!logo ? (
                    <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg cursor-pointer hover:bg-white dark:hover:bg-slate-800 transition-colors">
-                      <ImageIcon className="w-6 h-6 text-slate-400 mb-2" />
-                      <span className="text-[10px] text-slate-500">{language === 'ar' ? 'اضغط لرفع صورة' : 'Click to upload'}</span>
+                      <ImageIcon className="w-5 h-5 text-slate-400 mb-1" />
+                      <span className="text-[10px] text-slate-500">{language === 'ar' ? 'رفع صورة' : 'Upload'}</span>
                       <input type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
                    </label>
                 ) : (
-                   <div className="space-y-3">
-                      <div>
-                         <label className="text-[10px] text-slate-400 block mb-1">Position X ({logoSettings.x})</label>
-                         <input type="range" min="0" max={cardWidth} value={logoSettings.x} onChange={e => setLogoSettings({...logoSettings, x: Number(e.target.value)})} className="w-full accent-blue-600 h-1" />
-                      </div>
-                      <div>
-                         <label className="text-[10px] text-slate-400 block mb-1">Position Y ({logoSettings.y})</label>
-                         <input type="range" min="0" max={cardHeight} value={logoSettings.y} onChange={e => setLogoSettings({...logoSettings, y: Number(e.target.value)})} className="w-full accent-blue-600 h-1" />
-                      </div>
-                      <div>
-                         <label className="text-[10px] text-slate-400 block mb-1">Size ({logoSettings.size}px)</label>
-                         <input type="range" min="20" max="300" value={logoSettings.size} onChange={e => setLogoSettings({...logoSettings, size: Number(e.target.value)})} className="w-full accent-blue-600 h-1" />
-                      </div>
-                      
-                      <label className="flex items-center gap-2 cursor-pointer bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700 mt-2">
-                         <input 
-                           type="checkbox" 
-                           checked={removeBg} 
-                           onChange={e => setRemoveBg(e.target.checked)} 
-                           className="w-4 h-4 text-blue-600 rounded"
-                         />
-                         <span className="text-[10px] text-slate-600 dark:text-slate-300 font-bold">{t.cardRemoveBg}</span>
+                   <div className="space-y-2">
+                      <input type="range" min="0" max={cardWidth} value={logoSettings.x} onChange={e => setLogoSettings({...logoSettings, x: Number(e.target.value)})} className="w-full h-1 accent-blue-600" title="X Position" />
+                      <input type="range" min="0" max={cardHeight} value={logoSettings.y} onChange={e => setLogoSettings({...logoSettings, y: Number(e.target.value)})} className="w-full h-1 accent-blue-600" title="Y Position" />
+                      <input type="range" min="20" max="400" value={logoSettings.size} onChange={e => setLogoSettings({...logoSettings, size: Number(e.target.value)})} className="w-full h-1 accent-blue-600" title="Size" />
+                      <label className="flex items-center gap-2 cursor-pointer mt-1">
+                         <input type="checkbox" checked={removeBg} onChange={e => setRemoveBg(e.target.checked)} className="w-3 h-3 rounded" />
+                         <span className="text-[10px] text-slate-600 dark:text-slate-400">{t.cardRemoveBg}</span>
                       </label>
                    </div>
                 )}
              </div>
 
-             {/* Text Positioning Section */}
-             <div className="bg-slate-100 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
-                <label className="text-xs font-bold text-slate-500 uppercase mb-3 block">{t.cardPosTitle}</label>
-                
-                <div className="space-y-3">
-                   <label className="block text-[10px] font-medium text-slate-400 mb-1">{t.cardPosLabel}</label>
-                   <select 
-                      value={selectedTextElement}
-                      onChange={(e) => setSelectedTextElement(e.target.value as any)}
-                      className="w-full p-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-sm"
-                   >
-                      <option value="name">{t.cardPosName}</option>
-                      <option value="job">{t.cardPosJob}</option>
-                      <option value="company">{t.cardPosCompany}</option>
-                      <option value="contact">{t.cardPosContact}</option>
-                   </select>
-
-                   <div>
-                      <label className="text-[10px] text-slate-400 block mb-1">{t.cardPosX} ({textOffsets[selectedTextElement].x})</label>
-                      <input 
-                        type="range" 
-                        min="-300" 
-                        max="300" 
-                        value={textOffsets[selectedTextElement].x} 
-                        onChange={e => setTextOffsets(prev => ({
-                           ...prev,
-                           [selectedTextElement]: { ...prev[selectedTextElement], x: Number(e.target.value) }
-                        }))} 
-                        className="w-full accent-blue-600 h-1" 
-                      />
-                   </div>
-                   <div>
-                      <label className="text-[10px] text-slate-400 block mb-1">{t.cardPosY} ({textOffsets[selectedTextElement].y})</label>
-                      <input 
-                        type="range" 
-                        min="-300" 
-                        max="300" 
-                        value={textOffsets[selectedTextElement].y} 
-                        onChange={e => setTextOffsets(prev => ({
-                           ...prev,
-                           [selectedTextElement]: { ...prev[selectedTextElement], y: Number(e.target.value) }
-                        }))} 
-                        className="w-full accent-blue-600 h-1" 
-                      />
-                   </div>
-                </div>
-             </div>
-
-             {/* Inputs */}
+             {/* Text Content */}
              <div className="space-y-3">
                 <Input label={t.cardName} name="name" value={data.name} onChange={handleChange} />
                 <Input label={t.cardJob} name="job" value={data.job} onChange={handleChange} />
@@ -375,26 +308,20 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
              </div>
 
              <div className="grid grid-cols-2 gap-3 pt-2">
-                <button
-                    onClick={handleDownload}
-                    className="w-full py-3 bg-white border border-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-bold transition-all active:scale-95 text-xs flex items-center justify-center gap-2"
-                >
-                    <span>🖼️</span> {t.cardDownload}
-                </button>
-                <button
-                    onClick={handleDownloadPdf}
-                    className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-lg transition-all active:scale-95 text-xs flex items-center justify-center gap-2"
-                >
-                    <span>📄</span> {t.cardDownloadPdf}
-                </button>
+                <button onClick={handleDownload} className="btn-secondary">{t.cardDownload}</button>
+                <button onClick={handleDownloadPdf} className="btn-primary">{t.cardDownloadPdf}</button>
              </div>
           </div>
       </div>
 
       {/* Preview Area */}
-      <div className="flex-1 bg-slate-200 dark:bg-[#0B1120] p-4 md:p-8 flex items-center justify-center relative overflow-hidden">
+      <div className="flex-1 bg-slate-200 dark:bg-[#0B1120] p-4 md:p-8 flex flex-col items-center justify-center relative overflow-hidden">
          <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#64748b 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
          
+         <div className="mb-4 bg-white/80 dark:bg-black/50 backdrop-blur px-4 py-2 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 shadow-sm border border-white/20">
+             {t[`card${layout.charAt(0).toUpperCase() + layout.slice(1)}` as keyof typeof t]} • {activeSide === 'front' ? t.cardFaceFront : t.cardFaceBack}
+         </div>
+
          <div 
             className="relative shadow-2xl rounded-sm overflow-hidden bg-white transition-all duration-500 hover:scale-[1.01]"
             style={{ 
@@ -410,314 +337,248 @@ export const BusinessCardMaker: React.FC<BusinessCardMakerProps> = ({ onClose })
                className="w-full h-full block"
                style={{ fontFamily: 'Cairo, sans-serif', direction: isRtl ? 'rtl' : 'ltr' }}
             >
-               {/* Background */}
                <rect width={cardWidth} height={cardHeight} fill="white" />
 
-               {/* --- LAYOUT: MODERN --- */}
+               {/* ================================================================================== */}
+               {/* ============================== LAYOUT RENDER LOGIC =============================== */}
+               {/* ================================================================================== */}
+
                {layout === 'modern' && (
-                  <>
-                     {isLandscape ? (
-                         // Landscape Modern
-                         <>
-                            <rect x={isRtl ? cardWidth - sidebarWidth : 0} y="0" width={sidebarWidth} height={cardHeight} fill={themeColor} />
-                            
-                            <g transform={`translate(${textOffsets.company.x}, ${textOffsets.company.y})`}>
-                               <text 
-                                   x={isRtl ? cardWidth - (sidebarWidth / 2) : (sidebarWidth / 2)} 
-                                   y={cardHeight / 2} 
-                                   fill="white" 
-                                   fontSize="40" 
-                                   fontWeight="800" 
-                                   textAnchor="middle"
-                                   transform={`rotate(-90, ${isRtl ? cardWidth - (sidebarWidth / 2) : (sidebarWidth / 2)}, ${cardHeight / 2})`}
-                                   letterSpacing="2"
-                               >
-                                   {data.company.toUpperCase()}
-                               </text>
-                            </g>
-                            
-                            <g transform={`translate(${textOffsets.name.x}, ${textOffsets.name.y})`}>
-                               <text x={modernContentX} y="150" fill="#333" fontSize="50" fontWeight="800" textAnchor={textAnchorStart}>{data.name}</text>
-                            </g>
-                            <g transform={`translate(${textOffsets.job.x}, ${textOffsets.job.y})`}>
-                               <text x={modernContentX} y="190" fill={themeColor} fontSize="28" fontWeight="700" textAnchor={textAnchorStart}>{data.job.toUpperCase()}</text>
-                               <line x1={modernContentX} y1="220" x2={isRtl ? modernContentX - 100 : modernContentX + 100} y2="220" stroke="#ddd" strokeWidth="4" />
-                            </g>
-
-                            <g transform={`translate(${textOffsets.contact.x}, ${textOffsets.contact.y})`}>
-                               <g transform="translate(0, 320)" fontSize="22" fill="#555">
-                                   <text x={modernContentX} y="0" textAnchor={textAnchorStart}>📞 {data.phone}</text>
-                                   <text x={modernContentX} y="50" textAnchor={textAnchorStart}>✉️ {data.email}</text>
-                                   <text x={modernContentX} y="100" textAnchor={textAnchorStart}>🌐 {data.website}</text>
-                                   <text x={modernContentX} y="150" textAnchor={textAnchorStart}>📍 {data.address}</text>
+                   activeSide === 'front' ? (
+                       <>
+                           <rect x={isRtl ? cardWidth - 300 : 0} y="0" width="300" height={cardHeight} fill={themeColor} />
+                           {renderLogo(isRtl ? cardWidth - 150 : 150, centerY, 150)}
+                           <g transform={`translate(${isLandscape ? (isRtl ? -200 : 200) : 0}, 0)`}>
+                               <text x={centerX} y={centerY - 40} fill="#333" fontSize="50" fontWeight="800" textAnchor={isLandscape ? textAnchorStart : "middle"}>{data.name}</text>
+                               <text x={centerX} y={centerY + 10} fill={themeColor} fontSize="24" fontWeight="600" textAnchor={isLandscape ? textAnchorStart : "middle"}>{data.job.toUpperCase()}</text>
+                               <g transform={`translate(${isLandscape ? 0 : centerX}, ${centerY + 80})`} fontSize="20" fill="#555" textAnchor={isLandscape ? textAnchorStart : "middle"}>
+                                   <text y="0">📞 {data.phone}</text>
+                                   <text y="35">✉️ {data.email}</text>
+                                   <text y="70">🌐 {data.website}</text>
                                </g>
-                            </g>
-                         </>
-                     ) : (
-                         // Portrait Modern
-                         <>
-                            <rect x="0" y="0" width={cardWidth} height="300" fill={themeColor} />
-                            <g transform={`translate(${textOffsets.company.x}, ${textOffsets.company.y})`}>
-                               <text x={centerX} y="150" fill="white" fontSize="40" fontWeight="800" textAnchor="middle" letterSpacing="2">
-                                   {data.company.toUpperCase()}
-                               </text>
-                            </g>
-                            
-                            <g transform={`translate(0, 350)`}>
-                                <g transform={`translate(${textOffsets.name.x}, ${textOffsets.name.y})`}>
-                                   <text x={centerX} y="0" fill="#333" fontSize="50" fontWeight="800" textAnchor="middle">{data.name}</text>
-                                </g>
-                                <g transform={`translate(${textOffsets.job.x}, ${textOffsets.job.y})`}>
-                                   <text x={centerX} y="50" fill={themeColor} fontSize="28" fontWeight="700" textAnchor="middle">{data.job.toUpperCase()}</text>
-                                   <line x1={centerX - 50} y1="80" x2={centerX + 50} y2="80" stroke="#ddd" strokeWidth="4" />
-                                </g>
-
-                                <g transform={`translate(${textOffsets.contact.x}, ${textOffsets.contact.y})`}>
-                                   <g transform={`translate(0, 180)`} fontSize="22" fill="#555">
-                                       <text x={centerX} y="0" textAnchor="middle">📞 {data.phone}</text>
-                                       <text x={centerX} y="50" textAnchor="middle">✉️ {data.email}</text>
-                                       <text x={centerX} y="100" textAnchor="middle">🌐 {data.website}</text>
-                                       <text x={centerX} y="150" textAnchor="middle">📍 {data.address}</text>
-                                   </g>
-                                </g>
-                            </g>
-                         </>
-                     )}
-                  </>
+                           </g>
+                       </>
+                   ) : (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill={themeColor} />
+                           <rect x="50" y="50" width={cardWidth - 100} height={cardHeight - 100} fill="white" opacity="0.1" />
+                           {renderLogo(centerX, centerY - 50, 200)}
+                           <text x={centerX} y={centerY + 100} fill="white" fontSize="40" fontWeight="bold" textAnchor="middle">{data.company}</text>
+                           <text x={centerX} y={centerY + 140} fill="white" fontSize="20" opacity="0.8" textAnchor="middle">{data.website}</text>
+                       </>
+                   )
                )}
 
-               {/* --- LAYOUT: MINIMAL --- */}
                {layout === 'minimal' && (
-                  <>
-                     <rect x="30" y="30" width={cardWidth - 60} height={cardHeight - 60} fill="none" stroke={themeColor} strokeWidth="10" />
-                     
-                     <g transform={`translate(${textOffsets.name.x}, ${textOffsets.name.y})`}>
-                        <text x={centerX} y={centerY - 50} fill="#222" fontSize="60" fontWeight="800" textAnchor="middle">{data.name}</text>
-                     </g>
-                     <g transform={`translate(${textOffsets.job.x}, ${textOffsets.job.y})`}>
-                        <text x={centerX} y={centerY} fill={themeColor} fontSize="30" fontWeight="700" textAnchor="middle" letterSpacing="3">{data.job.toUpperCase()}</text>
-                        <line x1={centerX - 100} y1={centerY + 30} x2={centerX + 100} y2={centerY + 30} stroke="#eee" strokeWidth="2" />
-                     </g>
-
-                     <g transform={`translate(${textOffsets.contact.x}, ${textOffsets.contact.y})`}>
-                        <g transform={`translate(${centerX}, ${cardHeight - 150})`} fontSize="20" fill="#666" textAnchor="middle">
-                           <text y="0">{data.phone}  •  {data.email}</text>
-                           <text y="40">{data.website}</text>
-                           <text y="80">{data.address}</text>
-                        </g>
-                     </g>
-
-                     <g transform={`translate(${textOffsets.company.x}, ${textOffsets.company.y})`}>
-                        <text x={centerX} y="80" fill="#999" fontSize="18" textAnchor="middle" letterSpacing="1">{data.company}</text>
-                     </g>
-                  </>
+                   activeSide === 'front' ? (
+                        <>
+                            <rect x="40" y="40" width={cardWidth - 80} height={cardHeight - 80} fill="none" stroke={themeColor} strokeWidth="4" />
+                            <text x={centerX} y={centerY - 30} fill="#222" fontSize="55" fontWeight="bold" textAnchor="middle">{data.name}</text>
+                            <text x={centerX} y={centerY + 20} fill={themeColor} fontSize="24" textAnchor="middle" letterSpacing="2">{data.job.toUpperCase()}</text>
+                            <line x1={centerX - 50} y1={centerY + 50} x2={centerX + 50} y2={centerY + 50} stroke="#ddd" strokeWidth="2" />
+                            <g transform={`translate(${centerX}, ${cardHeight - 100})`} fontSize="18" fill="#666" textAnchor="middle">
+                                <text>{data.phone} • {data.email} • {data.website}</text>
+                            </g>
+                        </>
+                   ) : (
+                        <>
+                            <rect width={cardWidth} height={cardHeight} fill="#f9fafb" />
+                            {renderLogo(centerX, centerY, 150)}
+                            <text x={centerX} y={centerY + 100} fill="#333" fontSize="24" letterSpacing="4" textAnchor="middle">{data.company.toUpperCase()}</text>
+                        </>
+                   )
                )}
 
-               {/* --- LAYOUT: BOLD --- */}
                {layout === 'bold' && (
-                  <>
-                     <rect width={cardWidth} height={cardHeight} fill={themeColor} />
-                     
-                     {/* Circle Position */}
-                     {isLandscape ? (
-                         <>
-                            <circle cx={isRtl ? cardWidth - 150 : 150} cy="150" r="80" fill="rgba(255,255,255,0.2)" />
-                            <text x={isRtl ? cardWidth - 150 : 150} y="175" fill="white" fontSize="80" fontWeight="bold" textAnchor="middle">{data.name.charAt(0)}</text>
-                            
-                            <g transform={`translate(${isRtl ? -100 : 100}, 0)`}>
-                                <g transform={`translate(${textOffsets.name.x}, ${textOffsets.name.y})`}>
-                                   <text x={xStart} y="300" fill="white" fontSize="65" fontWeight="800" textAnchor={textAnchorStart}>{data.name}</text>
-                                </g>
-                                <g transform={`translate(${textOffsets.job.x}, ${textOffsets.job.y})`}>
-                                   <text x={xStart} y="350" fill="rgba(255,255,255,0.8)" fontSize="32" fontWeight="700" textAnchor={textAnchorStart}>{data.job.toUpperCase()}</text>
-                                </g>
-                                
-                                <g transform={`translate(${textOffsets.contact.x}, ${textOffsets.contact.y})`}>
-                                   <g transform="translate(0, 430)" fontSize="24" fill="white">
-                                       <text x={xStart} y="0" textAnchor={textAnchorStart}>{data.phone} | {data.email}</text>
-                                       <text x={xStart} y="40" textAnchor={textAnchorStart}>{data.website}</text>
-                                       <text x={xStart} y="80" textAnchor={textAnchorStart}>{data.address}</text>
-                                   </g>
-                                </g>
-                            </g>
-
-                            <g transform={`translate(${textOffsets.company.x}, ${textOffsets.company.y})`}>
-                               <text 
-                                   x={isRtl ? 50 : cardWidth - 50} 
-                                   y={cardHeight - 50} 
-                                   fill="rgba(255,255,255,0.5)" 
-                                   fontSize="20" 
-                                   fontWeight="bold" 
-                                   textAnchor="end"
-                                   transform={`rotate(-90, ${isRtl ? 50 : cardWidth - 50}, ${cardHeight - 50})`}
-                               >
-                                   {data.company.toUpperCase()}
-                               </text>
-                            </g>
-                         </>
-                     ) : (
-                         // Portrait Bold
-                         <>
-                            <circle cx={centerX} cy="200" r="100" fill="rgba(255,255,255,0.2)" />
-                            <text x={centerX} y="235" fill="white" fontSize="100" fontWeight="bold" textAnchor="middle">{data.name.charAt(0)}</text>
-                            
-                            <g transform={`translate(${textOffsets.name.x}, ${textOffsets.name.y})`}>
-                               <text x={centerX} y="450" fill="white" fontSize="65" fontWeight="800" textAnchor="middle">{data.name}</text>
-                            </g>
-                            <g transform={`translate(${textOffsets.job.x}, ${textOffsets.job.y})`}>
-                               <text x={centerX} y="510" fill="rgba(255,255,255,0.8)" fontSize="32" fontWeight="700" textAnchor="middle">{data.job.toUpperCase()}</text>
-                            </g>
-                            
-                            <g transform={`translate(${textOffsets.contact.x}, ${textOffsets.contact.y})`}>
-                               <g transform={`translate(${centerX}, 700)`} fontSize="24" fill="white" textAnchor="middle">
-                                   <text y="0">{data.phone}</text>
-                                   <text y="40">{data.email}</text>
-                                   <text y="80">{data.website}</text>
-                                   <text y="120">{data.address}</text>
-                               </g>
-                            </g>
-
-                            <g transform={`translate(${textOffsets.company.x}, ${textOffsets.company.y})`}>
-                               <text x={centerX} y={cardHeight - 50} fill="rgba(255,255,255,0.5)" fontSize="20" fontWeight="bold" textAnchor="middle">
-                                   {data.company.toUpperCase()}
-                               </text>
-                            </g>
-                         </>
-                     )}
-                  </>
+                   activeSide === 'front' ? (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill={themeColor} />
+                           <circle cx={isRtl ? 150 : cardWidth - 150} cy={isLandscape ? cardHeight / 2 : 150} r="300" fill="rgba(255,255,255,0.1)" />
+                           <text x={xStart} y={centerY} fill="white" fontSize="70" fontWeight="900" textAnchor={textAnchorStart}>{data.name}</text>
+                           <text x={xStart} y={centerY + 50} fill="rgba(255,255,255,0.8)" fontSize="30" textAnchor={textAnchorStart}>{data.job}</text>
+                           <text x={isRtl ? 50 : cardWidth - 50} y={cardHeight - 50} fill="white" fontSize="20" textAnchor={textAnchorEnd}>{data.phone}</text>
+                           <text x={isRtl ? 50 : cardWidth - 50} y={cardHeight - 80} fill="white" fontSize="20" textAnchor={textAnchorEnd}>{data.email}</text>
+                       </>
+                   ) : (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="#111" />
+                           <text x={centerX} y={centerY} fill={themeColor} fontSize="200" fontWeight="900" textAnchor="middle" opacity="0.2">{data.name.charAt(0)}</text>
+                           <text x={centerX} y={centerY} fill="white" fontSize="50" fontWeight="bold" textAnchor="middle">{data.company}</text>
+                       </>
+                   )
                )}
 
-               {/* --- LAYOUT: ELEGANT --- */}
                {layout === 'elegant' && (
-                  <>
-                     <rect width={cardWidth} height={cardHeight} fill="white" />
-                     {/* Double Border Frame */}
-                     <rect x="40" y="40" width={cardWidth - 80} height={cardHeight - 80} fill="none" stroke={themeColor} strokeWidth="2" />
-                     <rect x="50" y="50" width={cardWidth - 100} height={cardHeight - 100} fill="none" stroke="#e5e7eb" strokeWidth="1" />
-
-                     {/* Centered Content */}
-                     <g transform={`translate(${textOffsets.name.x}, ${textOffsets.name.y})`}>
-                        <text x={centerX} y={centerY - 80} fill="#1f2937" fontSize="70" fontWeight="800" textAnchor="middle" letterSpacing="1">{data.name}</text>
-                     </g>
-                     <g transform={`translate(${textOffsets.job.x}, ${textOffsets.job.y})`}>
-                        <text x={centerX} y={centerY - 20} fill={themeColor} fontSize="30" fontWeight="600" textAnchor="middle" letterSpacing="3">{data.job.toUpperCase()}</text>
-                        <line x1={centerX - 150} y1={centerY + 20} x2={centerX + 150} y2={centerY + 20} stroke={themeColor} strokeWidth="1" />
-                     </g>
-
-                     <g transform={`translate(${textOffsets.contact.x}, ${textOffsets.contact.y})`}>
-                        <g transform={`translate(${centerX}, ${centerY + 80})`} fontSize="22" fill="#4b5563" textAnchor="middle">
-                           <text y="0">{data.phone}  •  {data.email}</text>
-                           <text y="40">{data.website}</text>
-                           <text y="80">{data.address}</text>
-                        </g>
-                     </g>
-
-                     {/* Top Company Label */}
-                     <g transform={`translate(${textOffsets.company.x}, ${textOffsets.company.y})`}>
-                        <text x={centerX} y="100" fill={themeColor} fontSize="24" fontWeight="bold" textAnchor="middle" letterSpacing="2">{data.company.toUpperCase()}</text>
-                     </g>
-                  </>
+                   activeSide === 'front' ? (
+                       <>
+                           <defs>
+                               <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                   <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f0f0f0" strokeWidth="1"/>
+                               </pattern>
+                           </defs>
+                           <rect width={cardWidth} height={cardHeight} fill="url(#grid)" />
+                           <rect x="0" y={centerY - 80} width={cardWidth} height="160" fill="white" opacity="0.9" />
+                           <line x1="0" y1={centerY - 80} x2={cardWidth} y2={centerY - 80} stroke={themeColor} strokeWidth="2" />
+                           <line x1="0" y1={centerY + 80} x2={cardWidth} y2={centerY + 80} stroke={themeColor} strokeWidth="2" />
+                           
+                           <text x={centerX} y={centerY - 10} fill="#111" fontSize="48" fontWeight="bold" textAnchor="middle">{data.name}</text>
+                           <text x={centerX} y={centerY + 30} fill={themeColor} fontSize="20" textAnchor="middle">{data.job}</text>
+                           
+                           <g transform={`translate(${centerX}, ${cardHeight - 40})`} fontSize="16" fill="#555" textAnchor="middle">
+                               <text>{data.address} | {data.phone}</text>
+                           </g>
+                       </>
+                   ) : (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="#fff" />
+                           <rect x="20" y="20" width={cardWidth - 40} height={cardHeight - 40} fill="none" stroke={themeColor} strokeWidth="1" />
+                           <rect x="30" y="30" width={cardWidth - 60} height={cardHeight - 60} fill="none" stroke={themeColor} strokeWidth="4" />
+                           {renderLogo(centerX, centerY - 20, 120)}
+                           <text x={centerX} y={centerY + 80} fill="#333" fontSize="28" fontFamily="serif" textAnchor="middle">{data.company}</text>
+                       </>
+                   )
                )}
 
-               {/* --- LAYOUT: CREATIVE (Fix: Separation of content and shape) --- */}
                {layout === 'creative' && (
-                  <>
-                     <rect width={cardWidth} height={cardHeight} fill="white" />
-                     
-                     {/* Dynamic Angled Shape - Corrected Logic for RTL vs LTR */}
-                     {isLandscape ? (
-                        <>
-                           {/* 
-                              RTL: Shape on LEFT side. Content on RIGHT.
-                              LTR: Shape on RIGHT side. Content on LEFT.
-                           */}
-                           <path 
-                              d={isRtl 
-                                 ? `M0,0 L${cardWidth * 0.35},0 L${cardWidth * 0.25},${cardHeight} L0,${cardHeight} Z` // Shape on Left
-                                 : `M${cardWidth},0 L${cardWidth * 0.65},0 L${cardWidth * 0.75},${cardHeight} L${cardWidth},${cardHeight} Z` // Shape on Right
-                              } 
-                              fill={themeColor} 
-                           />
-                           
-                           {/* Big initial inside the colored area */}
-                           <text 
-                              x={isRtl ? cardWidth * 0.12 : cardWidth * 0.88} 
-                              y={centerY + 40} 
-                              fill="rgba(255,255,255,0.2)" 
-                              fontSize="180" 
-                              fontWeight="900" 
-                              textAnchor="middle"
-                           >
-                              {data.name.charAt(0)}
-                           </text>
-
-                           {/* Content - Positioned clearly in the whitespace */}
-                           {/* RTL: Content aligns to Start (Right) at xStart */}
-                           {/* LTR: Content aligns to Start (Left) at xStart */}
-                           <g transform={`translate(0, 0)`}>
-                              <g transform={`translate(${textOffsets.name.x}, ${textOffsets.name.y})`}>
-                                 <text x={isRtl ? cardWidth - 50 : 50} y={centerY - 60} fill="#111" fontSize="60" fontWeight="900" textAnchor={textAnchorStart}>{data.name}</text>
-                              </g>
-                              <g transform={`translate(${textOffsets.job.x}, ${textOffsets.job.y})`}>
-                                 <text x={isRtl ? cardWidth - 50 : 50} y={centerY} fill={themeColor} fontSize="32" fontWeight="700" textAnchor={textAnchorStart} letterSpacing="1">{data.job.toUpperCase()}</text>
-                              </g>
-                              
-                              <g transform={`translate(${textOffsets.contact.x}, ${textOffsets.contact.y})`}>
-                                 <g transform={`translate(0, ${centerY + 80})`} fontSize="22" fill="#555">
-                                    <text x={isRtl ? cardWidth - 50 : 50} y="0" textAnchor={textAnchorStart}>{data.phone} • {data.email}</text>
-                                    <text x={isRtl ? cardWidth - 50 : 50} y="40" textAnchor={textAnchorStart}>{data.website}</text>
-                                 </g>
-                              </g>
+                   activeSide === 'front' ? (
+                       <>
+                           <path d={`M0,0 L${cardWidth},0 L${cardWidth},${cardHeight*0.8} Q${cardWidth/2},${cardHeight} 0,${cardHeight*0.8} Z`} fill={themeColor} />
+                           <text x={centerX} y={cardHeight * 0.4} fill="white" fontSize="60" fontWeight="bold" textAnchor="middle">{data.name}</text>
+                           <text x={centerX} y={cardHeight * 0.5} fill="rgba(255,255,255,0.9)" fontSize="28" textAnchor="middle">{data.job}</text>
+                           <g transform={`translate(${centerX}, ${cardHeight * 0.85})`} fontSize="18" fill="#333" textAnchor="middle">
+                               <text>{data.email} • {data.website}</text>
                            </g>
-                           
-                           {/* Company Name in corner opposite to shape */}
-                           <g transform={`translate(${textOffsets.company.x}, ${textOffsets.company.y})`}>
-                              <text 
-                                 x={isRtl ? cardWidth - 50 : 50} 
-                                 y={50} 
-                                 fill="#999" 
-                                 fontSize="20" 
-                                 fontWeight="bold" 
-                                 textAnchor={textAnchorStart}
-                              >
-                                 {data.company.toUpperCase()}
-                              </text>
-                           </g>
-                        </>
-                     ) : (
-                        // Portrait Creative
-                        <>
-                           <path d={`M0,0 L${cardWidth},0 L${cardWidth},${cardHeight * 0.4} L0,${cardHeight * 0.3} Z`} fill={themeColor} />
-                           
-                           <text x={centerX} y={cardHeight * 0.2} fill="rgba(255,255,255,0.3)" fontSize="120" fontWeight="900" textAnchor="middle">{data.name.charAt(0)}</text>
-                           
-                           <g transform={`translate(${textOffsets.name.x}, ${textOffsets.name.y})`}>
-                              <text x={centerX} y={cardHeight * 0.5} fill="#111" fontSize="55" fontWeight="900" textAnchor="middle">{data.name}</text>
-                           </g>
-                           <g transform={`translate(${textOffsets.job.x}, ${textOffsets.job.y})`}>
-                              <text x={centerX} y={cardHeight * 0.56} fill={themeColor} fontSize="28" fontWeight="700" textAnchor="middle">{data.job.toUpperCase()}</text>
-                              <line x1="100" y1={cardHeight * 0.62} x2={cardWidth - 100} y2={cardHeight * 0.62} stroke="#eee" strokeWidth="4" />
-                           </g>
-
-                           <g transform={`translate(${textOffsets.contact.x}, ${textOffsets.contact.y})`}>
-                              <g transform={`translate(${centerX}, ${cardHeight * 0.7})`} fontSize="24" fill="#555" textAnchor="middle">
-                                 <text y="0">{data.phone}</text>
-                                 <text y="40">{data.email}</text>
-                                 <text y="80">{data.website}</text>
-                                 <text y="120">{data.address}</text>
-                              </g>
-                           </g>
-                           
-                           <g transform={`translate(${textOffsets.company.x}, ${textOffsets.company.y})`}>
-                              <text x={centerX} y={cardHeight - 40} fill="#ccc" fontSize="20" fontWeight="bold" textAnchor="middle" letterSpacing="2">{data.company}</text>
-                           </g>
-                        </>
-                     )}
-                  </>
+                       </>
+                   ) : (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="#fff" />
+                           <path d={`M0,${cardHeight} L${cardWidth},${cardHeight} L${cardWidth},${cardHeight*0.2} Q${cardWidth/2},0 0,${cardHeight*0.2} Z`} fill={themeColor} />
+                           {renderLogo(centerX, cardHeight/2, 150)}
+                       </>
+                   )
                )}
 
-               {/* --- LOGO LAYER (Always on Top) --- */}
-               {logo && (
+               {layout === 'corporate' && (
+                   activeSide === 'front' ? (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="#f3f4f6" />
+                           <rect x="0" y="0" width="20" height={cardHeight} fill={themeColor} />
+                           <text x="50" y="80" fill={themeColor} fontSize="30" fontWeight="bold" textAnchor="start">{data.company}</text>
+                           
+                           <line x1="50" y1={centerY} x2={cardWidth - 50} y2={centerY} stroke="#ddd" strokeWidth="1" />
+                           
+                           <text x="50" y={centerY - 20} fill="#333" fontSize="40" fontWeight="bold" textAnchor="start">{data.name}</text>
+                           <text x={cardWidth - 50} y={centerY - 20} fill="#666" fontSize="20" textAnchor="end">{data.job}</text>
+                           
+                           <text x="50" y={centerY + 40} fill="#555" fontSize="18" textAnchor="start">📞 {data.phone}</text>
+                           <text x="50" y={centerY + 70} fill="#555" fontSize="18" textAnchor="start">✉️ {data.email}</text>
+                           <text x="50" y={centerY + 100} fill="#555" fontSize="18" textAnchor="start">📍 {data.address}</text>
+                       </>
+                   ) : (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill={themeColor} />
+                           <line x1="0" y1={centerY} x2={cardWidth} y2={centerY} stroke="rgba(255,255,255,0.2)" strokeWidth="200" />
+                           {renderLogo(centerX, centerY, 180)}
+                           <text x={centerX} y={cardHeight - 50} fill="white" fontSize="20" textAnchor="middle">{data.website}</text>
+                       </>
+                   )
+               )}
+
+               {layout === 'artistic' && (
+                   activeSide === 'front' ? (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="white" />
+                           <circle cx="0" cy="0" r={cardHeight} fill={themeColor} opacity="0.1" />
+                           <circle cx={cardWidth} cy={cardHeight} r={cardHeight*0.8} fill={themeColor} opacity="0.1" />
+                           
+                           <text x={centerX} y={centerY} fill="#333" fontSize="50" fontWeight="900" fontStyle="italic" textAnchor="middle">{data.name}</text>
+                           <text x={centerX} y={centerY + 40} fill={themeColor} fontSize="24" textAnchor="middle">{data.job}</text>
+                           
+                           <line x1={centerX-50} y1={centerY+60} x2={centerX+50} y2={centerY+60} stroke="#333" strokeWidth="2" />
+                       </>
+                   ) : (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill={themeColor} />
+                           <text x="0" y="0" fontSize="300" fill="white" opacity="0.1" fontWeight="900">{data.name.charAt(0)}</text>
+                           {renderLogo(centerX, centerY, 150)}
+                           <text x={centerX} y={centerY + 100} fill="white" fontSize="30" fontWeight="bold" textAnchor="middle">{data.company}</text>
+                       </>
+                   )
+               )}
+
+               {layout === 'tech' && (
+                   activeSide === 'front' ? (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="#111" />
+                           <path d={`M0,0 L${cardWidth},0 L${cardWidth},10 L0,10 Z`} fill={themeColor} />
+                           <path d={`M0,${cardHeight-10} L${cardWidth},${cardHeight-10} L${cardWidth},${cardHeight} L0,${cardHeight} Z`} fill={themeColor} />
+                           
+                           <text x="40" y={centerY} fill="white" fontSize="45" fontFamily="monospace" fontWeight="bold" textAnchor="start">{`<${data.name} />`}</text>
+                           <text x="40" y={centerY + 40} fill={themeColor} fontSize="20" fontFamily="monospace" textAnchor="start">{`// ${data.job}`}</text>
+                           
+                           <text x={cardWidth - 40} y={centerY} fill="#888" fontSize="16" fontFamily="monospace" textAnchor="end">{data.email}</text>
+                           <text x={cardWidth - 40} y={centerY + 25} fill="#888" fontSize="16" fontFamily="monospace" textAnchor="end">{data.phone}</text>
+                       </>
+                   ) : (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="#000" />
+                           <path d={`M0,0 L${cardWidth},${cardHeight}`} stroke={themeColor} strokeWidth="2" opacity="0.3" />
+                           <path d={`M${cardWidth},0 L0,${cardHeight}`} stroke={themeColor} strokeWidth="2" opacity="0.3" />
+                           
+                           <rect x={centerX - 100} y={centerY - 30} width="200" height="60" fill="#111" stroke={themeColor} strokeWidth="2" />
+                           <text x={centerX} y={centerY + 10} fill="white" fontSize="24" fontFamily="monospace" textAnchor="middle">{data.website}</text>
+                       </>
+                   )
+               )}
+
+               {layout === 'classic' && (
+                   activeSide === 'front' ? (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="#fffbf0" /> {/* Creamy white */}
+                           <rect x="20" y="20" width={cardWidth - 40} height={cardHeight - 40} fill="none" stroke="#333" strokeWidth="1" />
+                           <rect x="25" y="25" width={cardWidth - 50} height={cardHeight - 50} fill="none" stroke={themeColor} strokeWidth="3" />
+                           
+                           <text x={centerX} y={centerY - 20} fill="#222" fontSize="48" fontFamily="serif" fontWeight="bold" textAnchor="middle">{data.name}</text>
+                           <text x={centerX} y={centerY + 20} fill="#555" fontSize="22" fontFamily="serif" fontStyle="italic" textAnchor="middle">{data.job}</text>
+                           
+                           <text x={centerX} y={cardHeight - 60} fill="#444" fontSize="16" textAnchor="middle">{data.phone} • {data.email}</text>
+                       </>
+                   ) : (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="#222" />
+                           <rect x="30" y="30" width={cardWidth - 60} height={cardHeight - 60} fill="none" stroke={themeColor} strokeWidth="2" />
+                           {renderLogo(centerX, centerY - 40, 120)}
+                           <text x={centerX} y={centerY + 60} fill={themeColor} fontSize="28" fontFamily="serif" textAnchor="middle">{data.company}</text>
+                           <text x={centerX} y={centerY + 90} fill="#888" fontSize="16" fontFamily="serif" fontStyle="italic" textAnchor="middle">Est. 2024</text>
+                       </>
+                   )
+               )}
+
+               {layout === 'geometric' && (
+                   activeSide === 'front' ? (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill="white" />
+                           <polygon points={`0,0 ${cardWidth/2},0 0,${cardHeight}`} fill={themeColor} opacity="0.8" />
+                           <polygon points={`${cardWidth},${cardHeight} ${cardWidth/2},${cardHeight} ${cardWidth},0`} fill="#222" opacity="0.9" />
+                           
+                           <text x={cardWidth * 0.25} y={cardHeight * 0.4} fill="white" fontSize="40" fontWeight="bold" textAnchor="middle">{data.name}</text>
+                           <text x={cardWidth * 0.75} y={cardHeight * 0.6} fill="white" fontSize="20" textAnchor="middle">{data.job}</text>
+                           
+                           <rect x={cardWidth/2 - 150} y={centerY - 30} width="300" height="60" fill="white" rx="30" shadow="lg" />
+                           <text x={centerX} y={centerY + 10} fill="#333" fontSize="20" fontWeight="bold" textAnchor="middle">{data.phone}</text>
+                       </>
+                   ) : (
+                       <>
+                           <rect width={cardWidth} height={cardHeight} fill={themeColor} />
+                           <polygon points={`0,${cardHeight} ${cardWidth},0 ${cardWidth},${cardHeight}`} fill="#222" opacity="0.2" />
+                           {renderLogo(centerX, centerY, 160)}
+                           <text x={centerX} y={cardHeight - 40} fill="white" fontSize="24" fontWeight="bold" textAnchor="middle" letterSpacing="4">{data.website.toUpperCase()}</text>
+                       </>
+                   )
+               )}
+
+               {/* Add uploaded logo if configured manually over layouts (except where explicitly handled) */}
+               {logo && activeSide === 'front' && (
                   <image 
                      href={logo} 
                      x={logoSettings.x} 
