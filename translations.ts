@@ -5,7 +5,7 @@ export const translations = {
   ar: {
     appTitle: "صديق المصمم",
     appDesc: "أدوات تصميم ويب احترافية ومجانية",
-    copyright: "كافة الحقوق محفوظة 2025 | أدوات ذكية للمبدعين",
+    copyright: "كافة الحقوق محفوظة 2025 | adelawad1@gmail.com",
     backToHome: "العودة للرئيسية",
     homeDesc: "تصفح أفضل أدوات التصميم والمونتاج",
     
@@ -171,7 +171,7 @@ export const translations = {
     pdfSplit: "تقسيم ملف PDF",
     pdfImages: "صور إلى PDF",
     pdfProtect: "حماية بكلمة سر",
-    pdfRotate: "تدوير الصفحات",
+    pdfRotate: "تعديل الصفحات",
     pdfReorder: "إعادة ترتيب",
     pdfSign: "توقيع المستند",
     pdfToImages: "استخراج النصوص",
@@ -379,7 +379,7 @@ export const translations = {
   en: {
     appTitle: "Designer's Friend",
     appDesc: "Free Professional Web Tools for Creatives",
-    copyright: "All rights reserved 2025 | Smart Tools for Creatives",
+    copyright: "All rights reserved 2025 | adelawad1@gmail.com",
     backToHome: "Back to Home",
     homeDesc: "Explore Top Design & Media Tools",
 
