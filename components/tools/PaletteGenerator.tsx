@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { generateColorPalette } from '../../services/geminiService';
 import { ColorPalette } from '../../types';
@@ -31,36 +32,39 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({ onClose }) =
 
   const copyColor = (color: string) => {
     navigator.clipboard.writeText(color);
+    // You could add a toast notification here
   };
 
   return (
-    <div className="space-y-8">
-       <div className="bg-white dark:bg-slate-800 rounded-[2rem] shadow-sm border border-slate-200 dark:border-slate-700 transition-colors overflow-hidden">
+    <div className="space-y-8 animate-fade-in-up">
+       <div className="bg-white dark:bg-[#0F172A] rounded-[2.5rem] shadow-xl border border-slate-200 dark:border-slate-800 transition-colors overflow-hidden">
         
         {/* Header - Slim & Beautiful */}
-        <div className="px-5 py-2 border-b border-slate-100 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-between sticky top-0 z-20">
-          <div className="flex items-center gap-2.5">
-            <div className="p-1.5 bg-orange-100/50 dark:bg-orange-900/20 rounded-lg text-orange-600 dark:text-orange-400">
-               <PaletteIcon className="w-5 h-5" />
+        <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-between sticky top-0 z-20">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-amber-100/50 dark:bg-amber-900/20 rounded-xl text-amber-600 dark:text-amber-400">
+               <PaletteIcon className="w-6 h-6" />
             </div>
-            <h2 className="text-base font-bold text-slate-800 dark:text-slate-100 tracking-wide">
-              {t.paletteTitle}
-            </h2>
+            <div>
+              <h2 className="text-lg font-black text-slate-800 dark:text-slate-100 leading-none mb-1">
+                {t.paletteTitle}
+              </h2>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">AI Harmonious Engine</p>
+            </div>
           </div>
           
           {onClose && (
             <button 
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 rounded-full transition-all"
-              aria-label="Close"
+              className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800 rounded-full transition-all"
             >
               <BackIcon className="w-5 h-5 rtl:rotate-180" />
             </button>
           )}
         </div>
 
-        <div className="p-6 md:p-8">
-          <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed text-sm">
+        <div className="p-8 md:p-10">
+          <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed text-sm max-w-2xl">
             {t.paletteSubtitle}
           </p>
 
@@ -70,53 +74,78 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({ onClose }) =
               value={mood}
               onChange={(e) => setMood(e.target.value)}
               placeholder={t.palettePlaceholder}
-              className="flex-1 p-4 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:border-orange-500 dark:focus:border-orange-400 focus:ring-4 focus:ring-orange-100 dark:focus:ring-orange-900/30 outline-none transition-shadow text-sm"
+              className="flex-1 p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:border-amber-500 dark:focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 outline-none transition-all text-sm font-bold"
               onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
             />
             <button
               onClick={handleGenerate}
               disabled={loading || !mood.trim()}
-              className="px-8 py-4 bg-slate-800 dark:bg-orange-600 text-white rounded-xl font-bold hover:bg-slate-900 dark:hover:bg-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap shadow-lg text-sm"
+              className="px-10 py-5 bg-amber-600 text-white rounded-2xl font-black hover:bg-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap shadow-lg shadow-amber-600/20 active:scale-95"
             >
-              {loading ? t.paletteLoading : t.paletteBtn}
+              {loading ? (
+                <div className="flex items-center gap-2">
+                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                   <span>{t.paletteLoading}</span>
+                </div>
+              ) : t.paletteBtn}
             </button>
           </div>
           
-          {error && <p className="text-red-500 dark:text-red-400 mt-4 text-xs bg-red-50 dark:bg-red-900/20 p-3 rounded-lg border border-red-100 dark:border-red-800/20">{error}</p>}
+          {error && (
+            <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 mt-6 rounded-2xl border border-red-100 dark:border-red-900/30 text-xs font-bold">
+              ⚠️ {error}
+            </div>
+          )}
         </div>
       </div>
 
       {palette && (
-        <div className="bg-white dark:bg-slate-800 rounded-[2rem] p-8 shadow-md border border-slate-200 dark:border-slate-700 animate-fade-in-up transition-colors">
-          <div className="mb-8 border-b border-slate-100 dark:border-slate-700 pb-4">
-            <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">{palette.name}</h3>
-            <p className="text-slate-500 dark:text-slate-400 text-sm">{palette.description}</p>
+        <div className="bg-white dark:bg-[#0F172A] rounded-[2.5rem] p-10 shadow-2xl border border-slate-200 dark:border-slate-800 animate-fade-in-up transition-colors">
+          <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-2">
+              <h3 className="text-3xl font-black text-slate-800 dark:text-white">{palette.name}</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-xl">{palette.description}</p>
+            </div>
+            <div className="flex gap-2">
+               <span className="px-4 py-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-[10px] font-black rounded-full border border-amber-100 dark:border-amber-900/30 uppercase tracking-widest">
+                 {palette.colors.length} Harmonious Colors
+               </span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 h-48 md:h-64 rounded-3xl overflow-hidden shadow-inner ring-1 ring-slate-100 dark:ring-slate-700">
+          {/* SEO Optimized Palette Display */}
+          <article className="grid grid-cols-1 md:grid-cols-5 gap-6 h-[400px] rounded-[2.5rem] overflow-hidden">
             {palette.colors.map((color, index) => (
-              <div 
+              <section 
                 key={index}
-                className="relative group cursor-pointer h-full flex flex-col justify-end p-4 transition-all hover:flex-grow-[1.5]"
+                className="relative group cursor-pointer h-full flex flex-col justify-end p-6 transition-all duration-500 hover:flex-grow-[2] shadow-sm"
                 style={{ backgroundColor: color }}
                 onClick={() => copyColor(color)}
               >
-                <div className="bg-white/90 backdrop-blur-sm p-3 rounded-xl text-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 shadow-lg scale-90 group-hover:scale-100">
-                  <span className="font-mono font-bold text-slate-800 text-sm">{color}</span>
-                  <span className="block text-[10px] text-slate-500 mt-1 uppercase tracking-wide">{t.paletteCopy}</span>
+                <div className="bg-white/95 backdrop-blur-md p-4 rounded-2xl text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-8 group-hover:translate-y-0 shadow-2xl scale-90 group-hover:scale-100 border border-white/20">
+                  <span className="font-mono font-black text-slate-800 text-base block mb-1">{color.toUpperCase()}</span>
+                  <span className="block text-[9px] text-slate-500 font-black uppercase tracking-widest">{t.paletteCopy}</span>
                 </div>
-              </div>
+                
+                {/* Visual Label for Lighter/Darker background readability */}
+                <div className="absolute top-6 left-1/2 -translate-x-1/2 text-[10px] font-black opacity-20 pointer-events-none uppercase tracking-widest mix-blend-difference">
+                   Color {index + 1}
+                </div>
+              </section>
             ))}
-          </div>
+          </article>
           
-          <div className="mt-8 flex justify-between items-center bg-slate-50 dark:bg-slate-900 p-4 rounded-xl">
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-5 gap-6 bg-slate-50 dark:bg-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800">
             {palette.colors.map((color, idx) => (
-              <div key={idx} className="text-center flex-1">
+              <div key={idx} className="flex items-center gap-4 bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
                  <div 
-                  className="w-8 h-8 rounded-full mb-2 mx-auto shadow-sm ring-2 ring-white dark:ring-slate-700" 
+                  className="w-12 h-12 rounded-xl shadow-inner border border-white/20 shrink-0" 
                   style={{ backgroundColor: color }}
                  />
-                 <span className="text-xs text-slate-400 dark:text-slate-500 font-mono select-all">{color}</span>
+                 <div className="min-w-0">
+                    <span className="block text-[10px] font-black text-slate-400 uppercase tracking-tighter">Color {idx+1}</span>
+                    <span className="text-xs text-slate-700 dark:text-slate-200 font-mono font-bold select-all">{color}</span>
+                 </div>
               </div>
             ))}
           </div>
