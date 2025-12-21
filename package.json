@@ -16,7 +16,8 @@
     "pdf-lib": "^1.17.1",
     "bwip-js": "4.5.1",
     "pdfjs-dist": "3.11.174",
-    "signature_pad": "4.1.7"
+    "signature_pad": "4.1.7",
+    "next": "^16.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

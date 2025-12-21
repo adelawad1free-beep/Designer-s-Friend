@@ -1,3 +1,6 @@
+
+'use client';
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Language, Theme } from './types';
 import { translations } from './translations';
@@ -13,61 +16,38 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Initialize Language based on Storage -> Browser Preference -> Default
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      const savedLang = localStorage.getItem('app-lang') as Language;
-      if (savedLang) return savedLang;
-      
-      // Check browser language
-      const browserLang = navigator.language;
-      if (browserLang.toLowerCase().startsWith('ar')) {
-        return 'ar';
-      }
-      return 'en';
-    }
-    return 'ar';
-  });
+  const [language, setLanguage] = useState<Language>('ar');
+  const [theme, setTheme] = useState<Theme>('light');
+  const [mounted, setMounted] = useState(false);
 
-  // Initialize Theme based on Storage -> System Preference -> Default
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('app-theme') as Theme;
-      if (savedTheme) return savedTheme;
-      
-      // Check system theme preference
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
-    }
-    return 'light';
-  });
-
-  // Update Document Direction and Language
   useEffect(() => {
+    const savedLang = localStorage.getItem('app-lang') as Language;
+    const savedTheme = localStorage.getItem('app-theme') as Theme;
+    
+    if (savedLang) setLanguage(savedLang);
+    if (savedTheme) setTheme(savedTheme);
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+    
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     document.documentElement.lang = language;
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     localStorage.setItem('app-lang', language);
-  }, [language]);
+  }, [language, mounted]);
 
-  // Update Theme Class on Body/HTML
   useEffect(() => {
+    if (!mounted) return;
     const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    if (theme === 'dark') root.classList.add('dark');
+    else root.classList.remove('dark');
     localStorage.setItem('app-theme', theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
-  const toggleLanguage = () => {
-    setLanguage(prev => prev === 'ar' ? 'en' : 'ar');
-  };
-
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
-  };
+  const toggleLanguage = () => setLanguage(prev => prev === 'ar' ? 'en' : 'ar');
+  const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light');
 
   const value = {
     language,

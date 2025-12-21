@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ToolType } from '../types';
 import { useAppContext } from '../context';
@@ -58,6 +59,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
           </button>
 
           <div className="my-4 h-px bg-white/10 mx-4"></div>
+          {/* Fix: Property 'homeDesc' now exists in updated translations.ts */}
           <span className="px-4 text-[10px] font-black text-blue-300 uppercase tracking-widest mb-2">{t.homeDesc}</span>
 
           {/* List of shortcut icons for the sidebar */}
