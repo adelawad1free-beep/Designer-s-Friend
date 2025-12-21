@@ -1,7 +1,7 @@
 import React from 'react';
 import { ToolType } from '../types';
 import { useAppContext } from '../context';
-import { BackIcon, LangIcon, MoonIcon, SunIcon, LogoIcon, QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, MockupIcon, ShapesIcon, IdCardIcon, DateIcon } from './Icons';
+import { BackIcon, LangIcon, MoonIcon, SunIcon, LogoIcon, QrIcon, PdfIcon, ShapesIcon, DateIcon, GridIcon, SocialIcon } from './Icons';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -62,8 +62,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
 
           {/* List of shortcut icons for the sidebar */}
           {[
-            { id: ToolType.BUSINESS_CARD, icon: IdCardIcon },
-            { id: ToolType.MOCKUP_GENERATOR, icon: MockupIcon },
+            { id: ToolType.SOCIAL_SIZES, icon: SocialIcon },
+            { id: ToolType.GRID_GENERATOR, icon: GridIcon },
             { id: ToolType.SVG_LIBRARY, icon: ShapesIcon },
             { id: ToolType.QR_GENERATOR, icon: QrIcon },
             { id: ToolType.PDF_TOOLS, icon: PdfIcon },
@@ -100,13 +100,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
               <span className="text-xs font-bold lg:hidden xl:block">{language === 'ar' ? 'English' : 'عربي'}</span>
             </button>
           </div>
-
           <div className="text-[10px] text-blue-300/60 text-center font-medium mt-2 hidden lg:block">
             {t.copyright}
           </div>
         </div>
 
-        {/* Mobile Header / Bottom Bar (Visible only on mobile) */}
+        {/* Mobile Header / Bottom Bar */}
         {!isHome && (
           <button
             onClick={() => onNavigate(ToolType.HOME)}
@@ -119,8 +118,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
 
       {/* Main Content Area */}
       <main className="flex-1 lg:h-screen overflow-y-auto bg-slate-50 dark:bg-[#020617] flex flex-col">
-        
-        {/* Contextual Header (Top of content area) */}
         {!isHome && (
           <div className="px-8 py-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between sticky top-0 z-30 lg:z-10">
             <div className="flex items-center gap-4">
@@ -135,7 +132,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
                   <p className="text-xs text-slate-500 font-medium">{t.appDesc}</p>
                </div>
             </div>
-            
             <div className="hidden sm:flex items-center gap-2">
                 <div className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-[10px] font-bold text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800">
                   Ready to use
@@ -143,32 +139,19 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
             </div>
           </div>
         )}
-
-        {/* Content Body */}
         <div className={`flex-1 p-6 md:p-12 ${isHome ? 'animate-fade-in' : 'animate-fade-in-up'}`}>
           <div className="max-w-7xl mx-auto">
             {children}
           </div>
         </div>
-
-        {/* Mobile footer padding */}
         <div className="h-20 lg:hidden"></div>
       </main>
 
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.2);
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
       `}</style>
     </div>
   );

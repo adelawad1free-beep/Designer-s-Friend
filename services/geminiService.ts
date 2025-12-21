@@ -1,19 +1,11 @@
+
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { ColorPalette, GeneratedCode, Language } from "../types";
 
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
-
-// Helper to check for API key
-const checkApiKey = () => {
-  if (!apiKey) {
-    throw new Error("API Key is missing. Please check your environment configuration.");
-  }
-};
+// Always initialize the client with process.env.API_KEY as per coding guidelines
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateColorPalette = async (mood: string, lang: Language): Promise<ColorPalette> => {
-  checkApiKey();
-  
   const schema: Schema = {
     type: Type.OBJECT,
     properties: {
@@ -33,8 +25,9 @@ export const generateColorPalette = async (mood: string, lang: Language): Promis
     : `Generate a consistent color palette for designers based on this description: "${mood}".`;
 
   try {
+    // Using gemini-3-flash-preview for basic text task
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -53,8 +46,6 @@ export const generateColorPalette = async (mood: string, lang: Language): Promis
 };
 
 export const generateDesignCode = async (prompt: string, lang: Language): Promise<GeneratedCode> => {
-  checkApiKey();
-
   const schema: Schema = {
     type: Type.OBJECT,
     properties: {
@@ -87,8 +78,9 @@ export const generateDesignCode = async (prompt: string, lang: Language): Promis
       4. Do not use external JavaScript, only HTML/CSS.`;
 
   try {
+    // Using gemini-3-pro-preview for complex coding task
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-pro-preview',
       contents: systemInstruction,
       config: {
         responseMimeType: "application/json",

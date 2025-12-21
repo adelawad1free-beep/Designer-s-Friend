@@ -18,10 +18,10 @@ export const translations = {
     [ToolType.VAT_CALCULATOR]: "حاسبة ضريبة القيمة المضافة",
     [ToolType.PANTONE_MATCH]: "مطابقة ألوان بانتون",
     [ToolType.BMR_CALCULATOR]: "حاسبة السعرات (BMR)",
-    [ToolType.MOCKUP_GENERATOR]: "مولد النماذج (Mockups)",
     [ToolType.SVG_LIBRARY]: "مكتبة الأيقونات (SVG)",
-    [ToolType.BUSINESS_CARD]: "صانع بطاقات الأعمال",
     [ToolType.CALENDAR_CONVERTER]: "التقويم والمحول الهجري",
+    [ToolType.GRID_GENERATOR]: "مولد الشبكات (Grid)",
+    [ToolType.SOCIAL_SIZES]: "مقاسات السوشيال ميديا",
     
     // Tool Descriptions
     homeDesc: "نظرة عامة على الأدوات",
@@ -34,12 +34,37 @@ export const translations = {
     vatDesc: "حساب ضريبة القيمة المضافة بسهولة (شامل أو غير شامل)",
     pantoneDesc: "إيجاد أقرب رقم بانتون (PMS) لأي لون تختاره",
     bmrDesc: "حساب معدل الأيض الأساسي والسعرات الحرارية اليومية بدقة",
-    mockupDesc: "وضع صورك وتصميماتك داخل إطارات هواتف وأجهزة لابتوب احترافية",
     svgDesc: "مكتبة شاملة من أيقونات SVG الجاهزة للنسخ والاستخدام",
-    cardDesc: "تصميم بطاقات شخصية وتجارية احترافية في ثوانٍ",
     calDesc: "تحويل التواريخ بين الهجري والميلادي وعرض التقويم الشهري",
+    gridDesc: "إنشاء شبكات تصميم (Columns / Rows) للويب والطباعة",
+    socialDesc: "دليل قياسات الصور والفيديو المحدث لكل المنصات",
 
-    // Calendar & Converter
+    // Social Sizes
+    socialTitle: "دليل قياسات السوشيال ميديا",
+    socialPlatform: "المنصة",
+    socialCategory: "النوع",
+    socialCopyDims: "نسخ المقاس",
+    socialAspectRatio: "النسبة",
+    socialWidth: "العرض",
+    socialHeight: "الارتفاع",
+    socialSearch: "ابحث عن مقاس (مثلاً: ريلز، غلاف)...",
+
+    // Grid Generator
+    gridTitle: "مولد الشبكات الاحترافي",
+    gridCols: "عدد الأعمدة",
+    gridRows: "عدد الصفوف",
+    gridGutter: "المسافة البينية (Gutter)",
+    gridMargin: "الهوامش الخارجية",
+    gridUnit: "الوحدة",
+    gridType: "نوع الشبكة",
+    gridWeb: "واجهات ويب (CSS)",
+    gridPrint: "مقاسات طباعة",
+    gridCopyCss: "نسخ كود CSS",
+    gridDownloadSvg: "تحميل كشبكة SVG",
+    gridPreview: "معاينة الشبكة",
+    gridSettings: "إعدادات الأبعاد",
+    gridVisuals: "المظهر",
+
     calTitle: "التقويم والمحول",
     calTabConverter: "محول التواريخ",
     calTabCalendar: "التقويم الشهري",
@@ -55,8 +80,6 @@ export const translations = {
     calGregorianMonths: "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر",
     calWeekDays: "الأحد,الاثنين,الثلاثاء,الأربعاء,الخميس,الجمعة,السبت",
     calExport: "تصدير التقويم",
-
-    // SVG Library
     svgTitle: "مكتبة أيقونات SVG",
     svgSearch: "ابحث عن أيقونة...",
     svgCopySVG: "نسخ SVG",
@@ -66,52 +89,9 @@ export const translations = {
     svgDownloaded: "تم التحميل!",
     svgNoResults: "لم يتم العثور على أيقونات",
     svgIconsCount: "أيقونة",
-
-    // Business Card
-    cardTitle: "صانع بطاقات الأعمال",
-    cardName: "الاسم الكامل",
-    cardJob: "المسمى الوظيفي",
-    cardCompany: "اسم الشركة / المؤسسة",
-    cardPhone: "رقم الهاتف",
-    cardEmail: "البريد الإلكتروني",
-    cardWebsite: "الموقع الإلكتروني",
-    cardAddress: "العنوان",
-    cardColor: "لون الهوية",
-    cardLayout: "نوع التصميم",
-    cardFace: "وجه البطاقة",
-    cardFaceFront: "الأمام",
-    cardFaceBack: "الخلف",
-    cardModern: "عصري",
-    cardMinimal: "بسيط",
-    cardBold: "جريء",
-    cardElegant: "أنيق",
-    cardCreative: "إبداعي",
-    cardCorporate: "شركات",
-    cardArtistic: "فني",
-    cardTech: "تقني",
-    cardClassic: "كلاسيكي",
-    cardGeometric: "هندسي",
-    cardDownload: "تحميل (PNG)",
-    cardDownloadPdf: "تحميل (PDF)",
-    cardPreview: "معاينة البطاقة",
-    cardRemoveBg: "تفريغ الخلفية البيضاء للشعار",
-    
-    // Text Positioning
-    cardPosTitle: "تحريك النصوص",
-    cardPosLabel: "اختر العنصر للتحريك",
-    cardPosName: "الاسم",
-    cardPosJob: "المسمى الوظيفي",
-    cardPosCompany: "الشركة",
-    cardPosContact: "معلومات الاتصال",
-    cardPosX: "أفقي (X)",
-    cardPosY: "عمودي (Y)",
-
-    // Home Page
     welcomeTitle: "مرحباً بك في",
     welcomeTitleSpan: "صديق المصمم",
     welcomeText: "منصة مجانية توفر أدوات أساسية لمساعدتك في إنجاز المهام بسرعة وكفاءة عالية.",
-    
-    // Pantone Matcher
     pmsTitle: "مطابقة ألوان بانتون",
     pmsInputLabel: "اختر اللون أو أدخل الكود (Hex)",
     pmsInputPlaceholder: "#FFFFFF",
@@ -120,8 +100,6 @@ export const translations = {
     pmsCopy: "نسخ",
     pmsCopied: "تم النسخ",
     pmsAccuracy: "دقة التطابق",
-    
-    // VAT Calculator
     vatTitle: "حاسبة الضريبة",
     vatAmountInput: "المبلغ",
     vatRateInput: "نسبة الضريبة (%)",
@@ -132,8 +110,6 @@ export const translations = {
     vatResultTax: "مبلغ الضريبة",
     vatResultTotal: "الإجمالي",
     vatReset: "تصفير",
-    
-    // BMR Calculator
     bmrTitle: "حاسبة السعرات الحرارية (BMR)",
     bmrGender: "الجنس",
     bmrMale: "ذكر",
@@ -153,31 +129,6 @@ export const translations = {
     bmrGoalMaintain: "للحفاظ على الوزن",
     bmrGoalGain: "لزيادة الوزن",
     bmrCalories: "سعر حراري",
-
-    // Mockup Generator
-    mockTitle: "مولد النماذج الاحترافي",
-    mockUpload: "رفع صورة التصميم",
-    mockUploadDesc: "اسحب الصورة هنا أو انقر للرفع",
-    mockDevice: "نوع الجهاز",
-    mockPhone: "آيفون 15 برو",
-    mockLaptop: "ماك بوك برو",
-    mockBrowser: "متصفح سفاري",
-    mockDownload: "تحميل النموذج (PNG)",
-    mockGenerating: "جاري المعالجة...",
-    mockSettingsDevice: "خصائص الجهاز",
-    mockSettingsScreen: "الشاشة والمحتوى",
-    mockSettingsBg: "الخلفية",
-    mockColor: "لون الهيكل",
-    mockFit: "ملاءمة الصورة",
-    mockFitCover: "تعبئة (Cover)",
-    mockFitContain: "احتواء (Contain)",
-    mockBgTransparent: "شفاف",
-    mockBgColor: "لون",
-    mockBgGradient: "تدرج",
-    mockReset: "إعادة تعيين",
-    mockQuality: "عالية الجودة",
-    
-    // Code Generator
     codeGenTitle: "مولد أكواد الواجهات",
     codeGenSubtitle: "صف ما تريد إنشاءه وسأقوم بكتابة HTML/Tailwind لك.",
     codeGenPlaceholder: "مثال: بطاقة منتج مع صورة وزر شراء...",
@@ -188,8 +139,6 @@ export const translations = {
     codeGenPreview: "المعاينة",
     codeGenHtmlTitle: "كود HTML",
     codeGenCopy: "نسخ",
-
-    // Image Resizer
     resizeTitle: "تغيير حجم الصور",
     resizeUpload: "رفع صورة",
     resizeUploadSub: "اسحب الصورة أو اضغط هنا",
@@ -200,8 +149,6 @@ export const translations = {
     resizeOriginal: "الأبعاد الأصلية:",
     resizeDownload: "تحميل الصورة",
     resizePreview: "معاينة",
-
-    // Palette Generator
     paletteTitle: "مولد لوحات الألوان",
     paletteSubtitle: "استلهم ألواناً متناسقة لمشروعك باستخدام الذكاء الاصطناعي.",
     palettePlaceholder: "صف الحالة المزاجية أو الموضوع (مثال: غروب الشمس في البحر)",
@@ -209,8 +156,6 @@ export const translations = {
     paletteBtn: "توليد اللوحة",
     paletteError: "فشل توليد الألوان.",
     paletteCopy: "نسخ",
-
-    // PDF Tools
     pdfTitle: "أدوات PDF الاحترافية",
     pdfMerge: "دمج الملفات",
     pdfSplit: "تقسيم الملف",
@@ -222,7 +167,6 @@ export const translations = {
     pdfRotate: "تدوير الصفحات",
     pdfReorder: "ترتيب الصفحات",
     pdfSign: "توقيع المستند",
-    
     pdfUploadPdf: "رفع ملفات PDF",
     pdfUploadImages: "رفع صور (JPG/PNG)",
     pdfNoFiles: "لم يتم اختيار ملفات",
@@ -230,8 +174,6 @@ export const translations = {
     pdfProcessing: "جاري المعالجة...",
     pdfDownload: "تحميل الملف",
     pdfDragDrop: "اسحب الملفات هنا",
-    
-    // PDF Sub-tools specific
     pdfSplitRange: "نطاق الصفحات (مثال: 1-5)",
     pdfSplitAll: "استخراج كل الصفحات كملفات منفصلة",
     pdfProtectPass: "كلمة المرور",
@@ -246,8 +188,6 @@ export const translations = {
     pdfRotate90: "90 درجة",
     pdfRotate180: "180 درجة",
     pdfRotate270: "270 درجة",
-
-    // ... (Existing translations kept to avoid breaking)
     qrTitle: "مولد الباركود الاحترافي",
     qrSubtitle: "قم بإنشاء رموز QR مخصصة للروابط والنصوص والواي فاي والمزيد.",
     qrTabLink: "رابط",
@@ -286,7 +226,6 @@ export const translations = {
     qrQualityUltra: "فائقة (2048px)",
     qrQualityMax: "قصوى (4096px)",
     qrFormat: "صيغة الملف",
-
     bcTitle: "مولد الباركود الشامل",
     bcType: "نوع الرمز",
     bcContent: "قيمة الباركود",
@@ -298,7 +237,6 @@ export const translations = {
     bcDownload: "تحميل الصورة",
     bcFormat: "صيغة الملف",
     bcError: "قيمة غير صالحة لهذا النوع",
-
     compTitle: "ضاغط الصور الذكي",
     compUpload: "اضغط لاختيار الصور أو اسحبها هنا",
     compUploadSub: "يدعم JPG, PNG, WEBP (بحد أقصى 10 صور)",
@@ -312,7 +250,6 @@ export const translations = {
     compDownload: "تحميل",
     compClear: "مسح الكل",
     compAuto: "تلقائي (JPEG/WebP)",
-
     unitTitle: "محول الوحدات الشامل",
     unitCatLength: "الطول",
     unitCatWeight: "الوزن",
@@ -326,7 +263,6 @@ export const translations = {
     unitTo: "إلى",
     unitCopied: "تم نسخ النتيجة",
     unitCopy: "نسخ",
-
     nutritionTitle: "منشئ الملصق الغذائي",
     nutLabelLang: "لغة الملصق",
     nutExport: "تصدير PNG",
@@ -352,8 +288,6 @@ export const translations = {
     nutCalcium: "كالسيوم",
     nutIron: "حديد",
     nutPotassium: "بوتاسيوم",
-    
-    // Helper units translations
     unit_m: "متر",
     unit_km: "كيلومتر",
     unit_cm: "سنتيمتر",
@@ -415,10 +349,10 @@ export const translations = {
     [ToolType.VAT_CALCULATOR]: "VAT Calculator",
     [ToolType.PANTONE_MATCH]: "Pantone Matcher",
     [ToolType.BMR_CALCULATOR]: "BMR Calculator",
-    [ToolType.MOCKUP_GENERATOR]: "Mockup Generator",
     [ToolType.SVG_LIBRARY]: "SVG Library",
-    [ToolType.BUSINESS_CARD]: "Business Card Maker",
     [ToolType.CALENDAR_CONVERTER]: "Hijri Calendar & Converter",
+    [ToolType.GRID_GENERATOR]: "Grid Generator",
+    [ToolType.SOCIAL_SIZES]: "Social Media Sizes",
 
     // Tool Descriptions
     homeDesc: "Overview of tools",
@@ -431,12 +365,36 @@ export const translations = {
     vatDesc: "Easily calculate VAT (Inclusive or Exclusive)",
     pantoneDesc: "Find the closest Pantone (PMS) number for any color",
     bmrDesc: "Accurately calculate your Basal Metabolic Rate and daily calorie needs",
-    mockupDesc: "Place your designs into professional device frames",
     svgDesc: "A library of common SVG icons ready to copy and use",
-    cardDesc: "Design professional personal and business cards in seconds",
     calDesc: "Convert dates between Hijri and Gregorian and view monthly calendar",
+    gridDesc: "Generate design grids (Columns / Rows) for web and print",
+    socialDesc: "Updated image and video size guide for all platforms",
 
-    // Calendar & Converter
+    // Social Sizes
+    socialTitle: "Social Media Size Guide",
+    socialPlatform: "Platform",
+    socialCategory: "Type",
+    socialCopyDims: "Copy Size",
+    socialAspectRatio: "Ratio",
+    socialWidth: "Width",
+    socialHeight: "Height",
+    socialSearch: "Search sizes (e.g., Reels, Cover)...",
+
+    gridTitle: "Pro Grid Generator",
+    gridCols: "Columns",
+    gridRows: "Rows",
+    gridGutter: "Gutter Spacing",
+    gridMargin: "Margins",
+    gridUnit: "Unit",
+    gridType: "Grid Type",
+    gridWeb: "Web Layout (CSS)",
+    gridPrint: "Print Layout",
+    gridCopyCss: "Copy CSS Grid",
+    gridDownloadSvg: "Download SVG",
+    gridPreview: "Grid Preview",
+    gridSettings: "Layout Settings",
+    gridVisuals: "Visuals",
+
     calTitle: "Calendar & Converter",
     calTabConverter: "Date Converter",
     calTabCalendar: "Monthly Calendar",
@@ -452,8 +410,6 @@ export const translations = {
     calGregorianMonths: "January,February,March,April,May,June,July,August,September,October,November,December",
     calWeekDays: "Sun,Mon,Tue,Wed,Thu,Fri,Sat",
     calExport: "Export Calendar",
-
-    // SVG Library
     svgTitle: "SVG Icon Library",
     svgSearch: "Search icons...",
     svgCopySVG: "Copy SVG",
@@ -463,52 +419,9 @@ export const translations = {
     svgDownloaded: "Downloaded!",
     svgNoResults: "No icons found",
     svgIconsCount: "Icons",
-
-    // Business Card
-    cardTitle: "Business Card Maker",
-    cardName: "Full Name",
-    cardJob: "Job Title",
-    cardCompany: "Company Name",
-    cardPhone: "Phone Number",
-    cardEmail: "Email",
-    cardWebsite: "Website",
-    cardAddress: "Address",
-    cardColor: "Brand Color",
-    cardLayout: "Layout Style",
-    cardFace: "Card Face",
-    cardFaceFront: "Front",
-    cardFaceBack: "Back",
-    cardModern: "Modern",
-    cardMinimal: "Minimal",
-    cardBold: "Bold",
-    cardElegant: "Elegant",
-    cardCreative: "Creative",
-    cardCorporate: "Corporate",
-    cardArtistic: "Artistic",
-    cardTech: "Tech",
-    cardClassic: "Classic",
-    cardGeometric: "Geometric",
-    cardDownload: "Download (PNG)",
-    cardDownloadPdf: "Download (PDF)",
-    cardPreview: "Card Preview",
-    cardRemoveBg: "Remove White Background from Logo",
-    
-    // Text Positioning
-    cardPosTitle: "Text Positioning",
-    cardPosLabel: "Select Element to Move",
-    cardPosName: "Name",
-    cardPosJob: "Job Title",
-    cardPosCompany: "Company",
-    cardPosContact: "Contact Info",
-    cardPosX: "Horizontal (X)",
-    cardPosY: "Vertical (Y)",
-
-    // Home Page
     welcomeTitle: "Welcome to",
     welcomeTitleSpan: "Designer's Friend",
     welcomeText: "A free platform providing essential tools to help you accomplish tasks efficiently.",
-
-    // Pantone Matcher
     pmsTitle: "Pantone Color Matcher",
     pmsInputLabel: "Pick Color or Enter Hex",
     pmsInputPlaceholder: "#FFFFFF",
@@ -517,8 +430,6 @@ export const translations = {
     pmsCopy: "Copy",
     pmsCopied: "Copied",
     pmsAccuracy: "Match Accuracy",
-
-    // VAT Calculator
     vatTitle: "VAT Calculator",
     vatAmountInput: "Amount",
     vatRateInput: "VAT Rate (%)",
@@ -529,8 +440,6 @@ export const translations = {
     vatResultTax: "Tax Amount",
     vatResultTotal: "Total Amount",
     vatReset: "Reset",
-
-    // BMR Calculator
     bmrTitle: "BMR Calculator",
     bmrGender: "Gender",
     bmrMale: "Male",
@@ -550,31 +459,6 @@ export const translations = {
     bmrGoalMaintain: "Maintenance",
     bmrGoalGain: "Weight Gain",
     bmrCalories: "Calories",
-
-    // Mockup Generator
-    mockTitle: "Pro Mockup Generator",
-    mockUpload: "Upload Design",
-    mockUploadDesc: "Drag & drop image here or click to upload",
-    mockDevice: "Device Model",
-    mockPhone: "iPhone 15 Pro",
-    mockLaptop: "MacBook Pro",
-    mockBrowser: "Safari Browser",
-    mockDownload: "Download Mockup (PNG)",
-    mockGenerating: "Processing...",
-    mockSettingsDevice: "Device Settings",
-    mockSettingsScreen: "Screen & Content",
-    mockSettingsBg: "Background",
-    mockColor: "Chassis Color",
-    mockFit: "Image Fit",
-    mockFitCover: "Cover (Fill)",
-    mockFitContain: "Contain (Fit)",
-    mockBgTransparent: "Transparent",
-    mockBgColor: "Solid Color",
-    mockBgGradient: "Gradient",
-    mockReset: "Reset",
-    mockQuality: "High Quality",
-
-    // Code Generator
     codeGenTitle: "UI Code Generator",
     codeGenSubtitle: "Describe what you want to build and I'll write the HTML/Tailwind code.",
     codeGenPlaceholder: "Ex: Product card with image and buy button...",
@@ -585,8 +469,6 @@ export const translations = {
     codeGenPreview: "Preview",
     codeGenHtmlTitle: "HTML Code",
     codeGenCopy: "Copy",
-
-    // Image Resizer
     resizeTitle: "Image Resizer",
     resizeUpload: "Upload Image",
     resizeUploadSub: "Drag image or click here",
@@ -597,8 +479,6 @@ export const translations = {
     resizeOriginal: "Original Dimensions:",
     resizeDownload: "Download Image",
     resizePreview: "Preview",
-
-    // Palette Generator
     paletteTitle: "Color Palette Generator",
     paletteSubtitle: "Generate consistent color palettes for your project using AI.",
     palettePlaceholder: "Describe mood or theme (e.g., Ocean sunset)",
@@ -606,8 +486,6 @@ export const translations = {
     paletteBtn: "Generate Palette",
     paletteError: "Failed to generate palette.",
     paletteCopy: "Copy",
-
-    // PDF Tools
     pdfTitle: "Professional PDF Tools",
     pdfMerge: "Merge Files",
     pdfSplit: "Split PDF",
@@ -619,7 +497,6 @@ export const translations = {
     pdfRotate: "Rotate Pages",
     pdfReorder: "Reorder Pages",
     pdfSign: "Sign PDF",
-    
     pdfUploadPdf: "Upload PDF Files",
     pdfUploadImages: "Upload Images (JPG/PNG)",
     pdfNoFiles: "No files selected",
@@ -627,7 +504,6 @@ export const translations = {
     pdfProcessing: "Processing...",
     pdfDownload: "Download File",
     pdfDragDrop: "Drag & Drop files here",
-
     pdfSplitRange: "Page Range (e.g., 1-5)",
     pdfSplitAll: "Extract all pages separately",
     pdfProtectPass: "Password",
@@ -642,8 +518,6 @@ export const translations = {
     pdfRotate90: "90 Degrees",
     pdfRotate180: "180 Degrees",
     pdfRotate270: "270 Degrees",
-
-    // ... (Existing translations)
     qrTitle: "Professional QR Generator",
     qrSubtitle: "Create custom QR codes for links, text, WiFi, and more.",
     qrTabLink: "Link",
@@ -682,7 +556,6 @@ export const translations = {
     qrQualityUltra: "Ultra (2048px)",
     qrQualityMax: "Max (4096px)",
     qrFormat: "File Format",
-
     bcTitle: "Universal Barcode Generator",
     bcType: "Barcode Type",
     bcContent: "Barcode Value",
@@ -694,7 +567,6 @@ export const translations = {
     bcDownload: "Download Image",
     bcFormat: "File Format",
     bcError: "Invalid value for this format",
-
     compTitle: "Smart Image Compressor",
     compUpload: "Click to select or drag images here",
     compUploadSub: "Supports JPG, PNG, WEBP (Max 10 images)",
@@ -708,7 +580,6 @@ export const translations = {
     compDownload: "Download",
     compClear: "Clear All",
     compAuto: "Auto (JPEG/WebP)",
-
     unitTitle: "Comprehensive Unit Converter",
     unitCatLength: "Length",
     unitCatWeight: "Weight",
@@ -722,7 +593,6 @@ export const translations = {
     unitTo: "To",
     unitCopied: "Result copied",
     unitCopy: "Copy",
-
     nutritionTitle: "Nutrition Label Generator",
     nutLabelLang: "Label Language",
     nutExport: "Export PNG",
@@ -748,8 +618,6 @@ export const translations = {
     nutCalcium: "Calcium",
     nutIron: "Iron",
     nutPotassium: "Potassium",
-    
-    // Helper units translations
     unit_m: "Meter",
     unit_km: "Kilometer",
     unit_cm: "Centimeter",

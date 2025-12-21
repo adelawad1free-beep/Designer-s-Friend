@@ -10,12 +10,12 @@ import { PdfTools } from './components/tools/PdfTools';
 import { VatCalculator } from './components/tools/VatCalculator';
 import { PantoneMatch } from './components/tools/PantoneMatch';
 import { BmrCalculator } from './components/tools/BmrCalculator';
-import { MockupGenerator } from './components/tools/MockupGenerator';
 import { SvgLibrary } from './components/tools/SvgLibrary';
-import { BusinessCardMaker } from './components/tools/BusinessCardMaker';
 import { CalendarConverter } from './components/tools/CalendarConverter';
+import { GridGenerator } from './components/tools/GridGenerator';
+import { SocialSizes } from './components/tools/SocialSizes';
 import { ToolType } from './types';
-import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, MockupIcon, ShapesIcon, IdCardIcon, DateIcon } from './components/Icons';
+import { QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, FireIcon, ShapesIcon, DateIcon, GridIcon, SocialIcon } from './components/Icons';
 
 const MainApp: React.FC = () => {
   const [activeTool, setActiveTool] = useState<ToolType>(ToolType.HOME);
@@ -43,14 +43,14 @@ const MainApp: React.FC = () => {
         return <PantoneMatch onClose={handleClose} />;
       case ToolType.BMR_CALCULATOR:
         return <BmrCalculator onClose={handleClose} />;
-      case ToolType.MOCKUP_GENERATOR:
-        return <MockupGenerator onClose={handleClose} />;
       case ToolType.SVG_LIBRARY:
         return <SvgLibrary onClose={handleClose} />;
-      case ToolType.BUSINESS_CARD:
-        return <BusinessCardMaker onClose={handleClose} />;
       case ToolType.CALENDAR_CONVERTER:
         return <CalendarConverter onClose={handleClose} />;
+      case ToolType.GRID_GENERATOR:
+        return <GridGenerator onClose={handleClose} />;
+      case ToolType.SOCIAL_SIZES:
+        return <SocialSizes onClose={handleClose} />;
       case ToolType.HOME:
       default:
         return (
@@ -69,6 +69,24 @@ const MainApp: React.FC = () => {
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
               {[
                 { 
+                  t: ToolType.SOCIAL_SIZES, 
+                  title: t[ToolType.SOCIAL_SIZES], 
+                  desc: t.socialDesc, 
+                  Icon: SocialIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#E11D48] to-[#9F1239]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-rose-100'
+                },
+                { 
+                  t: ToolType.GRID_GENERATOR, 
+                  title: t[ToolType.GRID_GENERATOR], 
+                  desc: t.gridDesc, 
+                  Icon: GridIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#3B82F6] to-[#1D4ED8]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-blue-100'
+                },
+                { 
                   t: ToolType.CALENDAR_CONVERTER, 
                   title: t[ToolType.CALENDAR_CONVERTER], 
                   desc: t.calDesc, 
@@ -78,15 +96,6 @@ const MainApp: React.FC = () => {
                   descColor: 'text-emerald-100'
                 },
                 { 
-                  t: ToolType.BUSINESS_CARD, 
-                  title: t.cardTitle, 
-                  desc: t.cardDesc, 
-                  Icon: IdCardIcon, 
-                  bgClass: 'bg-gradient-to-br from-[#2563EB] to-[#1E40AF]',
-                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
-                  descColor: 'text-blue-100'
-                },
-                { 
                   t: ToolType.SVG_LIBRARY, 
                   title: t[ToolType.SVG_LIBRARY], 
                   desc: t.svgDesc, 
@@ -94,15 +103,6 @@ const MainApp: React.FC = () => {
                   bgClass: 'bg-gradient-to-br from-[#06B6D4] to-[#0891B2]',
                   iconContainer: 'bg-white/20 text-white backdrop-blur-md',
                   descColor: 'text-cyan-100'
-                },
-                { 
-                  t: ToolType.MOCKUP_GENERATOR, 
-                  title: t[ToolType.MOCKUP_GENERATOR], 
-                  desc: t.mockupDesc, 
-                  Icon: MockupIcon, 
-                  bgClass: 'bg-gradient-to-br from-[#8B5CF6] to-[#6366F1]',
-                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
-                  descColor: 'text-violet-100'
                 },
                 { 
                   t: ToolType.BMR_CALCULATOR, 
@@ -166,24 +166,6 @@ const MainApp: React.FC = () => {
                   bgClass: 'bg-gradient-to-br from-[#4F46E5] to-[#2563EB]',
                   iconContainer: 'bg-white/20 text-white backdrop-blur-md',
                   descColor: 'text-indigo-100'
-                },
-                { 
-                  t: ToolType.UNIT_CONVERTER, 
-                  title: t[ToolType.UNIT_CONVERTER], 
-                  desc: t.unitDesc, 
-                  Icon: UnitIcon, 
-                  bgClass: 'bg-gradient-to-br from-[#0D9488] to-[#0F766E]',
-                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
-                  descColor: 'text-teal-100'
-                },
-                { 
-                  t: ToolType.NUTRITION_LABEL, 
-                  title: t[ToolType.NUTRITION_LABEL], 
-                  desc: t.nutritionDesc, 
-                  Icon: NutritionIcon, 
-                  bgClass: 'bg-gradient-to-br from-[#F97316] to-[#DC2626]',
-                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
-                  descColor: 'text-orange-100'
                 },
               ].map((item) => (
                 <button
