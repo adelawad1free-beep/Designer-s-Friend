@@ -65,7 +65,7 @@ const DesignerAppContent: React.FC = () => {
                 </p>
              </div>
 
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl pb-20">
               {[
                 { 
                   t: ToolType.PALETTE_GENERATOR, 
@@ -149,13 +149,13 @@ const DesignerAppContent: React.FC = () => {
                   descColor: 'text-pink-100'
                 },
                 { 
-                  t: ToolType.PANTONE_MATCH, 
-                  title: t[ToolType.PANTONE_MATCH], 
-                  desc: t.pantoneDesc, 
-                  Icon: SwatchIcon, 
-                  bgClass: 'bg-gradient-to-br from-[#06B6D4] to-[#3B82F6]',
+                  t: ToolType.BARCODE_GENERATOR, 
+                  title: t[ToolType.BARCODE_GENERATOR], 
+                  desc: t.barcodeDesc, 
+                  Icon: BarcodeIcon, 
+                  bgClass: 'bg-gradient-to-br from-slate-700 to-slate-900',
                   iconContainer: 'bg-white/20 text-white backdrop-blur-md',
-                  descColor: 'text-cyan-100'
+                  descColor: 'text-slate-100'
                 },
                 { 
                   t: ToolType.PDF_TOOLS, 
@@ -166,6 +166,60 @@ const DesignerAppContent: React.FC = () => {
                   iconContainer: 'bg-white/20 text-white backdrop-blur-md',
                   descColor: 'text-red-100'
                 },
+                { 
+                  t: ToolType.IMAGE_COMPRESSOR, 
+                  title: t[ToolType.IMAGE_COMPRESSOR], 
+                  desc: t.compressDesc, 
+                  Icon: CompressIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#DB2777] to-[#9D174D]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-pink-100'
+                },
+                { 
+                  t: ToolType.UNIT_CONVERTER, 
+                  title: t[ToolType.UNIT_CONVERTER], 
+                  desc: t.appDesc, 
+                  Icon: UnitIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#0D9488] to-[#0F766E]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-teal-100'
+                },
+                { 
+                  t: ToolType.NUTRITION_LABEL, 
+                  title: t[ToolType.NUTRITION_LABEL], 
+                  desc: t.appDesc, 
+                  Icon: NutritionIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#EA580C] to-[#C2410C]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-orange-100'
+                },
+                { 
+                  t: ToolType.VAT_CALCULATOR, 
+                  title: t[ToolType.VAT_CALCULATOR], 
+                  desc: t.vatDesc, 
+                  Icon: CalculatorIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#16A34A] to-[#15803D]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-green-100'
+                },
+                { 
+                  t: ToolType.BMR_CALCULATOR, 
+                  title: t[ToolType.BMR_CALCULATOR], 
+                  desc: t.bmrDesc, 
+                  Icon: FireIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#EAB308] to-[#CA8A04]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-yellow-100'
+                },
+                { 
+                  t: ToolType.PANTONE_MATCH, 
+                  title: t[ToolType.PANTONE_MATCH], 
+                  desc: t.pantoneDesc, 
+                  Icon: SwatchIcon, 
+                  bgClass: 'bg-gradient-to-br from-[#06B6D4] to-[#3B82F6]',
+                  iconContainer: 'bg-white/20 text-white backdrop-blur-md',
+                  descColor: 'text-cyan-100'
+                },
               ].map((item) => (
                 <button
                   key={item.t}
@@ -175,7 +229,7 @@ const DesignerAppContent: React.FC = () => {
                     shadow-xl hover:shadow-2xl hover:-translate-y-2 
                     ${item.bgClass} text-white
                     transition-all duration-300 group text-right rtl:text-right ltr:text-left 
-                    flex flex-col relative overflow-hidden h-full min-h-[180px] border border-white/10
+                    flex flex-col relative overflow-hidden h-full min-h-[190px] border border-white/10
                   `}
                 >
                   <div className="flex items-start justify-between w-full mb-4">
@@ -196,11 +250,11 @@ const DesignerAppContent: React.FC = () => {
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-black mb-2 leading-tight text-white drop-shadow-sm">
+                  <h3 className="text-lg font-black mb-2 leading-tight text-white drop-shadow-sm">
                     {item.title}
                   </h3>
                   
-                  <p className={`leading-snug text-xs font-medium ${item.descColor} opacity-90`}>
+                  <p className={`leading-snug text-[11px] font-medium ${item.descColor} opacity-90`}>
                     {item.desc}
                   </p>
                   
