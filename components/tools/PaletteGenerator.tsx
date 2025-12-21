@@ -1,45 +1,137 @@
 
-import React, { useState } from 'react';
-import { generateColorPalette } from '../../services/geminiService';
-import { ColorPalette } from '../../types';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAppContext } from '../../context';
-import { PaletteIcon, BackIcon } from '../Icons';
+import { PaletteIcon, BackIcon, SwapIcon } from '../Icons';
 
 interface PaletteGeneratorProps {
   onClose?: () => void;
 }
 
+type HarmonyRule = 'analogous' | 'complementary' | 'triadic' | 'monochromatic' | 'tetradic';
+
+// --- Color Utilities ---
+
+const hexToHsl = (hex: string) => {
+  let r = parseInt(hex.slice(1, 3), 16) / 255;
+  let g = parseInt(hex.slice(3, 5), 16) / 255;
+  let b = parseInt(hex.slice(5, 7), 16) / 255;
+
+  let max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0, s = 0, l = (max + min) / 2;
+
+  if (max !== min) {
+    let d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return { h: h * 360, s: s * 100, l: l * 100 };
+};
+
+const hslToHex = (h: number, s: number, l: number) => {
+  h /= 360; s /= 100; l /= 100;
+  let r, g, b;
+  if (s === 0) {
+    r = g = b = l;
+  } else {
+    const hue2rgb = (p: number, q: number, t: number) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+      return p;
+    };
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1 / 3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1 / 3);
+  }
+  const toHex = (x: number) => Math.round(x * 255).toString(16).padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+};
+
 export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({ onClose }) => {
   const { t, language } = useAppContext();
-  const [mood, setMood] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [palette, setPalette] = useState<ColorPalette | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [seedColor, setSeedColor] = useState('#3B82F6');
+  const [rule, setRule] = useState<HarmonyRule>('analogous');
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  const handleGenerate = async () => {
-    if (!mood.trim()) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const result = await generateColorPalette(mood, language);
-      setPalette(result);
-    } catch (err) {
-      setError(t.paletteError);
-    } finally {
-      setLoading(false);
+  // Generate Palette locally based on Rule
+  const palette = useMemo(() => {
+    const hsl = hexToHsl(seedColor);
+    const colors: string[] = [];
+
+    switch (rule) {
+      case 'analogous':
+        colors.push(hslToHex((hsl.h + 330) % 360, hsl.s, hsl.l));
+        colors.push(hslToHex((hsl.h + 345) % 360, hsl.s, hsl.l));
+        colors.push(seedColor);
+        colors.push(hslToHex((hsl.h + 15) % 360, hsl.s, hsl.l));
+        colors.push(hslToHex((hsl.h + 30) % 360, hsl.s, hsl.l));
+        break;
+      case 'complementary':
+        colors.push(hslToHex(hsl.h, hsl.s, Math.max(0, hsl.l - 20)));
+        colors.push(hslToHex(hsl.h, hsl.s, Math.max(0, hsl.l - 10)));
+        colors.push(seedColor);
+        colors.push(hslToHex((hsl.h + 180) % 360, hsl.s, hsl.l));
+        colors.push(hslToHex((hsl.h + 180) % 360, hsl.s, Math.max(0, hsl.l - 20)));
+        break;
+      case 'triadic':
+        colors.push(hslToHex(hsl.h, hsl.s, Math.max(0, hsl.l - 15)));
+        colors.push(seedColor);
+        colors.push(hslToHex((hsl.h + 120) % 360, hsl.s, hsl.l));
+        colors.push(hslToHex((hsl.h + 240) % 360, hsl.s, hsl.l));
+        colors.push(hslToHex((hsl.h + 240) % 360, hsl.s, Math.max(0, hsl.l - 20)));
+        break;
+      case 'monochromatic':
+        colors.push(hslToHex(hsl.h, hsl.s, Math.max(10, hsl.l - 30)));
+        colors.push(hslToHex(hsl.h, hsl.s, Math.max(20, hsl.l - 15)));
+        colors.push(seedColor);
+        colors.push(hslToHex(hsl.h, Math.max(0, hsl.s - 20), Math.min(100, hsl.l + 15)));
+        colors.push(hslToHex(hsl.h, Math.max(0, hsl.s - 40), Math.min(100, hsl.l + 30)));
+        break;
+      case 'tetradic':
+        colors.push(seedColor);
+        colors.push(hslToHex((hsl.h + 90) % 360, hsl.s, hsl.l));
+        colors.push(hslToHex((hsl.h + 180) % 360, hsl.s, hsl.l));
+        colors.push(hslToHex((hsl.h + 270) % 360, hsl.s, hsl.l));
+        colors.push(hslToHex((hsl.h + 270) % 360, hsl.s, Math.max(0, hsl.l - 20)));
+        break;
     }
+    return colors;
+  }, [seedColor, rule]);
+
+  const handleRandomize = () => {
+    const randomHex = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    setSeedColor(randomHex.toUpperCase());
   };
 
-  const copyColor = (color: string) => {
+  const copyColor = (color: string, index: number) => {
     navigator.clipboard.writeText(color);
-    // You could add a toast notification here
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 1500);
   };
+
+  const rules: { id: HarmonyRule; label: string }[] = [
+    { id: 'analogous', label: t.paletteRuleAnalogous },
+    { id: 'complementary', label: t.paletteRuleComplementary },
+    { id: 'triadic', label: t.paletteRuleTriadic },
+    { id: 'monochromatic', label: t.paletteRuleMonochromatic },
+    { id: 'tetradic', label: t.paletteRuleTetradic },
+  ];
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-       <div className="bg-white dark:bg-[#0F172A] rounded-[2.5rem] shadow-xl border border-slate-200 dark:border-slate-800 transition-colors overflow-hidden">
+      {/* --- Main Settings Panel --- */}
+      <div className="bg-white dark:bg-[#0F172A] rounded-[2.5rem] shadow-xl border border-slate-200 dark:border-slate-800 transition-colors overflow-hidden">
         
-        {/* Header - Slim & Beautiful */}
+        {/* Header */}
         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-amber-100/50 dark:bg-amber-900/20 rounded-xl text-amber-600 dark:text-amber-400">
@@ -49,7 +141,7 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({ onClose }) =
               <h2 className="text-lg font-black text-slate-800 dark:text-slate-100 leading-none mb-1">
                 {t.paletteTitle}
               </h2>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">AI Harmonious Engine</p>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Mathematical Color Studio</p>
             </div>
           </div>
           
@@ -63,94 +155,139 @@ export const PaletteGenerator: React.FC<PaletteGeneratorProps> = ({ onClose }) =
           )}
         </div>
 
-        <div className="p-8 md:p-10">
-          <p className="text-slate-500 dark:text-slate-400 mb-8 leading-relaxed text-sm max-w-2xl">
-            {t.paletteSubtitle}
-          </p>
+        <div className="p-8 md:p-10 flex flex-col lg:flex-row gap-10">
+          <div className="flex-1 space-y-8">
+            <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-sm max-w-xl">
+              {t.paletteSubtitle}
+            </p>
 
-          <div className="flex gap-4 flex-col sm:flex-row">
-            <input
-              type="text"
-              value={mood}
-              onChange={(e) => setMood(e.target.value)}
-              placeholder={t.palettePlaceholder}
-              className="flex-1 p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:border-amber-500 dark:focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 outline-none transition-all text-sm font-bold"
-              onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
-            />
-            <button
-              onClick={handleGenerate}
-              disabled={loading || !mood.trim()}
-              className="px-10 py-5 bg-amber-600 text-white rounded-2xl font-black hover:bg-amber-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap shadow-lg shadow-amber-600/20 active:scale-95"
-            >
-              {loading ? (
-                <div className="flex items-center gap-2">
-                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                   <span>{t.paletteLoading}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Seed Color Picker */}
+                <div className="space-y-3">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{language === 'ar' ? 'اللون الأساسي' : 'Base Seed Color'}</label>
+                    <div className="flex gap-3">
+                        <div className="relative w-16 h-16 rounded-2xl overflow-hidden border-4 border-slate-100 dark:border-slate-800 shadow-inner group">
+                            <input 
+                                type="color" 
+                                value={seedColor}
+                                onChange={(e) => setSeedColor(e.target.value.toUpperCase())}
+                                className="absolute inset-0 w-[150%] h-[150%] -translate-x-1/4 -translate-y-1/4 cursor-pointer"
+                            />
+                        </div>
+                        <div className="flex-1 space-y-2">
+                             <input 
+                                type="text"
+                                value={seedColor}
+                                onChange={(e) => setSeedColor(e.target.value.toUpperCase())}
+                                className="w-full p-4 h-16 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 font-mono font-bold text-slate-800 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none transition-all"
+                             />
+                        </div>
+                    </div>
                 </div>
-              ) : t.paletteBtn}
+
+                {/* Harmony Rules */}
+                <div className="space-y-3">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{t.paletteRule}</label>
+                    <div className="relative">
+                        <select 
+                            value={rule}
+                            onChange={(e) => setRule(e.target.value as HarmonyRule)}
+                            className="w-full p-4 h-16 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 font-bold text-slate-700 dark:text-slate-200 outline-none focus:ring-2 focus:ring-amber-500 appearance-none cursor-pointer"
+                        >
+                            {rules.map(r => (
+                                <option key={r.id} value={r.id}>{r.label}</option>
+                            ))}
+                        </select>
+                        <div className="absolute right-4 rtl:left-4 rtl:right-auto top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                             <SwapIcon className="w-5 h-5 rotate-90" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button 
+                onClick={handleRandomize}
+                className="w-full py-4 bg-slate-800 hover:bg-slate-900 text-white rounded-2xl font-black text-sm transition-all active:scale-[0.98] shadow-lg flex items-center justify-center gap-3"
+            >
+                <span>🎲</span> {t.paletteBtn}
             </button>
           </div>
-          
-          {error && (
-            <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 mt-6 rounded-2xl border border-red-100 dark:border-red-900/30 text-xs font-bold">
-              ⚠️ {error}
-            </div>
-          )}
+
+          {/* Visual Legend / Help */}
+          <div className="w-full lg:w-72 bg-amber-50 dark:bg-amber-900/10 p-6 rounded-[2rem] border border-amber-100 dark:border-amber-900/20 flex flex-col justify-center text-center">
+             <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-amber-100 dark:border-slate-700">
+                <span className="text-2xl">💡</span>
+             </div>
+             <h4 className="font-black text-amber-800 dark:text-amber-400 mb-2">{language === 'ar' ? 'نصيحة للمصمم' : 'Designer Tip'}</h4>
+             <p className="text-[11px] leading-relaxed text-amber-700/80 dark:text-amber-400/60 font-medium">
+                {language === 'ar' 
+                  ? 'استخدم نظام 60-30-10 لتوزيع الألوان: 60% للون الأساسي، 30% للثانوي، و10% للتفاصيل واللمسات الفنية.' 
+                  : 'Use the 60-30-10 rule: 60% for the primary color, 30% for secondary, and 10% for accent details.'}
+             </p>
+          </div>
         </div>
       </div>
 
-      {palette && (
-        <div className="bg-white dark:bg-[#0F172A] rounded-[2.5rem] p-10 shadow-2xl border border-slate-200 dark:border-slate-800 animate-fade-in-up transition-colors">
-          <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-2">
-              <h3 className="text-3xl font-black text-slate-800 dark:text-white">{palette.name}</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-xl">{palette.description}</p>
-            </div>
-            <div className="flex gap-2">
-               <span className="px-4 py-2 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-[10px] font-black rounded-full border border-amber-100 dark:border-amber-900/30 uppercase tracking-widest">
-                 {palette.colors.length} Harmonious Colors
-               </span>
-            </div>
-          </div>
+      {/* --- Generated Palette Display --- */}
+      <div className="bg-white dark:bg-[#0F172A] rounded-[2.5rem] p-10 shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+        <div className="mb-10 flex items-center justify-between">
+           <div>
+              <h3 className="text-2xl font-black text-slate-800 dark:text-white uppercase tracking-tight">{rule} Palette</h3>
+              <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Refined by Design Logic</p>
+           </div>
+           <div className="flex gap-2">
+              <span className="px-3 py-1 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-[9px] font-black rounded-full border border-amber-100 dark:border-amber-900/30 uppercase tracking-widest">
+                Harmonious
+              </span>
+           </div>
+        </div>
 
-          {/* SEO Optimized Palette Display */}
-          <article className="grid grid-cols-1 md:grid-cols-5 gap-6 h-[400px] rounded-[2.5rem] overflow-hidden">
-            {palette.colors.map((color, index) => (
-              <section 
-                key={index}
-                className="relative group cursor-pointer h-full flex flex-col justify-end p-6 transition-all duration-500 hover:flex-grow-[2] shadow-sm"
-                style={{ backgroundColor: color }}
-                onClick={() => copyColor(color)}
-              >
-                <div className="bg-white/95 backdrop-blur-md p-4 rounded-2xl text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-8 group-hover:translate-y-0 shadow-2xl scale-90 group-hover:scale-100 border border-white/20">
-                  <span className="font-mono font-black text-slate-800 text-base block mb-1">{color.toUpperCase()}</span>
-                  <span className="block text-[9px] text-slate-500 font-black uppercase tracking-widest">{t.paletteCopy}</span>
-                </div>
-                
-                {/* Visual Label for Lighter/Darker background readability */}
-                <div className="absolute top-6 left-1/2 -translate-x-1/2 text-[10px] font-black opacity-20 pointer-events-none uppercase tracking-widest mix-blend-difference">
-                   Color {index + 1}
-                </div>
-              </section>
-            ))}
-          </article>
-          
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-5 gap-6 bg-slate-50 dark:bg-slate-900/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800">
-            {palette.colors.map((color, idx) => (
-              <div key={idx} className="flex items-center gap-4 bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                 <div 
-                  className="w-12 h-12 rounded-xl shadow-inner border border-white/20 shrink-0" 
-                  style={{ backgroundColor: color }}
-                 />
-                 <div className="min-w-0">
-                    <span className="block text-[10px] font-black text-slate-400 uppercase tracking-tighter">Color {idx+1}</span>
-                    <span className="text-xs text-slate-700 dark:text-slate-200 font-mono font-bold select-all">{color}</span>
+        {/* Studio Color Cards */}
+        <article className="grid grid-cols-1 md:grid-cols-5 gap-6 min-h-[400px]">
+          {palette.map((color, index) => (
+            <section 
+              key={index}
+              onClick={() => copyColor(color, index)}
+              className="relative group cursor-pointer rounded-[2.5rem] overflow-hidden flex flex-col transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-black/5"
+              style={{ backgroundColor: color }}
+            >
+              <div className="mt-auto p-6 flex flex-col items-center">
+                 <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 py-3 rounded-2xl shadow-xl transition-all duration-300 transform group-hover:scale-105 border border-white/20">
+                    <span className="font-mono font-black text-slate-800 dark:text-white text-sm">{color}</span>
                  </div>
               </div>
-            ))}
-          </div>
+              
+              {/* Feedback Overlay */}
+              <div className={`absolute inset-0 bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all duration-300 ${copiedIndex === index ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                 <div className="bg-slate-900 text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-2xl">
+                    Copied!
+                 </div>
+              </div>
+
+              {/* Index Number */}
+              <div className="absolute top-6 left-6 text-[10px] font-black opacity-30 pointer-events-none uppercase tracking-widest mix-blend-difference">
+                 #{index + 1}
+              </div>
+            </section>
+          ))}
+        </article>
+
+        {/* Detailed Codes Table */}
+        <div className="mt-12 grid grid-cols-2 md:grid-cols-5 gap-6 bg-slate-50 dark:bg-slate-900/50 p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800">
+          {palette.map((color, idx) => (
+            <div key={idx} className="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 group hover:border-amber-400 transition-colors">
+               <div 
+                className="w-10 h-10 rounded-xl shadow-inner border border-black/5 shrink-0" 
+                style={{ backgroundColor: color }}
+               />
+               <div className="min-w-0">
+                  <span className="block text-[8px] font-black text-slate-400 uppercase tracking-tighter">HEX CODE</span>
+                  <span className="text-xs text-slate-700 dark:text-slate-200 font-mono font-bold select-all">{color}</span>
+               </div>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
