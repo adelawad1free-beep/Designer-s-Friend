@@ -1,4 +1,6 @@
 
+// Fix: Added React import to provide the React namespace for React.ReactNode type in RootLayout props
+import React from "react";
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import "./globals.css";
