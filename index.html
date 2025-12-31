@@ -1,58 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" class="light">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/layout-template.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- SEO المتقدم -->
-    <title>صديق المصمم | أدوات ويب مجانية للمصممين والمطورين</title>
-    <meta name="title" content="صديق المصمم | أدوات ويب مجانية للمصممين والمطورين">
-    <meta name="description" content="أفضل مجموعة أدوات مجانية للمصممين: مولد باركود QR، ضغط الصور بدون فقدان جودة، أدوات PDF احترافية، مطابقة ألوان بانتون، وتصميم الدايلاين. كل ما تحتاجه في مكان واحد.">
-    <meta name="keywords" content="أدوات تصميم، صديق المصمم، مولد QR، ضغط الصور، دمج PDF، تقسيم PDF، بانتون، حاسبة ضريبة، أيقونات SVG مجانية، مقاسات السوشيال ميديا 2025، دايلاين صناديق">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="Arabic">
-    <meta name="author" content="Designer's Friend Team">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://designers-friend.app/">
-    <meta property="og:title" content="صديق المصمم - أدوات ذكية للإبداع الرقمي">
-    <meta property="og:description" content="منصة شاملة تقدم أكثر من 15 أداة ذكية للمصممين والمطورين مجاناً وباللغة العربية.">
-    <meta property="og:image" content="/og-image.jpg">
-
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Designer's Friend",
-      "alternateName": "صديق المصمم",
-      "description": "مجموعة أدوات ويب احترافية للمصممين تشمل معالجة الصور، ملفات PDF، والألوان.",
-      "applicationCategory": "DesignApplication",
-      "operatingSystem": "Web Browser",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "ratingCount": "1250"
-      },
-      "featureList": [
-        "QR Code Generation",
-        "Image Compression",
-        "PDF Manipulation",
-        "Pantone Matching",
-        "Dieline Engineering",
-        "SVG Library"
-      ]
-    }
-    </script>
-
+    <title>صديق المصمم | Designer's Friend - أدوات ذكية للمبدعين</title>
+    <meta name="description" content="مجموعة أدوات مجانية شاملة للمصممين والمطورين: مولد باركود QR، أدوات PDF، ضغط الصور، حاسبة الضريبة، ومطابقة ألوان بانتون.">
+    <meta name="keywords" content="أدوات تصميم، صديق المصمم، مولد QR، ضغط الصور، دمج PDF، تقسيم PDF، بانتون، حاسبة ضريبة">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,33 +20,40 @@
         theme: {
           extend: {
             fontFamily: { sans: ['Cairo', 'sans-serif'] },
-            colors: {
-              primary: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 900: '#0c4a6e' }
+            animation: {
+              'float': 'float 3s ease-in-out infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-5px)' },
+              }
             }
           },
         },
       }
     </script>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
-    "next": "https://esm.sh/next@^16.1.0",
-    "next/": "https://esm.sh/next@^16.1.0/",
-    "qrcode": "https://esm.sh/qrcode@^1.5.4",
-    "pdf-lib": "https://esm.sh/pdf-lib@^1.17.1",
-    "pdfjs-dist": "https://esm.sh/pdfjs-dist@^5.4.449",
-    "signature_pad": "https://esm.sh/signature_pad@^5.1.3",
-    "bwip-js": "https://esm.sh/bwip-js@^4.8.0"
-  }
-}
-</script>
-</head>
-  <body class="bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom": "https://esm.sh/react-dom@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+        "react/": "https://esm.sh/react@18.2.0/",
+        "react-dom/": "https://esm.sh/react-dom@18.2.0/",
+        "@google/genai": "https://esm.sh/@google/genai@1.34.0",
+        "qrcode": "https://esm.sh/qrcode@1.5.4",
+        "pdf-lib": "https://esm.sh/pdf-lib@1.17.1",
+        "pdfjs-dist": "https://esm.sh/pdfjs-dist@3.11.174",
+        "signature_pad": "https://esm.sh/signature_pad@5.1.3",
+        "bwip-js": "https://esm.sh/bwip-js@4.8.0"
+      }
+    }
+    </script>
+  </head>
+  <body>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script type="module" src="./index.tsx"></script>
   </body>
 </html>

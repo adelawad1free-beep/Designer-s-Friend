@@ -1,12 +1,12 @@
+
 import React, { useState, useRef, useEffect } from 'react';
-import { PDFDocument, degrees, rgb } from 'pdf-lib';
+import { PDFDocument, degrees } from 'pdf-lib';
 import * as pdfjsLibModule from 'pdfjs-dist';
 import SignaturePad from 'signature_pad';
 import { useAppContext } from '../../context';
 import { PdfIcon, BackIcon, SplitIcon, LockIcon, ImageIcon, RotateIcon, PenIcon } from '../Icons';
 
-// Initialize PDF.js worker
-// Handle ESM/CommonJS interop
+// Initialize PDF.js worker using a compatible stable version
 const pdfjsLib = (pdfjsLibModule as any).default || pdfjsLibModule;
 
 if (pdfjsLib.GlobalWorkerOptions) {
@@ -39,7 +39,6 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
   useEffect(() => {
     // Initialize signature pad when switching to sign tab
     if (activeTab === 'sign' && canvasRef.current) {
-        // Handle retina display scaling
         const canvas = canvasRef.current;
         const ratio =  Math.max(window.devicePixelRatio || 1, 1);
         canvas.width = canvas.offsetWidth * ratio;
@@ -57,7 +56,7 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
-      setFiles(prev => activeTab === 'images' || activeTab === 'merge' ? [...prev, ...newFiles] : [newFiles[0]]); // Single file for most ops
+      setFiles(prev => activeTab === 'images' || activeTab === 'merge' ? [...prev, ...newFiles] : [newFiles[0]]);
     }
   };
 
@@ -69,7 +68,13 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
       signaturePadRef.current?.clear();
   };
 
-  // --- ACTIONS ---
+  const downloadPdf = (bytes: Uint8Array, fileName: string) => {
+    const blob = new Blob([bytes], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+  };
 
   const handleMerge = async () => {
     if (files.length < 2) return;
@@ -99,7 +104,6 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
           const pageCount = srcDoc.getPageCount();
 
           if (!splitRange) {
-              // Split All
               for (let i = 0; i < pageCount; i++) {
                   const newDoc = await PDFDocument.create();
                   const [page] = await newDoc.copyPages(srcDoc, [i]);
@@ -107,7 +111,6 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
                   downloadPdf(await newDoc.save(), `page-${i+1}.pdf`);
               }
           } else {
-              // Range Split e.g. "1-3"
               const parts = splitRange.split('-').map(p => parseInt(p.trim()));
               if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
                   const newDoc = await PDFDocument.create();
@@ -221,22 +224,18 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
           const fileBuffer = await files[0].arrayBuffer();
           const pdfDoc = await PDFDocument.load(fileBuffer);
           
-          // Get signature as PNG
           const pngDataUrl = signaturePadRef.current!.toDataURL('image/png');
           const pngImageBytes = await fetch(pngDataUrl).then((res) => res.arrayBuffer());
           const pngImage = await pdfDoc.embedPng(pngImageBytes);
 
-          // Add to last page by default
           const pages = pdfDoc.getPages();
           const lastPage = pages[pages.length - 1];
           const { width } = lastPage.getSize();
-
-          // Scale image to reasonable size (e.g. 150px width)
           const imgDims = pngImage.scale(0.5);
 
           lastPage.drawImage(pngImage, {
               x: width / 2 - imgDims.width / 2,
-              y: 50, // Bottom center
+              y: 50,
               width: imgDims.width,
               height: imgDims.height,
           });
@@ -250,7 +249,6 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
   };
 
   const handleCompress = async () => {
-      // Basic optimization by just resaving with pdf-lib which drops unused objects
       if (files.length === 0) return;
       setIsProcessing(true);
       try {
@@ -288,15 +286,6 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
       }
   };
 
-  const downloadPdf = (bytes: Uint8Array, fileName: string) => {
-    const blob = new Blob([bytes], { type: 'application/pdf' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    link.click();
-  };
-
-  // UI HELPERS
   const switchTab = (tab: Tab) => {
       setActiveTab(tab);
       setFiles([]);
@@ -311,8 +300,6 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
 
   return (
     <div className="bg-white dark:bg-[#0F172A] rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors flex flex-col md:flex-row min-h-[600px]">
-      
-      {/* Sidebar Navigation */}
       <div className="w-full md:w-64 bg-slate-50 dark:bg-slate-900 border-b md:border-b-0 md:border-r rtl:md:border-l rtl:md:border-r-0 border-slate-200 dark:border-slate-800 flex flex-col">
           <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
              <div className="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 rounded-lg">
@@ -354,9 +341,7 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
           )}
       </div>
 
-      {/* Main Content Area */}
       <div className="flex-1 p-6 md:p-10 bg-white dark:bg-[#0F172A] flex flex-col overflow-y-auto">
-         
          <div className="mb-6">
             <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 capitalize">
                 {activeTab === 'merge' && t.pdfMerge}
@@ -376,7 +361,6 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
             </p>
          </div>
 
-         {/* File Upload Area */}
          {(files.length === 0 || (!isSingleFileOp && activeTab !== 'sign')) && (
             <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-10 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors relative group mb-8">
                 <input 
@@ -396,11 +380,8 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
             </div>
          )}
 
-         {/* Tool Specific Controls */}
          {files.length > 0 && (
              <div className="flex-1 flex flex-col gap-6">
-                 
-                 {/* File List */}
                  <div className="bg-slate-50 dark:bg-slate-900 rounded-2xl p-4 max-h-[200px] overflow-y-auto space-y-2 border border-slate-200 dark:border-slate-800">
                     {files.map((file, idx) => (
                         <div key={idx} className="flex items-center justify-between bg-white dark:bg-slate-800 p-3 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
@@ -415,9 +396,7 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
                     {isSingleFileOp && files.length > 0 && <button onClick={() => setFiles([])} className="text-xs text-red-500 underline text-center w-full mt-2">Replace File</button>}
                  </div>
 
-                 {/* Controls */}
                  <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
-                     
                      {activeTab === 'split' && (
                          <div>
                              <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">{t.pdfSplitRange}</label>
@@ -438,7 +417,7 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
                              <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">{t.pdfRotateAngle}</label>
                              <div className="flex gap-2">
                                 {[90, 180, 270].map(deg => (
-                                    <button key={deg} onClick={() => setRotation(deg as any)} className={`flex-1 py-2 rounded-lg text-sm font-bold border ${rotation === deg ? 'bg-red-500 text-white border-red-500' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600'}`}>
+                                    <button key={deg} onClick={() => setRotation(deg as any)} className={`flex-1 py-2 rounded-lg text-sm font-bold border ${rotation === deg ? 'bg-red-50 text-white border-red-500' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600'}`}>
                                         {deg}°
                                     </button>
                                 ))}

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ToolType } from '../types';
 import { useAppContext } from '../context';
@@ -14,8 +13,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
   const { language, theme, toggleLanguage, toggleTheme, t } = useAppContext();
 
   const isHome = activeTool === ToolType.HOME;
-
-  // Helper to check if a tool is active for styling
   const isActive = (type: ToolType) => activeTool === type;
 
   return (
@@ -46,7 +43,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
           </div>
         </div>
 
-        {/* Navigation Links - Desktop Only scrollable area */}
+        {/* Navigation Links */}
         <nav className="flex-1 overflow-y-auto px-4 py-2 hidden lg:flex flex-col gap-1 custom-scrollbar">
           <button
             onClick={() => onNavigate(ToolType.HOME)}
@@ -59,10 +56,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
           </button>
 
           <div className="my-4 h-px bg-white/10 mx-4"></div>
-          {/* Fix: Property 'homeDesc' now exists in updated translations.ts */}
           <span className="px-4 text-[10px] font-black text-blue-300 uppercase tracking-widest mb-2">{t.homeDesc}</span>
 
-          {/* List of shortcut icons for the sidebar */}
           {[
             { id: ToolType.PRINT_SIZES, icon: PrintIcon },
             { id: ToolType.SOCIAL_SIZES, icon: SocialIcon },
@@ -80,23 +75,34 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
               <span className="truncate">{t[item.id]}</span>
             </button>
           ))}
+
+          {/* Minimal Buy Me a Coffee - Bottom of Sidebar */}
+          <div className="mt-auto pt-6 pb-2">
+            <a 
+              href="https://buymeacoffee.com/guidai" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="mx-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-all flex items-center justify-center gap-2 group"
+            >
+               <span className="text-lg group-hover:animate-float">☕</span>
+               <span className="text-[10px] font-black text-amber-500 uppercase tracking-tighter">{t.buyMeCoffee}</span>
+            </a>
+          </div>
         </nav>
 
-        {/* Bottom Controls / Settings */}
-        <div className="p-6 mt-auto bg-black/10 backdrop-blur-md border-t border-white/5 flex flex-col gap-4">
+        {/* Bottom Controls */}
+        <div className="p-6 bg-black/10 backdrop-blur-md border-t border-white/5 flex flex-col gap-4">
           <div className="flex items-center justify-between gap-2">
             <button 
               onClick={toggleTheme}
               className="flex-1 flex items-center justify-center gap-2 p-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all border border-white/10"
-              title="Toggle Theme"
             >
               {theme === 'light' ? <MoonIcon className="w-5 h-5" /> : <SunIcon className="w-5 h-5" />}
-              <span className="text-xs font-bold lg:hidden xl:block">{theme === 'light' ? 'ليلي' : 'نهاري'}</span>
+              <span className="text-xs font-bold lg:hidden xl:block">{theme === 'light' ? (language === 'ar' ? 'ليلي' : 'Dark') : (language === 'ar' ? 'نهاري' : 'Light')}</span>
             </button>
             <button 
               onClick={toggleLanguage}
               className="flex-1 flex items-center justify-center gap-2 p-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all border border-white/10"
-              title="Switch Language"
             >
               <LangIcon className="w-5 h-5" />
               <span className="text-xs font-bold lg:hidden xl:block">{language === 'ar' ? 'English' : 'عربي'}</span>
@@ -107,7 +113,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
           </div>
         </div>
 
-        {/* Mobile Header / Bottom Bar */}
         {!isHome && (
           <button
             onClick={() => onNavigate(ToolType.HOME)}
@@ -133,11 +138,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
                   <h2 className="text-xl font-black text-slate-800 dark:text-white">{t[activeTool]}</h2>
                   <p className="text-xs text-slate-500 font-medium">{t.appDesc}</p>
                </div>
-            </div>
-            <div className="hidden sm:flex items-center gap-2">
-                <div className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-[10px] font-bold text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800">
-                  Ready to use
-                </div>
             </div>
           </div>
         )}
