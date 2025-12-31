@@ -1,23 +1,9 @@
-
 import React from 'react';
 
 // Base props for consistency
 interface IconProps {
   className?: string;
 }
-
-// Dieline: Package blueprint
-export const DielineIcon = ({ className }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3" />
-    <path d="M21 16v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3" />
-    <path d="M4 12H2" />
-    <path d="M10 12H8" />
-    <path d="M16 12h-2" />
-    <path d="M22 12h-2" />
-    <rect x="7" y="7" width="10" height="10" strokeDasharray="2 2" />
-  </svg>
-);
 
 // Navigation & Theme Icons
 export const BackIcon = ({ className }: IconProps) => (
@@ -143,6 +129,21 @@ export const PaletteIcon = ({ className }: IconProps) => (
   </svg>
 );
 
+// FIX: Added PatternIcon to resolve error in PatternGenerator.tsx
+export const PatternIcon = ({ className }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />
+  </svg>
+);
+
+// FIX: Added DielineIcon to resolve error in DielineGenerator.tsx
+export const DielineIcon = ({ className }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M12 3v18M3 12h18M3 3h18v18H3z" strokeDasharray="2 2" />
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+  </svg>
+);
+
 export const UnitIcon = ({ className }: IconProps) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <polyline points="15 3 21 3 21 9" />
@@ -190,12 +191,6 @@ export const SwatchIcon = ({ className }: IconProps) => (
 export const FireIcon = ({ className }: IconProps) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.203 1.15-3.003L8.5 14.5z" />
-  </svg>
-);
-
-export const PatternIcon = ({ className }: IconProps) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
   </svg>
 );
 

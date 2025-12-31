@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { PDFDocument, degrees } from 'pdf-lib';
 import * as pdfjsLibModule from 'pdfjs-dist';
@@ -300,15 +299,17 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
 
   return (
     <div className="bg-white dark:bg-[#0F172A] rounded-[2rem] shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors flex flex-col md:flex-row min-h-[600px]">
+      
+      {/* Improved Contrast Sidebar */}
       <div className="w-full md:w-64 bg-slate-50 dark:bg-slate-900 border-b md:border-b-0 md:border-r rtl:md:border-l rtl:md:border-r-0 border-slate-200 dark:border-slate-800 flex flex-col">
-          <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
-             <div className="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 rounded-lg">
+          <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3 bg-white/50 dark:bg-black/20">
+             <div className="p-2 bg-red-500 text-white rounded-lg shadow-sm">
                 <PdfIcon className="w-6 h-6" />
              </div>
-             <span className="font-bold text-slate-800 dark:text-slate-100">{t.pdfTitle}</span>
+             <span className="font-black text-slate-800 dark:text-slate-100 text-sm tracking-tight">{t.pdfTitle}</span>
           </div>
           
-          <div className="flex-1 overflow-y-auto p-2 space-y-1">
+          <div className="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar">
              {[
                  { id: 'merge', icon: PdfIcon, label: t.pdfMerge },
                  { id: 'split', icon: SplitIcon, label: t.pdfSplit },
@@ -323,17 +324,19 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
                  <button
                     key={item.id}
                     onClick={() => switchTab(item.id as Tab)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === item.id ? 'bg-red-50 dark:bg-red-900/20 text-red-600' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-black transition-all duration-200 ${activeTab === item.id 
+                      ? 'bg-red-500 text-white shadow-md scale-[1.02]' 
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800'}`}
                  >
-                    <item.icon className="w-5 h-5" />
-                    {item.label}
+                    <item.icon className={`w-4 h-4 ${activeTab === item.id ? 'text-white' : 'text-slate-400'}`} />
+                    <span className="truncate">{item.label}</span>
                  </button>
              ))}
           </div>
 
           {onClose && (
               <div className="p-4 border-t border-slate-200 dark:border-slate-800">
-                  <button onClick={onClose} className="w-full py-2 flex items-center justify-center gap-2 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors">
+                  <button onClick={onClose} className="w-full py-2 flex items-center justify-center gap-2 text-slate-500 hover:text-red-500 font-bold text-xs transition-colors">
                       <BackIcon className="w-4 h-4 rtl:rotate-180" />
                       <span>{t.backToHome}</span>
                   </button>
@@ -342,8 +345,8 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
       </div>
 
       <div className="flex-1 p-6 md:p-10 bg-white dark:bg-[#0F172A] flex flex-col overflow-y-auto">
-         <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 capitalize">
+         <div className="mb-8">
+            <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-2">
                 {activeTab === 'merge' && t.pdfMerge}
                 {activeTab === 'split' && t.pdfSplit}
                 {activeTab === 'images' && t.pdfImages}
@@ -354,7 +357,7 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
                 {activeTab === 'compress' && t.pdfCompress}
                 {activeTab === 'extract' && t.pdfToImages}
             </h2>
-            <p className="text-slate-500 text-sm">
+            <p className="text-slate-500 text-sm font-medium">
                 {activeTab === 'compress' && t.pdfCompressInfo}
                 {activeTab === 'sign' && t.pdfSignAdd}
                 {activeTab === 'extract' && t.pdfExtractTextInfo}
@@ -371,53 +374,53 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 />
                 <div className="pointer-events-none transform group-hover:scale-105 transition-transform duration-300">
-                    <span className="text-4xl block mb-4">{activeTab === 'images' ? '🖼️' : '📄'}</span>
-                    <p className="font-bold text-slate-700 dark:text-slate-200 text-lg mb-2">
+                    <span className="text-5xl block mb-4">{activeTab === 'images' ? '🖼️' : '📄'}</span>
+                    <p className="font-black text-slate-700 dark:text-slate-200 text-lg mb-2">
                         {activeTab === 'images' ? t.pdfUploadImages : t.pdfUploadPdf}
                     </p>
-                    <p className="text-sm text-slate-400">{t.pdfNoFiles}</p>
+                    <p className="text-xs text-slate-400 font-bold">{t.pdfNoFiles}</p>
                 </div>
             </div>
          )}
 
          {files.length > 0 && (
-             <div className="flex-1 flex flex-col gap-6">
-                 <div className="bg-slate-50 dark:bg-slate-900 rounded-2xl p-4 max-h-[200px] overflow-y-auto space-y-2 border border-slate-200 dark:border-slate-800">
+             <div className="flex-1 flex flex-col gap-6 animate-fade-in-up">
+                 <div className="bg-slate-50 dark:bg-slate-900 rounded-2xl p-4 max-h-[200px] overflow-y-auto space-y-2 border border-slate-200 dark:border-slate-800 shadow-inner">
                     {files.map((file, idx) => (
                         <div key={idx} className="flex items-center justify-between bg-white dark:bg-slate-800 p-3 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
                             <div className="flex items-center gap-3 overflow-hidden">
                                 <span className="text-xl shrink-0">{activeTab === 'images' ? '🖼️' : '📄'}</span>
-                                <span className="truncate text-sm font-medium text-slate-700 dark:text-slate-200">{file.name}</span>
-                                <span className="text-xs text-slate-400 shrink-0">({(file.size / 1024).toFixed(0)} KB)</span>
+                                <span className="truncate text-xs font-bold text-slate-700 dark:text-slate-200">{file.name}</span>
+                                <span className="text-[10px] text-slate-400 shrink-0 font-mono">({(file.size / 1024).toFixed(0)} KB)</span>
                             </div>
-                            <button onClick={() => removeFile(idx)} className="text-slate-400 hover:text-red-500 p-1">✕</button>
+                            <button onClick={() => removeFile(idx)} className="text-slate-300 hover:text-red-500 transition-colors p-1">✕</button>
                         </div>
                     ))}
-                    {isSingleFileOp && files.length > 0 && <button onClick={() => setFiles([])} className="text-xs text-red-500 underline text-center w-full mt-2">Replace File</button>}
+                    {isSingleFileOp && files.length > 0 && <button onClick={() => setFiles([])} className="text-[10px] text-red-500 font-black uppercase tracking-widest text-center w-full mt-2 hover:underline">إلغاء وتغيير الملف</button>}
                  </div>
 
-                 <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+                 <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-6">
                      {activeTab === 'split' && (
-                         <div>
-                             <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">{t.pdfSplitRange}</label>
-                             <input type="text" value={splitRange} onChange={e => setSplitRange(e.target.value)} placeholder="1-5" className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white" />
-                             <p className="text-xs text-slate-400 mt-2">{t.pdfSplitAll}</p>
+                         <div className="space-y-2">
+                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.pdfSplitRange}</label>
+                             <input type="text" value={splitRange} onChange={e => setSplitRange(e.target.value)} placeholder="مثال: 1-5" className="w-full p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white font-bold outline-none focus:ring-2 focus:ring-red-500" />
+                             <p className="text-[10px] text-slate-400 font-medium">{t.pdfSplitAll}</p>
                          </div>
                      )}
 
                      {activeTab === 'protect' && (
-                         <div>
-                             <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">{t.pdfProtectPass}</label>
-                             <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white" />
+                         <div className="space-y-2">
+                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.pdfProtectPass}</label>
+                             <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-red-500" />
                          </div>
                      )}
 
                      {activeTab === 'rotate' && (
-                         <div>
-                             <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">{t.pdfRotateAngle}</label>
+                         <div className="space-y-4">
+                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">{t.pdfRotateAngle}</label>
                              <div className="flex gap-2">
                                 {[90, 180, 270].map(deg => (
-                                    <button key={deg} onClick={() => setRotation(deg as any)} className={`flex-1 py-2 rounded-lg text-sm font-bold border ${rotation === deg ? 'bg-red-50 text-white border-red-500' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600'}`}>
+                                    <button key={deg} onClick={() => setRotation(deg as any)} className={`flex-1 py-3 rounded-xl text-xs font-black border transition-all ${rotation === deg ? 'bg-red-500 text-white border-red-500' : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700'}`}>
                                         {deg}°
                                     </button>
                                 ))}
@@ -426,25 +429,26 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
                      )}
 
                      {activeTab === 'reorder' && (
-                         <div>
-                             <label className="text-xs font-bold text-slate-500 uppercase mb-2 block">{t.pdfReorderDesc}</label>
-                             <input type="text" value={pageOrder} onChange={e => setPageOrder(e.target.value)} placeholder="1, 3, 2, 4" className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white" />
+                         <div className="space-y-2">
+                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.pdfReorderDesc}</label>
+                             <input type="text" value={pageOrder} onChange={e => setPageOrder(e.target.value)} placeholder="مثال: 1, 3, 2, 4" className="w-full p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white font-bold outline-none focus:ring-2 focus:ring-red-500" />
                          </div>
                      )}
 
                      {activeTab === 'sign' && (
-                         <div>
-                             <div className="border border-slate-300 dark:border-slate-600 rounded-xl bg-white overflow-hidden cursor-crosshair">
-                                <canvas ref={canvasRef} className="w-full h-40" />
+                         <div className="space-y-2">
+                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">لوحة التوقيع</label>
+                             <div className="border-2 border-slate-200 dark:border-slate-700 rounded-2xl bg-white overflow-hidden cursor-crosshair shadow-inner">
+                                <canvas ref={canvasRef} className="w-full h-44" />
                              </div>
-                             <button onClick={clearSignature} className="text-xs text-red-500 underline mt-2">{t.pdfSignClear}</button>
+                             <button onClick={clearSignature} className="text-[10px] text-red-500 font-black uppercase tracking-widest mt-2 hover:underline">{t.pdfSignClear}</button>
                          </div>
                      )}
 
                      {activeTab === 'extract' && extractedText && (
-                         <div className="mt-4">
-                             <h4 className="font-bold text-sm mb-2">{t.pdfExtractedTitle}</h4>
-                             <textarea readOnly value={extractedText} className="w-full h-40 p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono" />
+                         <div className="mt-4 animate-fade-in">
+                             <h4 className="font-black text-xs text-slate-500 mb-2 uppercase tracking-widest">{t.pdfExtractedTitle}</h4>
+                             <textarea readOnly value={extractedText} className="w-full h-48 p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono shadow-inner leading-relaxed" />
                          </div>
                      )}
 
@@ -461,14 +465,26 @@ export const PdfTools: React.FC<PdfToolsProps> = ({ onClose }) => {
                             else if (activeTab === 'extract') handleExtractText();
                         }}
                         disabled={isProcessing}
-                        className={`w-full py-4 rounded-xl font-bold text-white shadow-lg transition-all transform active:scale-[0.98] ${isProcessing ? 'bg-slate-400 cursor-not-allowed' : 'bg-red-600 hover:bg-red-700 hover:shadow-red-500/30'}`}
+                        className={`w-full py-4 rounded-2xl font-black text-sm text-white shadow-xl transition-all transform active:scale-[0.98] ${isProcessing ? 'bg-slate-400 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600 hover:shadow-red-500/30'}`}
                      >
-                        {isProcessing ? t.pdfProcessing : (activeTab === 'extract' ? t.pdfExtractBtn : t.pdfDownload)}
+                        {isProcessing ? (
+                          <span className="flex items-center justify-center gap-2">
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            {t.pdfProcessing}
+                          </span>
+                        ) : (activeTab === 'extract' ? t.pdfExtractBtn : t.pdfDownload)}
                      </button>
                  </div>
              </div>
          )}
       </div>
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
+      `}</style>
     </div>
   );
 };

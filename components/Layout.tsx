@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { ToolType } from '../types';
 import { useAppContext } from '../context';
-import { BackIcon, LangIcon, MoonIcon, SunIcon, LogoIcon, QrIcon, PdfIcon, ShapesIcon, DateIcon, GridIcon, SocialIcon, PrintIcon } from './Icons';
+// FIX: Imported PaletteIcon
+import { BackIcon, LangIcon, MoonIcon, SunIcon, LogoIcon, QrIcon, PdfIcon, ShapesIcon, DateIcon, GridIcon, SocialIcon, PrintIcon, PaletteIcon } from './Icons';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -62,6 +64,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTool, onNavigate
             { id: ToolType.PRINT_SIZES, icon: PrintIcon },
             { id: ToolType.SOCIAL_SIZES, icon: SocialIcon },
             { id: ToolType.GRID_GENERATOR, icon: GridIcon },
+            // FIX: Added Palette Generator to the sidebar list
+            { id: ToolType.PALETTE_GENERATOR, icon: PaletteIcon },
             { id: ToolType.SVG_LIBRARY, icon: ShapesIcon },
             { id: ToolType.QR_GENERATOR, icon: QrIcon },
             { id: ToolType.PDF_TOOLS, icon: PdfIcon },

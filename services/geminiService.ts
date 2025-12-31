@@ -1,48 +1,7 @@
 
 import { GoogleGenAI, Type, Schema } from "@google/genai";
-import { ColorPalette, GeneratedCode, Language } from "../types";
-
-export const generateColorPalette = async (mood: string, lang: Language): Promise<ColorPalette> => {
-  // Initialize client inside the function to ensure process.env.API_KEY is available
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-  
-  const schema: Schema = {
-    type: Type.OBJECT,
-    properties: {
-      name: { type: Type.STRING, description: lang === 'ar' ? "اسم إبداعي للوحة الألوان" : "Creative name for the palette" },
-      colors: { 
-        type: Type.ARRAY, 
-        items: { type: Type.STRING },
-        description: "List of 5 Hex codes"
-      },
-      description: { type: Type.STRING, description: lang === 'ar' ? "وصف موجز للوحة الألوان" : "Brief description of the palette" }
-    },
-    required: ["name", "colors", "description"]
-  };
-
-  const prompt = lang === 'ar' 
-    ? `قم بإنشاء لوحة ألوان متناسقة للمصممين بناءً على الوصف التالي: "${mood}".`
-    : `Generate a consistent color palette for designers based on this description: "${mood}".`;
-
-  try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: schema,
-        temperature: 1, 
-      }
-    });
-
-    const text = response.text;
-    if (!text) throw new Error("No response from model");
-    return JSON.parse(text) as ColorPalette;
-  } catch (error) {
-    console.error("Error generating palette:", error);
-    throw error;
-  }
-};
+// FIX: Added ColorPalette to the types import
+import { GeneratedCode, Language, ColorPalette } from "../types";
 
 export const generateDesignCode = async (prompt: string, lang: Language): Promise<GeneratedCode> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -93,6 +52,63 @@ export const generateDesignCode = async (prompt: string, lang: Language): Promis
     return JSON.parse(text) as GeneratedCode;
   } catch (error) {
     console.error("Error generating code:", error);
+    throw error;
+  }
+};
+
+// FIX: Added generateColorPalette function as required by PaletteGenerator.tsx
+export const generateColorPalette = async (mood: string, lang: Language): Promise<ColorPalette> => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+  const schema: Schema = {
+    type: Type.OBJECT,
+    properties: {
+      name: { 
+        type: Type.STRING, 
+        description: "A creative name for the color palette." 
+      },
+      colors: { 
+        type: Type.ARRAY, 
+        items: { type: Type.STRING },
+        description: "An array of 5 hex color codes that match the mood/description."
+      },
+      description: { 
+        type: Type.STRING, 
+        description: lang === 'ar' ? "شرح موجز لسبب اختيار هذه الألوان." : "Brief explanation of why these colors were chosen."
+      }
+    },
+    required: ["name", "colors", "description"]
+  };
+
+  const systemInstruction = lang === 'ar'
+    ? `أنت خبير في نظريات الألوان وتصميم الهويات البصرية. 
+      المهمة: توليد لوحة ألوان مكونة من 5 ألوان بناءً على الوصف التالي: "${mood}".
+      الشروط:
+      1. أرجع النتيجة بتنسيق JSON فقط.
+      2. يجب أن تكون الأكواد بتنسيق HEX (مثال: #FFFFFF).
+      3. تأكد من تناسق الألوان مع بعضها البعض.`
+    : `You are an expert in color theory and visual identity design.
+      Task: Generate a color palette of 5 colors based on this description: "${mood}".
+      Requirements:
+      1. Return the result in JSON format only.
+      2. Colors must be in HEX format (e.g., #FFFFFF).
+      3. Ensure the colors are harmonized and aesthetic.`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: systemInstruction,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: schema
+      }
+    });
+
+    const text = response.text;
+    if (!text) throw new Error("No response from model");
+    return JSON.parse(text) as ColorPalette;
+  } catch (error) {
+    console.error("Error generating palette:", error);
     throw error;
   }
 };

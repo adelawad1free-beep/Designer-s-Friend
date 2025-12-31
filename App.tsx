@@ -15,20 +15,18 @@ import { CalendarConverter } from './components/tools/CalendarConverter';
 import { GridGenerator } from './components/tools/GridGenerator';
 import { SocialSizes } from './components/tools/SocialSizes';
 import { PrintSizes } from './components/tools/PrintSizes';
-import { PatternGenerator } from './components/tools/PatternGenerator';
-import { DielineGenerator } from './components/tools/DielineGenerator';
 import { PaletteGenerator } from './components/tools/PaletteGenerator';
 import { ToolType } from './types';
 import { 
   QrIcon, UnitIcon, NutritionIcon, BarcodeIcon, 
   CompressIcon, PdfIcon, CalculatorIcon, SwatchIcon, 
   FireIcon, ShapesIcon, DateIcon, GridIcon, 
-  SocialIcon, PrintIcon, PatternIcon, DielineIcon, PaletteIcon 
+  SocialIcon, PrintIcon, PaletteIcon 
 } from './components/Icons';
 
 const DesignerAppContent: React.FC = () => {
   const [activeTool, setActiveTool] = useState<ToolType>(ToolType.HOME);
-  const { t } = useAppContext();
+  const { t, language } = useAppContext();
 
   const handleClose = () => setActiveTool(ToolType.HOME);
 
@@ -48,8 +46,6 @@ const DesignerAppContent: React.FC = () => {
       case ToolType.GRID_GENERATOR: return <GridGenerator onClose={handleClose} />;
       case ToolType.SOCIAL_SIZES: return <SocialSizes onClose={handleClose} />;
       case ToolType.PRINT_SIZES: return <PrintSizes onClose={handleClose} />;
-      case ToolType.PATTERN_GENERATOR: return <PatternGenerator onClose={handleClose} />;
-      case ToolType.DIELINE_GENERATOR: return <DielineGenerator onClose={handleClose} />;
       case ToolType.PALETTE_GENERATOR: return <PaletteGenerator onClose={handleClose} />;
       case ToolType.HOME:
       default:
@@ -64,13 +60,11 @@ const DesignerAppContent: React.FC = () => {
                 </p>
              </div>
 
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl pb-20">
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl pb-16">
               {[
-                { t: ToolType.PALETTE_GENERATOR, title: t[ToolType.PALETTE_GENERATOR], desc: t.paletteToolDesc, Icon: PaletteIcon, bgClass: 'from-[#F59E0B] to-[#EA580C]', iconContainer: 'bg-white/20', descColor: 'text-amber-100' },
-                { t: ToolType.DIELINE_GENERATOR, title: t[ToolType.DIELINE_GENERATOR], desc: t.dieDesc, Icon: DielineIcon, bgClass: 'from-[#3B82F6] to-[#2563EB]', iconContainer: 'bg-white/20', descColor: 'text-blue-100' },
-                { t: ToolType.PATTERN_GENERATOR, title: t[ToolType.PATTERN_GENERATOR], desc: t.patternDesc, Icon: PatternIcon, bgClass: 'from-[#6366F1] to-[#4338CA]', iconContainer: 'bg-white/20', descColor: 'text-indigo-100' },
                 { t: ToolType.PRINT_SIZES, title: t[ToolType.PRINT_SIZES], desc: t.printDesc, Icon: PrintIcon, bgClass: 'from-[#10B981] to-[#047857]', iconContainer: 'bg-white/20', descColor: 'text-emerald-100' },
                 { t: ToolType.SOCIAL_SIZES, title: t[ToolType.SOCIAL_SIZES], desc: t.socialDesc, Icon: SocialIcon, bgClass: 'from-[#E11D48] to-[#9F1239]', iconContainer: 'bg-white/20', descColor: 'text-rose-100' },
+                { t: ToolType.PALETTE_GENERATOR, title: t[ToolType.PALETTE_GENERATOR], desc: t.paletteDesc, Icon: PaletteIcon, bgClass: 'from-[#F59E0B] to-[#D97706]', iconContainer: 'bg-white/20', descColor: 'text-amber-100' },
                 { t: ToolType.GRID_GENERATOR, title: t[ToolType.GRID_GENERATOR], desc: t.gridDesc, Icon: GridIcon, bgClass: 'from-[#3B82F6] to-[#1D4ED8]', iconContainer: 'bg-white/20', descColor: 'text-blue-100' },
                 { t: ToolType.CALENDAR_CONVERTER, title: t[ToolType.CALENDAR_CONVERTER], desc: t.calDesc, Icon: DateIcon, bgClass: 'from-[#10B981] to-[#047857]', iconContainer: 'bg-white/20', descColor: 'text-emerald-100' },
                 { t: ToolType.SVG_LIBRARY, title: t[ToolType.SVG_LIBRARY], desc: t.svgDesc, Icon: ShapesIcon, bgClass: 'from-[#06B6D4] to-[#0891B2]', iconContainer: 'bg-white/20', descColor: 'text-cyan-100' },
@@ -101,8 +95,22 @@ const DesignerAppContent: React.FC = () => {
               ))}
             </div>
 
+            {/* SEO Technical Footer Guide - Added as per user request */}
+            <div className="w-full max-w-7xl pt-12 border-t border-slate-200 dark:border-slate-800 flex flex-col items-center gap-6 mb-12">
+               <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em]">{language === 'ar' ? 'الخدمات والتقنيات المدعومة' : 'SUPPORTED SERVICES & TECHNOLOGIES'}</h3>
+               <div className="max-w-4xl text-center px-4 leading-relaxed">
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium tracking-wide">
+                    {language === 'ar' ? (
+                      "حساب ضريبة القيمة المضافة 15%، دمج ملفات PDF، تقسيم ملفات PDF، ضغط الصور بدون فقدان الجودة، توليد رموز QR مجاناً، باركود EAN-13، باركود UPC-A، محول الوحدات المترية، حاسبة السعرات الحرارية BMR، مقاسات السوشيال ميديا 2025، دليل مقاسات الطباعة A4 A3، مطابقة ألوان بانتون PMS، تحويل التاريخ الهجري والميلادي، تصميم ملصق حقائق تغذوية، SVG Icons Library، Palette Generator AI، أدوات التصميم والمونتاج، أدوات مطوري الويب، معالجة الصور أونلاين، حماية ملفات PDF."
+                    ) : (
+                      "VAT Calculator 15%, Merge PDF Files, Split PDF Pages, Image Compressor Online, Free QR Code Generator, Barcode Generator EAN-13, Metric Unit Converter, BMR Calorie Calculator, Social Media Image Sizes 2025, Print Size Guide A4 A3, Pantone Color Match PMS, Hijri Gregorian Converter, Nutrition Facts Label Designer, SVG Icons Library, AI Palette Generator, Graphic Design Tools, Web Development Tools, Image Processing, PDF Protection."
+                    )}
+                  </p>
+               </div>
+            </div>
+
             {/* Small & Simple Footer Donation Link */}
-            <div className="w-full max-w-7xl pt-10 border-t border-slate-200 dark:border-slate-800 flex flex-col items-center gap-4 mb-20 text-center">
+            <div className="w-full max-w-7xl pt-6 flex flex-col items-center gap-4 mb-20 text-center">
               <p className="text-sm text-slate-500 font-bold">{t.supportDesc}</p>
               <a 
                 href="https://buymeacoffee.com/guidai" 
